@@ -36,6 +36,7 @@ export const links: LinksFunction = () => [
     href: '/favicon.ico'
   },
   { rel: 'manifest', href: '/site.webmanifest' },
+  { rel: 'changelog', href: '/CHANGELOG.md' },
   {
     rel: 'mask-icon',
     href: '/safari-pinned-tab.svg',

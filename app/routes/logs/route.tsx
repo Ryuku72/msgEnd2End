@@ -15,8 +15,8 @@ import { MarkdownParserPlugin } from './components/MarkdownParserPlugin';
 import { ArrowIcon } from '~/svg';
 
 export async function loader() {
-  const markdown = await fetch('/CHANGELOG.md').then(response => response.text());
-  return json({ markdown });
+  const markdown = await fetch('https://messagenovel.vercel.app/CHANGELOG.md').then(response => response.text());
+  return { markdown };
 }
 
 export default function Logs() {
