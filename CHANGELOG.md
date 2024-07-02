@@ -1,5 +1,6 @@
 > 2nd July 2024
-- [03419f5](https://https://github.com/Ryuku72/MessageNovel/commit/77c1d93) Added a dated changelog.md file
+- [d30f109](https://https://github.com/Ryuku72/MessageNovel/commit/d30f109) added Change log public route
+- [03419f5](https://https://github.com/Ryuku72/MessageNovel/commit/03419f5) Added a dated changelog.md file
 - [77c1d93](https://https://github.com/Ryuku72/MessageNovel/commit/77c1d93) fixed overflow on navmenu for mobile
 - [77092b8](https://https://github.com/Ryuku72/MessageNovel/commit/77092b8) made sure that update on profile always reset state
 - [e9eda5e](https://https://github.com/Ryuku72/MessageNovel/commit/e9eda5e) fix to button sizing on pageid
