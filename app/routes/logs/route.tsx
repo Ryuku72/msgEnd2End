@@ -1,4 +1,4 @@
-import { Link, useLoaderData, useOutletContext } from '@remix-run/react';
+import { json, Link, useLoaderData, useOutletContext } from '@remix-run/react';
 
 import { useEffect } from 'react';
 
@@ -17,8 +17,8 @@ import { MarkdownParserPlugin } from './components/MarkdownParserPlugin';
 import { ArrowIcon } from '~/svg';
 
 export async function loader() {
-  const markdown = await readMd('./CHANGELOG.md');
-  return { markdown };
+  const markdown = await readMd('CHANGELOG.md');
+  return json({ markdown });
 }
 
 export default function Logs() {
