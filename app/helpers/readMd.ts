@@ -1,8 +1,6 @@
 import fs from 'fs/promises';
-import path from 'path';
 
 export async function readMd(filePath: string) {
-  const pathFind = path.join(process.cwd(), filePath);
-  const file = await fs.readFile(pathFind);
+  const file = await fs.readFile(filePath);
   return file.toString();
 }
