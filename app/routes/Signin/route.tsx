@@ -28,7 +28,7 @@ export function action({ request }: ActionFunctionArgs) {
   return LoginAction(request);
 }
 
-export default function Login() {
+export default function Signin() {
   const { sceneReady } = useOutletContext<{ sceneReady: boolean }>();
   const navigationState = useNavigation();
   const actionData = useActionData() as AuthTokenResponsePassword;

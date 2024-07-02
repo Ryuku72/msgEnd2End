@@ -75,7 +75,7 @@
   }
 
   .editor-list-ul {
-    @apply list-disc;
+    @apply list-disc pb-10;
   }
 
   .editor-checklist {
@@ -87,11 +87,11 @@
   }
 
   .editor-listitem {
-    @apply my-0 mx-8;
+    @apply my-2 mx-8;
   }
 
   .editor-quote {
-    @apply mt-0 mr-0 mb-2 ml-4 pl-4 em:text-base text-gray-700 border-l-slate-300 border-l-4 border-solid;
+    @apply mt-0 mr-0 mb-4 ml-4 pl-4 py-1 em:text-lg text-gray-700 border-l-slate-300 border-l-4 border-solid bg-gray-100 bg-opacity-35;
   }
 
   .editor-listItemChecked,
@@ -118,6 +118,10 @@
 
   .editor-hr {
     @apply p-1 border-none my-4 mx-0 after:content-normal after:block after:h-0.5 after:bg-gray-800 after:leading-[2px] after:bg-opacity-15;
+  }
+
+  .editor-link {
+    @apply text-blue-400 font-semibold;
   }
 
   .tooltip-spike-t {

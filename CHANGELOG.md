@@ -1,5 +1,5 @@
-## 0.01
 > 2nd July 2024
+- [03419f5](https://https://github.com/Ryuku72/MessageNovel/commit/77c1d93) Added a dated changelog.md file
 - [77c1d93](https://https://github.com/Ryuku72/MessageNovel/commit/77c1d93) fixed overflow on navmenu for mobile
 - [77092b8](https://https://github.com/Ryuku72/MessageNovel/commit/77092b8) made sure that update on profile always reset state
 - [e9eda5e](https://https://github.com/Ryuku72/MessageNovel/commit/e9eda5e) fix to button sizing on pageid
@@ -11,20 +11,14 @@
 - [0deb8fa](https://https://github.com/Ryuku72/MessageNovel/commit/0deb8fa) added loading stats for users and dash
 - [a3014b5](https://https://github.com/Ryuku72/MessageNovel/commit/a3014b5) cleaned up button sizes
 
-<br />
-
 > 1st July 2024
 - [c408229](https://https://github.com/Ryuku72/MessageNovel/commit/c408229) updated the create icon
 - [9358dc7](https://https://github.com/Ryuku72/MessageNovel/commit/9358dc7) added icons to all buttons and cleaned up all CSS styles
 - [f625eb7](https://https://github.com/Ryuku72/MessageNovel/commit/f625eb7) fixed issue with close icon on mobile
 - [9c32ee4](https://https://github.com/Ryuku72/MessageNovel/commit/9c32ee4) removed references to email, updated settings menu, fixed bug with text length on connect
 
-<br />
-
 > 30th June 2024
 - [64dbde4](https://https://github.com/Ryuku72/MessageNovel/commit/64dbde4) cleaned up css for speech to text, buttons, icons, dialogs
-
-<br />
 
 > 29th June 2024
 - [7d9437c](https://https://github.com/Ryuku72/MessageNovel/commit/7d9437c) reduced the debounce lag and fixed toast on mobile
@@ -35,12 +29,8 @@
 - [89e8733](https://https://github.com/Ryuku72/MessageNovel/commit/89e8733) added collab button to novelid page
 - [2aaccbc](https://https://github.com/Ryuku72/MessageNovel/commit/2aaccbc) fixes database keys and avatar image
 
-<br />
-
 > 28th June 2024
 - [0cfcb34](https://https://github.com/Ryuku72/MessageNovel/commit/0cfcb34) made fixes to avatar input
-
-<br />
 
 > 27th June 2024
 - [c96b026](https://https://github.com/Ryuku72/MessageNovel/commit/c96b026) small style updates to about page
@@ -54,8 +44,6 @@
 - [9f8505a](https://https://github.com/Ryuku72/MessageNovel/commit/9f8505a) fixed issue with delete page route
 - [45b0078](https://https://github.com/Ryuku72/MessageNovel/commit/45b0078) appended the delete method api
 
-<br />
-
 > 26th June 2024
 - [07ce5c3](https://https://github.com/Ryuku72/MessageNovel/commit/07ce5c3) added delete method for pages
 - [bbfe8dc](https://https://github.com/Ryuku72/MessageNovel/commit/bbfe8dc) fixed novel api
@@ -68,12 +56,8 @@
 - [9d226ea](https://https://github.com/Ryuku72/MessageNovel/commit/9d226ea) added the novel api end point
 - [e16e183](https://https://github.com/Ryuku72/MessageNovel/commit/e16e183) added in novel webhook
 
-<br />
-
 > 25th June 2024
 - [90a64ca](https://https://github.com/Ryuku72/MessageNovel/commit/90a64ca) fixed overflow issue and removed api profile route used for testing
-
-<br />
 
 > 24th June 2024
 - [8bf2771](https://https://github.com/Ryuku72/MessageNovel/commit/8bf2771) started webhooks infastructure
@@ -86,18 +70,12 @@
 - [a520626](https://https://github.com/Ryuku72/MessageNovel/commit/a520626) small logo clean up on about page
 - [d2048d1](https://https://github.com/Ryuku72/MessageNovel/commit/d2048d1) added lexical and liveblocks to tech stack in about
 
-<br />
-
 > 23rd June 2024
 - [3d52ecb](https://https://github.com/Ryuku72/MessageNovel/commit/3d52ecb) fix to source link on about page
-
-<br />
 
 > 22nd June 2024
 - [6a72b86](https://https://github.com/Ryuku72/MessageNovel/commit/6a72b86) updated env and small about updates
 - [76cb925](https://https://github.com/Ryuku72/MessageNovel/commit/76cb925) move lexical collab to live blocks, fixed time, added ability to associate color with highlighting and saves to doc
-
-<br />
 
 > 21st June 2024
 - [fbc56b8](https://https://github.com/Ryuku72/MessageNovel/commit/fbc56b8) clean up of basicProfile type
@@ -109,14 +87,10 @@
 - [d163530](https://https://github.com/Ryuku72/MessageNovel/commit/d163530) fixed some navigation issues
 - [ebf2acf](https://https://github.com/Ryuku72/MessageNovel/commit/ebf2acf) database update and added pages
 
-<br />
-
 > 18th June 2024
 - [cc15efe](https://https://github.com/Ryuku72/MessageNovel/commit/cc15efe) added disconnect options for comments, added buttons and titles, updates to Provider
 - [0a198cd](https://https://github.com/Ryuku72/MessageNovel/commit/0a198cd) fixed novel draft index sub heading
 - [f4c7d6a](https://https://github.com/Ryuku72/MessageNovel/commit/f4c7d6a) built out co-operative novel writting
-
-<br />
 
 > 14th June 2024
 - [3d414e0](https://https://github.com/Ryuku72/MessageNovel/commit/3d414e0) fixed bug with reset new details
@@ -128,31 +102,21 @@
 - [5054b2f](https://https://github.com/Ryuku72/MessageNovel/commit/5054b2f) added username to dash and fixed spacing. Fixed bug where user participate didnt route to novel
 - [fde6ac8](https://https://github.com/Ryuku72/MessageNovel/commit/fde6ac8) added users route to dash. Added supabase presence and broadcast features
 
-<br />
-
 > 13th June 2024
 - [dc68b49](https://https://github.com/Ryuku72/MessageNovel/commit/dc68b49) fixed participant api call and fixed the trigger
 - [7db68b2](https://https://github.com/Ryuku72/MessageNovel/commit/7db68b2) moved description to lexical and fixed up database issues with participation
-
-<br />
 
 > 12th June 2024
 - [8f22dd5](https://https://github.com/Ryuku72/MessageNovel/commit/8f22dd5) updated database api calls to trigger updates from Auth User to cascade and update library and drafts. Added delete user end point. Update supabase database queries and triggers. Updated readme
 - [8c6ec6b](https://https://github.com/Ryuku72/MessageNovel/commit/8c6ec6b) fixed addComment position on mobile and comment panel. Fixed some scroll issues with CommentInput
 
-<br />
-
 > 11th June 2024
 - [82cbd40](https://https://github.com/Ryuku72/MessageNovel/commit/82cbd40) added userColor as highlight and fixed highlight in draft novel page
 - [919f11d](https://https://github.com/Ryuku72/MessageNovel/commit/919f11d) added comment section and moved more styles to tailwind including mobile responsive properties
 
-<br />
-
 > 7th June 2024
 - [802bbe6](https://https://github.com/Ryuku72/MessageNovel/commit/802bbe6) moved Editor styles to tailwind apply variables. Removed Common CSS file
 - [6fe09b5](https://https://github.com/Ryuku72/MessageNovel/commit/6fe09b5) moved a lot of multiple API calls to singles that use triggers inside supabase. Cleaned up code. Updated Readme to reflect Supabase Database Tables and Storage
-
-<br />
 
 > 3rd June 2024
 - [65b0ef9](https://https://github.com/Ryuku72/MessageNovel/commit/65b0ef9) added ability to delete novels
@@ -163,20 +127,14 @@
 - [06c41df](https://https://github.com/Ryuku72/MessageNovel/commit/06c41df) fixed a create account bug
 - [ed020a8](https://https://github.com/Ryuku72/MessageNovel/commit/ed020a8) added a method to edit descriptions and add limits
 
-<br />
-
 > 2nd June 2024
 - [42b40a5](https://https://github.com/Ryuku72/MessageNovel/commit/42b40a5) changed dash to grid instead of table
 - [5ab0aae](https://https://github.com/Ryuku72/MessageNovel/commit/5ab0aae) small css fixes, typescript additions, moving auth sign out
-
-<br />
 
 > 30th May 2024
 - [ee6074c](https://https://github.com/Ryuku72/MessageNovel/commit/ee6074c) converted css to tailwind
 - [ea01003](https://https://github.com/Ryuku72/MessageNovel/commit/ea01003) changes all non tailwind css to use apply. Fixes parstel emerald spelling reference error
 - [70cea44](https://https://github.com/Ryuku72/MessageNovel/commit/70cea44) fixed color picker emerald spelling
-
-<br />
 
 > 29th May 2024
 - [c595541](https://https://github.com/Ryuku72/MessageNovel/commit/c595541) fixed up about tooltips
@@ -189,8 +147,6 @@
 - [0c9a40d](https://https://github.com/Ryuku72/MessageNovel/commit/0c9a40d) removed console log and made toolbar sticky
 - [34a15e8](https://https://github.com/Ryuku72/MessageNovel/commit/34a15e8) fixed draft page mobile responsiveness
 - [2bda4fd](https://https://github.com/Ryuku72/MessageNovel/commit/2bda4fd) built out lexical and added og:image
-
-<br />
 
 > 28th May 2024
 - [5dbafd0](https://https://github.com/Ryuku72/MessageNovel/commit/5dbafd0) dash mobile nav bar on bottom
@@ -207,8 +163,6 @@
 - [911b0a5](https://https://github.com/Ryuku72/MessageNovel/commit/911b0a5) added dracoLoader
 - [86b562c](https://https://github.com/Ryuku72/MessageNovel/commit/86b562c) fixed issue with glb files for vite
 - [70cc6c2](https://https://github.com/Ryuku72/MessageNovel/commit/70cc6c2) console log for model path
-
-<br />
 
 > 27th May 2024
 - [e011821](https://https://github.com/Ryuku72/MessageNovel/commit/e011821) used different modal import
@@ -228,57 +182,38 @@
 - [256cdf7](https://https://github.com/Ryuku72/MessageNovel/commit/256cdf7) folder clean up and moved towards a MVC folder structure. Plus added bun logo
 - [0356e2e](https://https://github.com/Ryuku72/MessageNovel/commit/0356e2e) folder clean up and moved towards a MVC folder structure
 
-<br />
-
 > 26th May 2024
 - [2884b79](https://https://github.com/Ryuku72/MessageNovel/commit/2884b79) cleaned up ThreeJsBackground naming and folder structure
 - [0424363](https://https://github.com/Ryuku72/MessageNovel/commit/0424363) cleanup
 - [30e5969](https://https://github.com/Ryuku72/MessageNovel/commit/30e5969) small bug fixes to DashNovelId and login Api call
 - [3933251](https://https://github.com/Ryuku72/MessageNovel/commit/3933251) cleaned up service folder and made the preview dialog of a novel
 
-<br />
-
 > 23rd May 2024
 - [1b16c26](https://https://github.com/Ryuku72/MessageNovel/commit/1b16c26) fixed image cropper crop bug
 - [6e7d7e8](https://https://github.com/Ryuku72/MessageNovel/commit/6e7d7e8) fixed image cropper to actually save data
 
-<br />
-
 > 22nd May 2024
 - [544b647](https://https://github.com/Ryuku72/MessageNovel/commit/544b647) image cropper, dash api calls, library api calls, settings, style fixes etc
-
-<br />
 
 > 18th May 2024
 - [e364168](https://https://github.com/Ryuku72/MessageNovel/commit/e364168) added credits page, tooltips, new svgs, password input see password
 - [0aa6b58](https://https://github.com/Ryuku72/MessageNovel/commit/0aa6b58) moved to full server api calls
 
-<br />
-
 > 16th May 2024
 - [75dad0a](https://https://github.com/Ryuku72/MessageNovel/commit/75dad0a) fixed eslint, fixed Gsap animations
-
-<br />
 
 > 15th May 2024
 - [bddcbf2](https://https://github.com/Ryuku72/MessageNovel/commit/bddcbf2) added gsap and three js background
 
-<br />
-
 > 14th May 2024
-- [47fb9b1](https://https://github.com/Ryuku72/MessageNovel/commit/47fb9b1) three.js background
-<br />
+- [47fb9b1](https://https://github.com/Ryuku72/MessageNovel/commit/47fb9b1) three.js backgroun
 
 > 13th May 2024
 - [27f8b29](https://https://github.com/Ryuku72/MessageNovel/commit/27f8b29) started
 - [1190c01](https://https://github.com/Ryuku72/MessageNovel/commit/1190c01) started
 
-<br />
-
 > 30th April 2024
 - [51c3a77](https://https://github.com/Ryuku72/MessageNovel/commit/51c3a77) started
-
-<br />
 
 > 25th May 2024
 - [dcc68df](https://https://github.com/Ryuku72/MessageNovel/commit/dcc68df) Initial commit from create-remix

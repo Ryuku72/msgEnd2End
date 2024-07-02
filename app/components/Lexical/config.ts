@@ -5,6 +5,7 @@ import { InitialConfigType, InitialEditorStateType } from '@lexical/react/Lexica
 import { HorizontalRuleNode } from '@lexical/react/LexicalHorizontalRuleNode';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { EditorThemeClasses } from 'lexical';
+import { LinkNode } from '@lexical/link';
 
 export const theme: EditorThemeClasses = {
   // Theme styling goes here
@@ -54,7 +55,7 @@ export function InitialConfig(props: { namespace: string; editorState?: InitialE
     onError,
     editorState: editorState ? JSON.stringify(editorState) : null,
     editable,
-    nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, OverflowNode, HorizontalRuleNode, MarkNode],
+    nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, OverflowNode, HorizontalRuleNode, MarkNode, LinkNode],
     namespace
   };
 }
