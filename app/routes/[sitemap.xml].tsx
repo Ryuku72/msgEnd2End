@@ -19,7 +19,7 @@ export const loader: LoaderFunction = async () => {
       </url>
       <url>
       <url>
-      <loc>https://messagenovel.vercel.app/signin</loc>
+      <loc>https://messagenovel.vercel.app/login</loc>
       <lastmod>2024-05-27T13:34:37.0000</lastmod>
       </url>
       <url>

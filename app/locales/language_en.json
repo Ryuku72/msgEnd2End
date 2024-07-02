@@ -63,7 +63,7 @@
     "primary_button": "Back"
   },
   "public_nav": {
-    "primary_button": "Sign In",
+    "primary_button": "Login",
     "secondary_button": "Create",
     "tertiary_button": "About"
   },
@@ -81,9 +81,9 @@
     "secondary_button": "Submit"
   },
   "login": {
-    "title": "Sign In",
+    "title": "Login",
     "primary_button": "Back",
-    "secondary_button": "Sign In"
+    "secondary_button": "Login"
   },
   "meta": {
     "title": "Message Novel",

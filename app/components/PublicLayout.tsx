@@ -8,7 +8,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
     <div className="w-full h-full flex flex-col flex-auto relative">
       <nav className="sticky top-0 right-0 flex w-full items-end md:gap-8 gap-2 justify-end md:px-8 py-6 px-2 flex-wrap z-[2] bg-slate-900 backdrop-blur-sm md:bg-opacity-5 bg-opacity-40 font-miltonian">
         <NavLink
-          to="/signin"
+          to="/login"
           className={({ isActive, isPending, isTransitioning }) =>
             `md:text-3xl text-xl font-semibold tracking-widest ${isActive || isPending || isTransitioning ? ' md:text-slate-600 text-white underline underline-offset-[14px]' : 'text-slate-100 hover:underline-offset-[14px] hover:underline'} flex items-center justify-center`
           }>
