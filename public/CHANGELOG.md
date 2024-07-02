@@ -1,4 +1,10 @@
 > 2nd July 2024
+- [4182ca7](https://https://github.com/Ryuku72/MessageNovel/commit/2007722) moved change log route reference to about page
+- [4c0fbbc](https://https://github.com/Ryuku72/MessageNovel/commit/4c0fbbc) reference vercel build change log to fix bug
+- [18c1e98](https://https://github.com/Ryuku72/MessageNovel/commit/18c1e98) moved changelog to public
+- [ee999db](https://https://github.com/Ryuku72/MessageNovel/commit/ee999db) try locate change log file
+- [48b9984](https://https://github.com/Ryuku72/MessageNovel/commit/48b9984) added copy of changelog to public
+- [fce2287](https://https://github.com/Ryuku72/MessageNovel/commit/fce2287) fixed issue with path in prod
 - [d30f109](https://https://github.com/Ryuku72/MessageNovel/commit/d30f109) added Change log public route
 - [03419f5](https://https://github.com/Ryuku72/MessageNovel/commit/03419f5) Added a dated changelog.md file
 - [77c1d93](https://https://github.com/Ryuku72/MessageNovel/commit/77c1d93) fixed overflow on navmenu for mobile

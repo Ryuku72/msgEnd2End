@@ -22,13 +22,6 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
           &nbsp;&nbsp;{LocalString.secondary_button}&nbsp;&nbsp;
         </NavLink>
         <NavLink
-          to="/logs"
-          className={({ isActive, isPending, isTransitioning }) =>
-            `md:text-3xl text-xl font-semibold tracking-widest ${isActive || isPending || isTransitioning ? ' md:text-slate-600 text-white underline underline-offset-[14px]' : 'text-slate-100 hover:underline-offset-[14px] hover:underline'} flex items-center justify-center`
-          }>
-          &nbsp;&nbsp;Logs&nbsp;&nbsp;
-        </NavLink>
-        <NavLink
           to="/about"
           className={({ isActive, isPending, isTransitioning }) =>
             `md:text-3xl text-xl font-semibold tracking-widest ${isActive || isPending || isTransitioning ? ' md:text-slate-600 text-white underline underline-offset-[14px]' : 'text-slate-100 hover:underline-offset-[14px] hover:underline'} flex items-center justify-center`

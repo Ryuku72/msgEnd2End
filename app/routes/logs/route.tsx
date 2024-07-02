@@ -59,7 +59,7 @@ export default function Logs() {
           </LexicalComposer>
         </div>
         <Link
-          to="/"
+          to="/about"
           className="cancelButton sticky bottom-6 after:content-[attr(data-string)] w-button"
           data-string="Back">
           <ArrowIcon uniqueId="about-back" className="w-6 h-auto rotate-180" />

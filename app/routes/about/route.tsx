@@ -46,7 +46,7 @@ export default function About() {
             <strong className="text-3xl underline pr-2">{LocalStrings.description_title}</strong>
             {' '}{LocalStrings.description}{' '}
             <a
-              className="text-xl break-all font-bold hover:text-blue-300 text-blue-500 tracking-wide"
+              className="text-xl break-all font-bold hover:text-blue-600 text-blue-500 tracking-wide"
               href={LocalStrings.project_link}>
               {LocalStrings.project_link}
             </a>
@@ -96,6 +96,14 @@ export default function About() {
             <strong className="font-semibold text-orange-700">{LocalStrings.background.source_title}</strong>{' '}
             {LocalStrings.background.source}
           </a>
+        </div>
+        <div className="flex w-full justify-center gap-2 bg-black bg-opacity-50 backdrop-blur-sm p-6 rounded-xl shadow-sm text-white leading-10 max-w-full">
+          <p className="text-lg">Project</p>
+        <Link
+          to="/logs"
+          className="text-lg font-bold hover:text-blue-600 text-blue-500">
+        Change Logs
+        </Link>
         </div>
         <Link
           to="/"
