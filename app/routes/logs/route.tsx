@@ -8,8 +8,6 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 
-import { readMd } from '~/helpers/readMd';
-
 import { InitialConfig } from '~/components/Lexical/config';
 import { PublicLayout } from '~/components/PublicLayout';
 
@@ -17,7 +15,7 @@ import { MarkdownParserPlugin } from './components/MarkdownParserPlugin';
 import { ArrowIcon } from '~/svg';
 
 export async function loader() {
-  const markdown = await readMd('CHANGELOG.md');
+  const markdown = await fetch('/CHANGELOG.md').then(response => response.text());
   return json({ markdown });
 }
 
