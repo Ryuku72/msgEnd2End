@@ -277,10 +277,13 @@ export default function DashNovelId() {
                   name="selected_page"
                   disabled={isLoadingUpdate}
                   data-string={
-                    navigationState.state === 'loading' && navigationState.formMethod === 'POST' ? '' : 'Participate?'
+                    navigationState.state === 'loading' && navigationState.location.pathname === `/dash/page/${page.id}`
+                      ? ''
+                      : 'Participate?'
                   }
                   className="confirmButton font-semibold md:w-wide-button w-icon md:after:content-[attr(data-string)]">
-                  {navigationState.state === 'loading' && navigationState.formMethod === 'POST' ? (
+                  {navigationState.state === 'loading' &&
+                  navigationState.location.pathname === `/dash/page/${page.id}` ? (
                     <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="page-spinner" />
                   ) : (
                     <PenIcon uniqueId="public-novel-icon" className="w-5 h-auto" />

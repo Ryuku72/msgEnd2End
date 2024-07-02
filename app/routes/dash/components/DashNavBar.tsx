@@ -23,7 +23,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
 
   return (
     <div className="relative md:pr-[85px]">
-      <div className="flex-shrink-0 md:w-auto w-full flex md:flex-col flex-row gap-3 px-3 md:py-6 py-3 items-center bg-slate-50 bg-opacity-35 backdrop-blur-sm z-10 fixed md:h-full bottom-0">
+      <div className="flex-shrink-0 md:w-auto w-full flex md:flex-col flex-row gap-3 px-3 md:py-6 py-3 items-center bg-slate-50 bg-opacity-35 backdrop-blur-sm z-10 fixed md:h-full bottom-0 md:overflow-x-hidden overflow-x-auto">
         <div className="flex md:flex-col flex-row flex-auto gap-3">
           <div className="has-tooltip cursor-pointer relative">
             <NavLink to="/dash/settings" className="flex w-navicon h-icon flex-shrink-0">
