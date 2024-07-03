@@ -6,9 +6,8 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-# Extract the commit message and set the review title
+# Extract the commit message
 COMMIT_MESSAGE="$1"
-REVIEW_TITLE="### Released"
 
 # Commit your changes
 git add .
@@ -30,12 +29,13 @@ fi
 
 # Update review.md with the commit message under ### Released
 REVIEW_FILE="./app/routes/about.logs/review.md"
+REVIEW_TITLE="### Released"
 
 if [ ! -f "$REVIEW_FILE" ]; then
   echo -e "$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" > "$REVIEW_FILE"
 else
   if grep -q "$REVIEW_TITLE" "$REVIEW_FILE"; then
-    sed -i "/^$REVIEW_TITLE$/a - [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" "$REVIEW_FILE"
+    awk -v text="- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" '/^### Released$/ {print; print text; next} 1' "$REVIEW_FILE" > temp && mv temp "$REVIEW_FILE"
   else
     echo -e "\n$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
   fi
