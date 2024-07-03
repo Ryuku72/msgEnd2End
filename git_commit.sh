@@ -10,11 +10,12 @@ fi
 git add .
 git commit -m "$1"
 
-# Get the latest commit hash
-LATEST_COMMIT_HASH=$(git rev-parse HEAD)
+# Get the latest short commit hash
+LATEST_COMMIT_HASH=$(git rev-parse --short HEAD)
 
 # Update the changelog
-echo "Commit $LATEST_COMMIT_HASH: $1" >> CHANGELOG.md
+CHANGELOG_ENTRY="* $LATEST_COMMIT_HASH $1"
+echo -e "$CHANGELOG_ENTRY\n$(cat CHANGELOG.md)" > CHANGELOG.md
 
 # Commit the changelog update
 git add CHANGELOG.md
