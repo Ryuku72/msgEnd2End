@@ -1,6 +1,5 @@
-* 0c52861 bash update
 ## Changelog
-
+* 0c52861 bash update
 * 767cdd0 Test for again
 * cddde25 Test for new bash script
 * c69175c Updated Changelog and Review Page. Renamed ChatIcon to CommentIcon and added a chatIcon for future feature
