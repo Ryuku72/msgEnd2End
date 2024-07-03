@@ -34,12 +34,17 @@ if [ -z "$REVIEW_TITLE" ]; then
 else
   REVIEW_FILE="./app/routes/about.logs/review.md"
 
+  # Ensure REVIEW_TITLE has the correct format for sed
+  REVIEW_TITLE=$(echo "$REVIEW_TITLE" | sed 's/\//\\\//g')
+
   if [ ! -f "$REVIEW_FILE" ]; then
     echo -e "$REVIEW_TITLE\n\n$CHANGELOG_ENTRY" > "$REVIEW_FILE"
   else
+    # Check if REVIEW_TITLE exists, append CHANGELOG_ENTRY if found
     if grep -q "$REVIEW_TITLE" "$REVIEW_FILE"; then
-      sed -i "/$REVIEW_TITLE/a $CHANGELOG_ENTRY" "$REVIEW_FILE"
+      sed -i "/^$REVIEW_TITLE$/a $CHANGELOG_ENTRY" "$REVIEW_FILE"
     else
+      # If REVIEW_TITLE doesn't exist, add a new section with REVIEW_TITLE and CHANGELOG_ENTRY
       echo -e "$REVIEW_TITLE\n\n$CHANGELOG_ENTRY\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
     fi
   fi
