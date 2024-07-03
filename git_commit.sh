@@ -13,9 +13,25 @@ git commit -m "$1"
 # Get the latest short commit hash
 LATEST_COMMIT_HASH=$(git rev-parse --short HEAD)
 
-# Update the changelog
+# Create the changelog entry
 CHANGELOG_ENTRY="* $LATEST_COMMIT_HASH $1"
-echo -e "$CHANGELOG_ENTRY\n$(cat CHANGELOG.md)" > CHANGELOG.md
+
+# Check if the changelog file exists and if it contains the title
+if [ ! -f CHANGELOG.md ]; then
+  # Create the changelog file with the title and the new entry
+  echo -e "## Changelog\n\n$CHANGELOG_ENTRY" > CHANGELOG.md
+else
+  # Check if the title is already present
+  if grep -q "## Changelog" CHANGELOG.md; then
+    # Title exists, prepend the new entry below the title
+    sed -i "1a\\
+\\
+$CHANGELOG_ENTRY" CHANGELOG.md
+  else
+    # Title does not exist, add the title and the new entry
+    echo -e "## Changelog\n\n$CHANGELOG_ENTRY\n$(cat CHANGELOG.md)" > CHANGELOG.md
+  fi
+fi
 
 # Commit the changelog update
 git add CHANGELOG.md

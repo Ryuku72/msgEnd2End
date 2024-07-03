@@ -1,6 +1,5 @@
 * cddde25 Test for new bash script
-# Changelog
-
+* c69175c Updated Changelog and Review Page. Renamed ChatIcon to CommentIcon and added a chatIcon for future feature
 * 2da445d Added Changelog to be under about page. Added Tutorial System to Pages. Add an alert to Pages when the owner logs on and off
 * a2f85e3 changed from sign in to log in
 * 84ba6cf moved change log route reference to about page
@@ -165,4 +164,4 @@
 * 27f8b29 started
 * 1190c01 started
 * 51c3a77 started
-* dcc68df Initial commit from create-remixCommit c69175c094c69cb353d99b353a58e7984a1cc42c: Updated Changelog and Review Page. Renamed ChatIcon to CommentIcon and added a chatIcon for future feature
+* dcc68df Initial commit from create-remixCommit
