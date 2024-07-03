@@ -164,4 +164,4 @@
 * 27f8b29 started
 * 1190c01 started
 * 51c3a77 started
-* dcc68df Initial commit from create-remix
+* dcc68df Initial commit from create-remixCommit c69175c094c69cb353d99b353a58e7984a1cc42c: Updated Changelog and Review Page. Renamed ChatIcon to CommentIcon and added a chatIcon for future feature
