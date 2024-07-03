@@ -1,9 +1,3 @@
-> 3rd July 2024
-
-- [13918af](https://github.com/Ryuku72/MessageNovel/commit/13918af) bash update attempt 5
-> 3rd July 2024
-
-- [e17f9a4](https://github.com/Ryuku72/MessageNovel/commit/e17f9a4) bash update attempt 3
 ### UnReleased
 > Last Update: 3rd July 2024
 - Add Chat to Pages
@@ -14,6 +8,8 @@
 
 ### Released
 > 3rd July 2024
+- [13918af](https://github.com/Ryuku72/MessageNovel/commit/13918af) bash update attempt 5
+- [e17f9a4](https://github.com/Ryuku72/MessageNovel/commit/e17f9a4) bash update attempt 3
 - [0c52861](https://github.com/Ryuku72/MessageNovel/commit/0c52861) bash update
 - [9db2e58](https://github.com/Ryuku72/MessageNovel/commit/9db2e58) Bash script update
 - [767cdd0](https://github.com/Ryuku72/MessageNovel/commit/767cdd0) Test for again

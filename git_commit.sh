@@ -20,7 +20,6 @@ REPO_URL="https://github.com/Ryuku72/MessageNovel" # Replace with your actual re
 
 # Create the changelog entry
 CHANGELOG_ENTRY="* $LATEST_COMMIT_HASH $COMMIT_MESSAGE"
-REVIEW_ENTRY="- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE"
 
 # Update CHANGELOG.md
 if [ ! -f CHANGELOG.md ]; then
@@ -36,9 +35,13 @@ else
   REVIEW_FILE="./app/routes/about.logs/review.md"
 
   if [ ! -f "$REVIEW_FILE" ]; then
-    echo -e "$REVIEW_TITLE\n\n$REVIEW_ENTRY" > "$REVIEW_FILE"
+    echo -e "$REVIEW_TITLE\n\n$CHANGELOG_ENTRY" > "$REVIEW_FILE"
   else
-    echo -e "$REVIEW_TITLE\n\n$REVIEW_ENTRY\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
+    if grep -q "$REVIEW_TITLE" "$REVIEW_FILE"; then
+      sed -i "/$REVIEW_TITLE/a $CHANGELOG_ENTRY" "$REVIEW_FILE"
+    else
+      echo -e "$REVIEW_TITLE\n\n$CHANGELOG_ENTRY\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
+    fi
   fi
 fi
 
