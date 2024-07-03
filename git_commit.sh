@@ -1,14 +1,19 @@
 #!/bin/bash
 
 # Check if at least one commit message is provided
-if [ -z "$1" ]; then
+if [ -z "2" ]; then
   echo "Please provide a commit message."
   exit 1
 fi
 
+if [ -z "$1" ]; then
+  echo "Please review date starting with >"
+  exit 1
+fi
+
 # Extract the commit message and review title
-COMMIT_MESSAGE="$1"
-REVIEW_TITLE="$2"
+REVIEW_TITLE="$1"
+COMMIT_MESSAGE="$2"
 
 # Commit your changes
 git add .
@@ -16,7 +21,7 @@ git commit -m "$COMMIT_MESSAGE"
 
 # Get the latest short commit hash
 LATEST_COMMIT_HASH=$(git rev-parse --short HEAD)
-REPO_URL="https://github.com/YourUsername/YourRepo" # Replace with your actual repository URL
+REPO_URL="https://github.com/Ryuku72/MessageNovel"
 
 # Create the changelog entry
 CHANGELOG_ENTRY="* $LATEST_COMMIT_HASH $COMMIT_MESSAGE"
@@ -27,9 +32,7 @@ if [ ! -f CHANGELOG.md ]; then
   echo -e "## Changelog\n\n$CHANGELOG_ENTRY" > CHANGELOG.md
 else
   if grep -q "## Changelog" CHANGELOG.md; then
-    sed -i "1i\\
-\\
-$CHANGELOG_ENTRY" CHANGELOG.md
+    sed -i "1s/^/$CHANGELOG_ENTRY\n\n/" CHANGELOG.md
   else
     echo -e "## Changelog\n\n$CHANGELOG_ENTRY\n$(cat CHANGELOG.md)" > CHANGELOG.md
   fi

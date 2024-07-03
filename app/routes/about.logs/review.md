@@ -1,6 +1,3 @@
-> 3rd July 2024H
-
-- [9db2e58](https://github.com/YourUsername/YourRepo/commit/9db2e58) Bash script update
 ### UnReleased
 > Last Update: 3rd July 2024
 - Add Chat to Pages
@@ -11,6 +8,7 @@
 
 ### Released
 > 3rd July 2024
+- [9db2e58](https://github.com/Ryuku72/MessageNovel/commit/9db2e58) Bash script update
 - [767cdd0](https://github.com/Ryuku72/MessageNovel/commit/767cdd0) Test for again
 - [cddde25](https://github.com/Ryuku72/MessageNovel/commit/cddde25) Test for new bash script
 - [c69175c](https://github.com/Ryuku72/MessageNovel/commit/c69175c) Updated Changelog and Review Page. Renamed ChatIcon to CommentIcon and added a chatIcon for future feature
