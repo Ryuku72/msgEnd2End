@@ -1,7 +1,6 @@
 * 7312277 bash update attempt 7
 * 2871d65 bash update attempt 6
 * 13918af bash update attempt 5
-## Changelog
 * 0c52861 bash update
 * 767cdd0 Test for again
 * cddde25 Test for new bash script
