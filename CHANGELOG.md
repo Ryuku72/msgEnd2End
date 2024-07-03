@@ -1,5 +1,6 @@
 # Changelog
 
+* 2da445d Added Changelog to be under about page. Added Tutorial System to Pages. Add an alert to Pages when the owner logs on and off
 * a2f85e3 changed from sign in to log in
 * 84ba6cf moved change log route reference to about page
 * 4c0fbbc reference vercel build change log to fix bug
