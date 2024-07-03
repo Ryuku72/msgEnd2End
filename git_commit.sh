@@ -31,12 +31,7 @@ REVIEW_ENTRY="- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COM
 if [ ! -f CHANGELOG.md ]; then
   echo -e "## Changelog\n\n$CHANGELOG_ENTRY" > CHANGELOG.md
 else
-  if grep -q "## Changelog" CHANGELOG.md; then
-    sed -i "1i\\
-$CHANGELOG_ENTRY\n" CHANGELOG.md
-  else
-    echo -e "## Changelog\n\n$CHANGELOG_ENTRY\n$(cat CHANGELOG.md)" > CHANGELOG.md
-  fi
+  sed -i "1i$CHANGELOG_ENTRY\n" CHANGELOG.md
 fi
 
 # Update review.md with the provided review title
@@ -48,12 +43,8 @@ else
   if [ ! -f "$REVIEW_FILE" ]; then
     echo -e "$REVIEW_TITLE\n\n$REVIEW_ENTRY" > "$REVIEW_FILE"
   else
-    if grep -q "$REVIEW_TITLE" "$REVIEW_FILE"; then
-      sed -i "/$REVIEW_TITLE/a\\
+    sed -i "/$REVIEW_TITLE/a\\
 $REVIEW_ENTRY\n" "$REVIEW_FILE"
-    else
-      echo -e "$REVIEW_TITLE\n\n$REVIEW_ENTRY\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
-    fi
   fi
 fi
 
