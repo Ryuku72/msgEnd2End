@@ -200,15 +200,9 @@ export default function CommentPlugin({
                 hasAnchorKey = true;
               }
             }
-          } else if (!hasActiveIds) {
-            setActiveIDs(_activeIds => (_activeIds.length === 0 ? _activeIds : []));
-          }
-          if (!hasAnchorKey) {
-            setActiveAnchorKey(null);
-          }
-          if (!tags.has('collaboration') && $isRangeSelection(selection)) {
-            setShowCommentInput(false);
-          }
+          } else if (!hasActiveIds) setActiveIDs(_activeIds => (_activeIds.length === 0 ? _activeIds : []));
+          if (!hasAnchorKey) setActiveAnchorKey(null);
+          if (!tags.has('collaboration') && $isRangeSelection(selection)) setShowCommentInput(false);
         });
       }),
       editor.registerCommand(
@@ -234,9 +228,7 @@ export default function CommentPlugin({
     editor.update(() => {
       const selection = $getSelection();
       // Restore selection
-      if (selection !== null) {
-        selection.dirty = true;
-      }
+      if (selection !== null)  selection.dirty = true;
     });
     setShowCommentInput(false);
   }, [editor]);
@@ -310,7 +302,6 @@ export default function CommentPlugin({
     () =>
       ({ children, condition }: { children: JSX.Element; condition: boolean }) => {
         if (!condition) return null;
-
         return createPortal(children, document.body);
       },
     []

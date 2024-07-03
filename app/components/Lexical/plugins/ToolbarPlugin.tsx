@@ -33,7 +33,7 @@ import {
 import {
   ArrowClockwiseIcon,
   ArrowCounterClockwiseIcon,
-  ChatIcon,
+  CommentsIcon,
   CheckListIcon,
   HorizontalRuleIcon,
   JustifyIcon,
@@ -509,8 +509,7 @@ export default function ToolbarPlugin() {
         data-id="CommentPlugin_ShowCommentsButton"
         onClick={() => handleShowComments()}
         title={showComments ? 'Hide Comments' : 'Show Comments'}>
-        <ChatIcon uniqueId="commentPlugin-icon" className="w-5 h-auto -scale-x-100" />
-        {/* Comments */}
+        <CommentsIcon uniqueId="commentPlugin-icon" className="w-5 h-auto -scale-x-100" />
       </button>
     </div>
   );

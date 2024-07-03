@@ -31,7 +31,7 @@ import ToggleEditState from '~/components/Lexical/plugins/ToggleEditState';
 import ToolbarPlugin from '~/components/Lexical/plugins/ToolbarPlugin';
 
 import Default_Avatar from '~/assets/default_avatar.jpeg';
-import { ConnectIcon, DisconnectIcon, HelpIcon, PrivateNovelIcon, PublicNovelIcon, SyncIcon } from '~/svg';
+import { ChatIcon, ConnectIcon, DisconnectIcon, HelpIcon, PrivateNovelIcon, PublicNovelIcon, SyncIcon } from '~/svg';
 
 import { CornerAlert } from './CornerAlert';
 import TutorialModal from './TutorialModal';
@@ -106,17 +106,6 @@ export function PageRichTextEditor({
     [room]
   );
 
-  const createChatProviderFactory = useCallback(
-    (id: string, yjsDocMap: Map<string, Doc>) => {
-      const doc = new Doc();
-      yjsDocMap.set(id, doc);
-      const yProvider = new LiveblocksYjsProvider(room, doc) as Provider;
-      yProvider.on('sync', status => setIsSynced(status));
-      return yProvider;
-    },
-    [room]
-  );
-
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="rounded-sm w-full text-gray-900 font-normal text-left flex flex-col flex-auto min-h-[500px]">
@@ -176,7 +165,7 @@ export function PageRichTextEditor({
           <ClearEditorPlugin />
           <ToggleEditState enable_edit={toggleCollab || owner} />
           <MaxLengthPlugin maxLength={maxLength} setTextLength={setTextLength} />
-          <CommentPlugin namespace={namespace} userData={userData} providerFactory={createChatProviderFactory} />
+          <CommentPlugin namespace={namespace} userData={userData} providerFactory={createProviderFactory} />
           <div className="sticky md:bottom-3 bottom-[90px] right-4 self-end m-2 flex gap-2">
             <p
               className={`bg-slate-400 backdrop-blur-sm bg-opacity-50 px-2 flex items-center h-access rounded-lg text-xs self-end cursor-default ${textLength < maxLength ? 'text-blue-800' : 'text-red-400'}`}>
@@ -209,6 +198,12 @@ export function PageRichTextEditor({
               onClick={() => setShowTutorial(true)}
               className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 bg-yellow-300 hover:text-gray-800 bg-opacity-25 backdrop-blur-sm md:after:content-[attr(data-string)]">
               <HelpIcon uniqueId="help-icon" className="w-5 h-auto" />
+            </button>
+            <button
+              type="button"
+              data-string="Chat"
+              className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 bg-white bg-opacity-25 backdrop-blur-sm  md:after:content-[attr(data-string)]">
+              <ChatIcon uniqueId="public-novel-chat-icon" className="w-5 h-auto" />
             </button>
             <button
               type="button"

@@ -2,6 +2,7 @@ import DialogWrapper from '~/components/DialogWrapper';
 
 import {
   ChatIcon,
+  CommentsIcon,
   ConnectIcon,
   DisconnectIcon,
   MicIcon,
@@ -36,7 +37,8 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
                 <PublicNovelIcon uniqueId="public-novel-tutorial-public-icon" className="w-5 h-auto -scale-x-100" />
               </div>
               <p>
-                <em>This is the Public Icon.</em> When enabled, all participants can actively contribute to the novel writing process.
+                <em>This is the Public Icon.</em> When enabled, all participants can actively contribute to the novel
+                writing process.
               </p>
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
@@ -44,7 +46,8 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
                 <PrivateNovelIcon uniqueId="public-novel-tutorial-private-icon" className="w-5 h-auto" />
               </div>
               <p>
-                <em>This is the Private Icon.</em> When enabled, only the owner can contribute to the novel writing process, but you can still leave comments.
+                <em>This is the Private Icon.</em> When enabled, only the owner can contribute to the novel writing
+                process, but you can still leave comments.
               </p>
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
@@ -52,15 +55,26 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
                 <MicIcon uniqueId="public-novel-tutorial-mic-icon" className="w-5 h-auto" />
               </div>
               <p>
-                <em>This is Speach to Text Icon.</em> When this is turned on, you will be able to contribute using your voice instead of typing.
+                <em>This is Speach to Text Icon.</em> When this is turned on, you will be able to contribute using your
+                voice instead of typing.
               </p>
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-pink-400 flex-shrink-0 flexCenter">
-                <ChatIcon uniqueId="public-novel-chat-sync-icon" className="w-5 h-auto -scale-x-100" />
+                <CommentsIcon uniqueId="public-novel-chat-sync-icon" className="w-5 h-auto -scale-x-100" />
               </div>
               <p>
-                <em>This is the Comment Tab Icon.</em> By clicking here, you will be able to see all comments related to this page.
+                <em>This is the Comment Tab Icon.</em> By clicking here, you will be able to see all comments related to
+                this page.
+              </p>
+            </div>
+            <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
+              <div className="w-access h-access rounded bg-white flex-shrink-0 flexCenter">
+                <ChatIcon uniqueId="public-novel-chat-icon" className="w-5 h-auto text-gray-700" />
+              </div>
+              <p>
+                <em>This is the Chat Tab Icon.</em> By clicking here you will be able to chat to other memebers of this
+                page. (Currently Work in Progress)
               </p>
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
@@ -68,7 +82,8 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
                 <StickyIcon uniqueId="public-novel-tutorial-comment-icon" className="w-5 h-auto" />
               </div>
               <p>
-                <em>This is the Add Comment Icon.</em> When you highlight text, you will see the Add Comment icon. By clicking this button, you can add a comment.
+                <em>This is the Add Comment Icon.</em> When you highlight text, you will see the Add Comment icon. By
+                clicking this button, you can add a comment.
               </p>
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
@@ -76,7 +91,8 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
                 <ConnectIcon uniqueId="public-novel-tutorial-connect-icon" className="w-5 h-auto" />
               </div>
               <p>
-                <em>This is the Connected Icon.</em> This indicates that the page has connected to the database and is synchronized with all other users.
+                <em>This is the Connected Icon.</em> This indicates that the page has connected to the database and is
+                synchronized with all other users.
               </p>
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
@@ -84,7 +100,8 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
                 <DisconnectIcon uniqueId="public-novel-tutorial-disconnect-icon" className="w-5 h-auto" />
               </div>
               <p>
-                <em>This is the Disconnected Icon.</em> This indicates that the page is not connected to the database and may be out of sync with other users.
+                <em>This is the Disconnected Icon.</em> This indicates that the page is not connected to the database
+                and may be out of sync with other users.
               </p>
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
@@ -92,7 +109,8 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
                 <SyncIcon uniqueId="public-novel-tutorial-sync-icon" className="w-5 h-auto" />
               </div>
               <p>
-                <em>This is the Syncing Icon.</em> This indicates that the page is attempting to connect to the database and synchronize with other users.
+                <em>This is the Syncing Icon.</em> This indicates that the page is attempting to connect to the database
+                and synchronize with other users.
               </p>
             </div>
             <div className="w-full flex justify-end">

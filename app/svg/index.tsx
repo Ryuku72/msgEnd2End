@@ -413,7 +413,7 @@ export function SendIcon({ className = '', svgColor = 'currentColor', uniqueId }
   );
 }
 
-export function ChatIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+export function CommentsIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill={svgColor} id={uniqueId} className={className}>
       <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" />
@@ -689,9 +689,7 @@ export function TypeWriterIcon({ className = '', svgColor = 'currentColor', uniq
 
 export function HelpIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg"  className={className}
-    id={uniqueId}
-    viewBox="0 0 24 24" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} id={uniqueId} viewBox="0 0 24 24" fill="none">
       <path
         d="M10 9C10 8.60444 10.1173 8.21776 10.3371 7.88886C10.5568 7.55996 10.8692 7.30362 11.2346 7.15224C11.6001 7.00087 12.0022 6.96126 12.3902 7.03843C12.7781 7.1156 13.1345 7.30608 13.4142 7.58579C13.6939 7.86549 13.8844 8.22186 13.9616 8.60982C14.0387 8.99778 13.9991 9.39992 13.8478 9.76537C13.6964 10.1308 13.44 10.4432 13.1111 10.6629C12.7822 10.8827 12.3956 11 12 11V12M14.25 19L12.8 20.9333C12.4 21.4667 11.6 21.4667 11.2 20.9333L9.75 19H7C4.79086 19 3 17.2091 3 15V7C3 4.79086 4.79086 3 7 3H17C19.2091 3 21 4.79086 21 7V15C21 17.2091 19.2091 19 17 19H14.25Z"
         stroke={svgColor}
@@ -700,6 +698,21 @@ export function HelpIcon({ className = '', svgColor = 'currentColor', uniqueId }
         strokeLinejoin="round"
       />
       <circle cx="12" cy="15" r="1" fill={svgColor} />
+    </svg>
+  );
+}
+
+export function ChatIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} id={uniqueId} viewBox="0 0 24 24" fill="none">
+      <path d="M8 10.5H16" stroke={svgColor} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M8 14H13.5" stroke={svgColor} strokeWidth="1.5" strokeLinecap="round" />
+      <path
+        d="M17 3.33782C15.5291 2.48697 13.8214 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22C17.5228 22 22 17.5228 22 12C22 10.1786 21.513 8.47087 20.6622 7"
+        stroke={svgColor}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
