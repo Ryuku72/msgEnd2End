@@ -27,7 +27,7 @@ if [ ! -f CHANGELOG.md ]; then
   echo -e "## Changelog\n\n$CHANGELOG_ENTRY" > CHANGELOG.md
 else
   if grep -q "## Changelog" CHANGELOG.md; then
-    sed -i "1a\\
+    sed -i "1i\\
 \\
 $CHANGELOG_ENTRY" CHANGELOG.md
   else
