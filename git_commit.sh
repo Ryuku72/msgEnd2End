@@ -39,15 +39,15 @@ else
 
   # Check if REVIEW_FILE exists
   if [ ! -f "$REVIEW_FILE" ]; then
-    echo -e "$REVIEW_TITLE\n\n$CHANGELOG_ENTRY" > "$REVIEW_FILE"
+    echo -e "$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" > "$REVIEW_FILE"
   else
     # Check if REVIEW_TITLE exists in REVIEW_FILE
     if grep -q "$REVIEW_TITLE_FORMATTED" "$REVIEW_FILE"; then
       # Append CHANGELOG_ENTRY under REVIEW_TITLE
-      echo -e "\n$CHANGELOG_ENTRY" >> "$REVIEW_FILE"
+      sed -i "/^$REVIEW_TITLE_FORMATTED$/a - [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" "$REVIEW_FILE"
     else
       # Add new section with REVIEW_TITLE followed by CHANGELOG_ENTRY
-      echo -e "\n$REVIEW_TITLE\n\n$CHANGELOG_ENTRY\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
+      echo -e "\n$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
     fi
   fi
 fi
