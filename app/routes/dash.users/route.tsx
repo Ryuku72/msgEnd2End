@@ -69,7 +69,7 @@ export default function DashUsers() {
         const online = Object.keys(presenceState)
           .map(presenceId => {
             const presences = presenceState[presenceId] as unknown as OnlineUser[];
-            return presences.map(presence => ({ user_id: presence.user_id, room: presence.room }));
+            return presences.map(presence => ({ user_id: presence.user.id, room: presence.room }));
           })
           .flat();
         /** sort and set the users */
@@ -78,12 +78,12 @@ export default function DashUsers() {
       })
       .subscribe(status => {
         if (status !== 'SUBSCRIBED') return;
-        return channel.track({ novel_id: '', page_id: '', room: 'Room: Participants', user_id: user.id });
+        return channel.track({ novel_id: '', page_id: '', room: 'Room: Participants', user: user });
       });
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, user.id]);
+  }, [supabase, user]);
 
   useEffect(() => {
     debounceTimer.current = setTimeout(() => {

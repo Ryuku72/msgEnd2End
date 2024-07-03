@@ -31,7 +31,10 @@ import ToggleEditState from '~/components/Lexical/plugins/ToggleEditState';
 import ToolbarPlugin from '~/components/Lexical/plugins/ToolbarPlugin';
 
 import Default_Avatar from '~/assets/default_avatar.jpeg';
-import { ConnectIcon, DisconnectIcon, PrivateNovelIcon, PublicNovelIcon, SyncIcon } from '~/svg';
+import { ConnectIcon, DisconnectIcon, HelpIcon, PrivateNovelIcon, PublicNovelIcon, SyncIcon } from '~/svg';
+
+import { CornerAlert } from './CornerAlert';
+import TutorialModal from './TutorialModal';
 
 export type ActiveUserProfile = Omit<BasicProfile, 'id'> & { userId: string };
 
@@ -48,34 +51,41 @@ export function PageRichTextEditor({
   maxLength = 4200,
   userData,
   enableCollab,
-  owner
+  ownerId,
+  ownerInfo
 }: {
   namespace: string;
   maxLength?: number;
   enableCollab: boolean;
   userData: ActiveUserProfile;
-  owner: boolean;
+  ownerId: string;
+  ownerInfo: BasicProfile;
 }) {
+  const owner = userData.userId === ownerId;
+
   const initialConfig = InitialConfig({ namespace, editable: enableCollab || owner });
   const [editorState, setEditorState] = useState('');
   const [textLength, setTextLength] = useState(0);
   const [toggleCollab, setToggleCollab] = useState(enableCollab);
   const [isSynced, setIsSynced] = useState(false);
   const [init, setInit] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const submit = useSubmit();
 
   const room = useRoom();
   const status = useStatus();
-  const userInfo = {
-    avatar: userData.avatar,
+  const userInfo: Liveblocks['UserMeta']['info'] = {
+    avatar: userData.avatar || '',
     color: userColor(userData.color),
-    name: userData.username
+    name: userData.username,
+    userId: userData.userId
   };
   const othersInfo = useOthers();
   const otherusers = othersInfo?.map(user => user.info);
   const users = [userInfo].concat(otherusers);
+  const ownerIsPresent = users.some(user => user.userId === ownerId);
 
   useEffect(() => {
     setInit(true);
@@ -85,26 +95,31 @@ export function PageRichTextEditor({
     setToggleCollab(enableCollab);
   }, [enableCollab]);
 
-  const createProviderFactory = useCallback((id: string, yjsDocMap: Map<string, Doc>): Provider => {
-    const doc = new Doc();
-    yjsDocMap.set(id, doc);
-    const yProvider = new LiveblocksYjsProvider(room, doc) as Provider;
-    yProvider.on('sync', (status) => setIsSynced(status));
-    return yProvider;
-  }, []);
+  const createProviderFactory = useCallback(
+    (id: string, yjsDocMap: Map<string, Doc>): Provider => {
+      const doc = new Doc();
+      yjsDocMap.set(id, doc);
+      const yProvider = new LiveblocksYjsProvider(room, doc) as Provider;
+      yProvider.on('sync', status => setIsSynced(status));
+      return yProvider;
+    },
+    [room]
+  );
 
-  const createChatProviderFactory = useCallback((id: string, yjsDocMap: Map<string, Doc>) => {
-    const doc = new Doc();
-    yjsDocMap.set(id, doc);
-    const yProvider = new LiveblocksYjsProvider(room, doc) as Provider;
-    yProvider.on('sync', (status) => setIsSynced(status));
-    return yProvider;
-  }, []);
+  const createChatProviderFactory = useCallback(
+    (id: string, yjsDocMap: Map<string, Doc>) => {
+      const doc = new Doc();
+      yjsDocMap.set(id, doc);
+      const yProvider = new LiveblocksYjsProvider(room, doc) as Provider;
+      yProvider.on('sync', status => setIsSynced(status));
+      return yProvider;
+    },
+    [room]
+  );
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div
-        className="rounded-sm w-full text-gray-900 font-normal text-left flex flex-col flex-auto min-h-[500px]">
+      <div className="rounded-sm w-full text-gray-900 font-normal text-left flex flex-col flex-auto min-h-[500px]">
         <p className="w-full text-sm font-medium text-gray-600 mb-2">Participants</p>
         <div className="flex gap-2 text-blue-800 items-center text-sm mb-3 max-w-[80%]">
           {users.map((user, index) => (
@@ -164,15 +179,22 @@ export function PageRichTextEditor({
           <CommentPlugin namespace={namespace} userData={userData} providerFactory={createChatProviderFactory} />
           <div className="sticky md:bottom-3 bottom-[90px] right-4 self-end m-2 flex gap-2">
             <p
-              className={`bg-slate-400 backdrop-blur-sm bg-opacity-50 px-2 flex items-center h-access rounded-lg text-xs self-end ${textLength < maxLength ? 'text-blue-800' : 'text-red-400'}`}>
+              className={`bg-slate-400 backdrop-blur-sm bg-opacity-50 px-2 flex items-center h-access rounded-lg text-xs self-end cursor-default ${textLength < maxLength ? 'text-blue-800' : 'text-red-400'}`}>
               {textLength} / {maxLength} length
             </p>
             <button
               type="button"
               title={`Novel YJS ${status}`}
-              className={`flex gap-2 rounded cursor-pointer w-access h-access flex-[0,0,auto] items-center justify-center pl-2 pr-3 capitalize text-gray-500 ${status === 'disconnected' || status === 'initial' ? 'bg-red-300' : status === 'connecting' ? 'bg-blue-400' : 'bg-green-300'} bg-opacity-25 backdrop-blur-sm ${!isSynced ? 'pointer-events-none' : 'pointer-events-auto'}`}
-              onClick={() => (status === 'connected' ? room.disconnect() : room.connect())}>
-              {!isSynced ? (
+              className={`flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 ${status === 'disconnected' || status === 'initial' ? 'bg-red-400' : status === 'connecting' ? 'bg-blue-400' : 'bg-green-400'} bg-opacity-25 backdrop-blur-sm ${!isSynced && status === 'connecting' ? 'pointer-events-none' : 'pointer-events-auto'} md:after:content-[attr(data-string)]`}
+              data-string={
+                !isSynced && status === 'connecting'
+                  ? 'Syncing'
+                  : status === 'disconnected' || status === 'initial'
+                    ? 'Disconnected'
+                    : 'Connected'
+              }
+              onClick={() => (status === 'connected' ? room.disconnect() : room.reconnect())}>
+              {!isSynced && status === 'connecting' ? (
                 <SyncIcon uniqueId="lexical-sync" className="w-5 h-auto animate-spin" />
               ) : status === 'disconnected' || status === 'initial' ? (
                 <DisconnectIcon uniqueId="lexical-disconnect" className="w-5 h-auto" />
@@ -182,9 +204,18 @@ export function PageRichTextEditor({
             </button>
             <button
               type="button"
+              title="Show Tutorial"
+              data-string="Tutorial"
+              onClick={() => setShowTutorial(true)}
+              className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 bg-yellow-300 hover:text-gray-800 bg-opacity-25 backdrop-blur-sm md:after:content-[attr(data-string)]">
+              <HelpIcon uniqueId="help-icon" className="w-5 h-auto" />
+            </button>
+            <button
+              type="button"
               disabled={!owner}
-              title={`Owner has ${enableCollab ? 'enabled collabaration' : 'disabled collabaration'} `}
-              className={`flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize ${!enableCollab ? 'bg-purple-400 text-gray-600' : 'bg-orange-500 text-gray-500'} bg-opacity-25 backdrop-blur-sm`}
+              title={`Owner has ${enableCollab ? 'enabled collabaration' : 'disabled collabaration'}`}
+              className={`flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 ${!enableCollab ? 'bg-purple-400' : 'bg-orange-500'} bg-opacity-25 backdrop-blur-sm  md:after:content-[attr(data-string)]`}
+              data-string={enableCollab ? 'Collab' : 'Solo'}
               onClick={e => {
                 e.preventDefault();
                 const formData = new FormData();
@@ -193,16 +224,17 @@ export function PageRichTextEditor({
                 submit(formData, { method: 'POST', action: '/api/page/enable_collab', navigate: false });
               }}>
               {enableCollab ? (
-                <PublicNovelIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
+                <PublicNovelIcon uniqueId="public-novel-public-icon" className="w-5 h-auto -scale-x-100" />
               ) : (
-                <PrivateNovelIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
+                <PrivateNovelIcon uniqueId="public-novel-private-icon" className="w-5 h-auto" />
               )}
-              {enableCollab ? 'Collab' : 'Solo'}
             </button>
           </div>
         </div>
       </div>
       <input name="lexical" value={editorState} readOnly={true} className="hidden" />
+      <CornerAlert ownerIsPresent={ownerIsPresent} ownerDetails={ownerInfo} init={!owner && init} />
+      <TutorialModal setShowTutorial={setShowTutorial} showTutorial={showTutorial} />
     </LexicalComposer>
   );
 }

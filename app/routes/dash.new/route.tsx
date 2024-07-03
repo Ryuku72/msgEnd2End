@@ -60,13 +60,13 @@ export default function DashNew() {
           novel_id: searchNovelId || '',
           page_id: '',
           room: searchNovelId ? `Room: Updating ${draftNovelTitle} Details` : 'Room: New Novel',
-          user_id: user.id
+          user: user
         });
       });
     return () => {
       channel.unsubscribe();
     };
-  }, [draftNovelTitle, searchNovelId, supabase, user.id]);
+  }, [draftNovelTitle, searchNovelId, supabase, user]);
 
   return (
     <div className="flex flex-col flex-auto md:flex-1 items-center w-full md:px-10 px-3 pt-4 pb-[100px] md:py-6 gap-6 m-auto">

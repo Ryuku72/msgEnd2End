@@ -10,12 +10,13 @@ export async function DashPageIdLoader({ request, params }: LoaderFunctionArgs) 
   try {
     const response = await supabaseClient
       .from('pages')
-      .select('*')
+      .select('*, ownerProfile:profiles!owner(id,avatar,username,color)')
       .match({ id: params.page_id as string })
       .single();
 
     if (response.error) throw response.error;
-    return json(response.data, { headers });
+
+    return json({ page: response.data, ownerInfo: response.data.ownerProfile }, { headers });
   } catch (error) {
     console.error(error);
     console.error('process error in dash novel id');

@@ -20,7 +20,6 @@ export type Novel = {
   owner: string;
   title: string;
   description: InitialEditorStateType;
-  members: string[];
   pages: string[];
 };
 
@@ -32,7 +31,6 @@ export type Page = {
   updated_at: string;
   novel_id: string;
   owner: string;
-  members: string[];
   reference_title: string;
   index: number;
   published: InitialEditorStateType;
@@ -42,7 +40,8 @@ export type Page = {
   enable_collab: boolean;
 };
 
-export type PageWithUsers = Omit<Page, 'owner' | 'members'> & { owner: BasicProfile; members: BasicProfile[] };
+export type PageWithUsers = Omit<Page, 'owner'> & { owner: BasicProfile; members: BasicProfile[] };
+export type PageWithOwner = Omit<Page, 'owner'> & { owner: BasicProfile };
 
 export type AuthProfileEntry = User & {
   user_metadata: {
@@ -98,13 +97,14 @@ export type SupabaseBroadcast = {
 export type Page_Member = {
   page_id: string;
   user_id: string;
-}
+};
 
 export type Novel_Member = {
   novel_id: string;
   user_id: string;
-}
+};
 
-export type OnlineUser = { novel_id: string; page_id: string; room: string; user_id: string };
+export type OnlineUser = { novel_id: string; page_id: string; room: string; user: BasicProfile };
 
+// Used for tailwind extension
 export type Escape = (className: string) => string;

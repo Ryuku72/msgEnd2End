@@ -4,7 +4,7 @@ import { Form, NavLink, useLoaderData, useNavigate, useNavigation, useOutletCont
 import { useEffect, useState } from 'react';
 
 import LOCALES from '~/locales/language_en.json';
-import { Page, SupabaseBroadcast } from '~/types';
+import { BasicProfile, Page, SupabaseBroadcast } from '~/types';
 
 import { LiveBlocksRoom } from '~/components/LiveBlocksRoom';
 import TitleInput from '~/components/TitleInput';
@@ -27,8 +27,9 @@ export function action(data: ActionFunctionArgs) {
 type PageBroadcast = Omit<SupabaseBroadcast, 'new' | 'old'> & { new: Page; old: Page };
 
 export default function DashPageId() {
-  const loaderData = useLoaderData<Page>();
-  const [pageData, setPageData] = useState(loaderData);
+  const loaderData = useLoaderData<{ page: Page, ownerInfo: BasicProfile }>();
+  const [pageData, setPageData] = useState(loaderData?.page);
+  const [ownerInfo] = useState(loaderData?.ownerInfo);
 
   const { user, supabase } = useOutletContext<DashOutletContext>();
   const navigationState = useNavigation();
@@ -38,7 +39,7 @@ export default function DashPageId() {
   const navigate = useNavigate();
 
   const LocalStrings: (typeof LOCALES)['dash']['draft'] = LOCALES.dash.draft;
-  const [titleValue, setTitleValue] = useState(loaderData?.reference_title);
+  const [titleValue, setTitleValue] = useState(loaderData?.page.reference_title);
 
   const userData = {
     userId: user.id,
@@ -62,7 +63,7 @@ export default function DashPageId() {
           const info = payload as unknown as PageBroadcast;
           switch (payload.eventType) {
             case 'UPDATE': {
-              if (info.new.id !== loaderData.id) return;
+              if (info.new.id !== loaderData?.page.id) return;
               return setPageData({ ...info.new });
             }
             case 'DELETE': {
@@ -79,7 +80,7 @@ export default function DashPageId() {
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, navigate, loaderData.id]);
+  }, [supabase, navigate, loaderData?.page.id]);
 
   useEffect(() => {
     const channel = supabase
@@ -87,16 +88,16 @@ export default function DashPageId() {
       .subscribe(status => {
         if (status !== 'SUBSCRIBED') return;
         return channel.track({
-          novel_id: loaderData.novel_id,
-          page_id: loaderData.id,
-          room: 'Pages: ' + loaderData.reference_title,
-          user_id: user.id
+          novel_id: loaderData?.page.novel_id,
+          page_id: loaderData?.page.id,
+          room: 'Pages: ' + loaderData?.page.reference_title,
+          user: user
         });
       });
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, user.id, loaderData.id, loaderData.reference_title, loaderData.novel_id]);
+  }, [supabase, user, loaderData?.page.id, loaderData?.page.reference_title, loaderData?.page.novel_id]);
 
   return (
     <div className="w-full h-full flex flex-row relative">
@@ -119,10 +120,11 @@ export default function DashPageId() {
             />
             <LiveBlocksRoom roomId={pageData?.id} authEndpoint="/api/liveblocks">
               <PageRichTextEditor
-                namespace={loaderData?.id}
+                namespace={loaderData?.page.id}
                 userData={userData}
                 enableCollab={pageData.enable_collab}
-                owner={user.id === pageData.owner}
+                ownerId={pageData.owner}
+                ownerInfo={ownerInfo}
               />
             </LiveBlocksRoom>
             <div className="w-full flex items-center gap-3 justify-end pt-3">

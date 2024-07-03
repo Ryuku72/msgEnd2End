@@ -155,12 +155,12 @@ export default function DashNovelId() {
       })
       .subscribe(status => {
         if (status !== 'SUBSCRIBED') return;
-        channel.track({ novel_id: novel.id, page_id: '', room: 'Novel: ' + novel.title, user_id: user.id });
+        channel.track({ novel_id: novel.id, page_id: '', room: 'Novel: ' + novel.title, user: user });
       });
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, user.id, novel.id, novel.title]);
+  }, [supabase, user, novel.id, novel.title]);
 
   useEffect(() => {
     debounceTimer.current = setTimeout(() => {

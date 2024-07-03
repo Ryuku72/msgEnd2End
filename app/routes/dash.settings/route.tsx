@@ -49,7 +49,7 @@ export default function DashSettings() {
       .channel('user location', { config: { presence: { key: user.id }, broadcast: { self: true } } })
       .subscribe(status => {
         if (status !== 'SUBSCRIBED') return;
-        return channel.track({ novel_id: '', page_id: '', room: 'Room: User Settings', user_id: user.id });
+        return channel.track({ novel_id: '', page_id: '', room: 'Room: User Settings', user: user });
       });
     return () => {
       channel.unsubscribe();

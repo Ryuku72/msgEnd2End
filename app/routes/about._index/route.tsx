@@ -83,7 +83,7 @@ export default function About() {
             <VercelLogo uniqueId="credit-vercel" className="w-auto max-w-full h-16 p-2" />
           </div>
         </div>
-        <div className="flex flex-col gap-2 bg-black bg-opacity-50 backdrop-blur-sm p-6 rounded-xl shadow-sm text-white leading-10 max-w-full">
+        <div className="flex flex-col gap-2 bg-black bg-opacity-50 backdrop-blur-sm py-6 md:px-10 px-6 rounded-xl shadow-sm text-white leading-10 w-full">
           <h2 className="text-4xl m-0 font-mono text-center font-semibold text-current tracking-wide underline mb-4">
             {LocalStrings.background.title}
           </h2>
@@ -100,7 +100,7 @@ export default function About() {
         <div className="flex w-full justify-center gap-2 bg-black bg-opacity-50 backdrop-blur-sm p-6 rounded-xl shadow-sm text-white leading-10 max-w-full">
           <p className="text-lg">Project</p>
         <Link
-          to="/logs"
+          to="/about/logs"
           className="text-lg font-bold hover:text-blue-600 text-blue-500">
         Change Logs
         </Link>

@@ -1,6 +1,7 @@
 {
   "name": "my-remix-app",
   "private": true,
+  "version": "0.0.1",
   "sideEffects": false,
   "type": "module",
   "scripts": {
@@ -32,6 +33,7 @@
     "@supabase/supabase-js": "^2.42.7",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@vercel/remix": "^2.9.2-patch.2",
+    "bun": "^1.1.17",
     "events": "^3.3.0",
     "gsap": "^3.12.5",
     "isbot": "^4.1.0",

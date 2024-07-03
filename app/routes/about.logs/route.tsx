@@ -1,4 +1,4 @@
-import { json, Link, useLoaderData, useOutletContext } from '@remix-run/react';
+import { Link, useLoaderData, useOutletContext } from '@remix-run/react';
 
 import { useEffect } from 'react';
 
@@ -13,9 +13,13 @@ import { PublicLayout } from '~/components/PublicLayout';
 
 import { MarkdownParserPlugin } from './components/MarkdownParserPlugin';
 import { ArrowIcon } from '~/svg';
+import * as fs from 'fs';
+import path from 'path';
 
 export async function loader() {
-  const markdown = await fetch('https://messagenovel.vercel.app/CHANGELOG.md').then(response => response.text());
+  const filePath = path.resolve(process.cwd(), './app/routes/about.logs/review.md');
+  const readFile = await fs.readFileSync(filePath, 'utf8');
+  const markdown = readFile;
   return { markdown };
 }
 

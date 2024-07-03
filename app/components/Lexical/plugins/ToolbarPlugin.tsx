@@ -494,7 +494,7 @@ export default function ToolbarPlugin() {
               !enableSpeech
                 ? 'hidden'
                 : 'flex flex-col rounded cursor-pointer w-access h-access items-center justify-center ' +
-                  (isSpeechToText ? 'border bg-red-400 text-white' : 'text-gray-500')
+                  (isSpeechToText ? 'bg-orange-300 text-white' : 'text-gray-500')
             }
             title="Speech To Text"
             aria-label={`${isSpeechToText ? 'Enable' : 'Disable'} speech to text`}>
@@ -505,14 +505,13 @@ export default function ToolbarPlugin() {
       <Divider />
       <button
         type="button"
-        className={`flex gap-3 rounded cursor-pointer w-access h-access items-center justify-center px-2 bg-opacity-25 backdrop-blur-sm ${showComments ? 'bg-blue-400 text-gray-600' : 'bg-gray-300 text-gray-500'}`}
+        className={`flex gap-3 rounded cursor-pointer w-access h-access items-center justify-center px-2 bg-opacity-75 backdrop-blur-sm ${showComments ? 'bg-pink-400 text-white' : 'bg-white text-gray-500'}`}
         data-id="CommentPlugin_ShowCommentsButton"
         onClick={() => handleShowComments()}
         title={showComments ? 'Hide Comments' : 'Show Comments'}>
         <ChatIcon uniqueId="commentPlugin-icon" className="w-5 h-auto -scale-x-100" />
         {/* Comments */}
       </button>
-      
     </div>
   );
 }

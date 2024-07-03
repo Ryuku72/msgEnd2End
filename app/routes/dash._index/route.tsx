@@ -59,12 +59,12 @@ export default function DashIndex() {
       })
       .subscribe(status => {
         if (status !== 'SUBSCRIBED') return;
-        channel.track({ novel_id: '', page_id: '', room: 'Room: Libray', user_id: user.id });
+        channel.track({ novel_id: '', page_id: '', room: 'Room: Libray', user: user });
       });
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, user.id]);
+  }, [supabase, user]);
 
   useEffect(() => {
     if (!supabase) return;

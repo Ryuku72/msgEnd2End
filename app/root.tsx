@@ -67,7 +67,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body
-        className="flex flex-col w-full min-h-full [background:_#bfe3dd] relative">
+        className="flex flex-col flex-auto w-full min-h-full [background:_#bfe3dd] relative">
         <LoadingLayer />
         <ThreeJsBackground />
         {children}

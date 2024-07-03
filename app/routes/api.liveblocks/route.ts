@@ -24,7 +24,8 @@ export async function action({ request }: ActionFunctionArgs) {
       userInfo: {
         avatar: avatarURL ? env.SUPABASE_IMG_STORAGE + 'public/avatars/' + avatarURL : '',
         name: user?.user_metadata.username,
-        color: userColor(user?.user_metadata.color)
+        color: userColor(user?.user_metadata.color),
+        userId: user.id
       }
     });
 
