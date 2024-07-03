@@ -1,3 +1,4 @@
+* 2871d65 bash update attempt 6
 * 13918af bash update attempt 5
 ## Changelog
 * 0c52861 bash update
