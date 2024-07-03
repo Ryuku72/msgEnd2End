@@ -35,7 +35,7 @@ if [ ! -f "$REVIEW_FILE" ]; then
   echo -e "$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" > "$REVIEW_FILE"
 else
   if grep -q "$REVIEW_TITLE" "$REVIEW_FILE"; then
-    awk -v text="- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" '/^### Released$/ {print; print text; next} 1' "$REVIEW_FILE" > temp && mv temp "$REVIEW_FILE"
+    awk -v text="- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" '/^> 3rd July 2024$/ {print; print text; next} 1' "$REVIEW_FILE" > temp && mv temp "$REVIEW_FILE"
   else
     echo -e "\n$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
   fi
