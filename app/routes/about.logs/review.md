@@ -6,9 +6,6 @@
 - Clean up code
 - Clean up locale
 
-### Latest Update
-
-
 ### Released
 
 > 3rd July 2024
