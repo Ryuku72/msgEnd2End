@@ -8,7 +8,7 @@ fi
 
 # Extract the commit message and review title
 COMMIT_MESSAGE="$1"
-REVIEW_TITLE="$2"
+REVIEW_TITLE="### Latest Update"
 
 echo "Commit message: $COMMIT_MESSAGE"
 echo "Review title: $REVIEW_TITLE"
@@ -38,33 +38,29 @@ fi
 echo "Updated CHANGELOG.md: "
 cat CHANGELOG.md
 
-# Update review.md with the provided review title
-if [ -z "$REVIEW_TITLE" ]; then
-  echo "No review title provided. Skipping review update."
+# Update review.md with the commit message under ### Released
+REVIEW_FILE="./app/routes/about.logs/review.md"
+
+echo "Review file path: $REVIEW_FILE"
+
+# Ensure REVIEW_FILE exists
+if [ ! -f "$REVIEW_FILE" ]; then
+  echo -e "$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" > "$REVIEW_FILE"
 else
-  REVIEW_FILE="./app/routes/about.logs/review.md"
-
-  echo "Review file path: $REVIEW_FILE"
-
-  # Check if REVIEW_FILE exists
-  if [ ! -f "$REVIEW_FILE" ]; then
-    echo -e "$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" > "$REVIEW_FILE"
+  # Check if REVIEW_TITLE exists in REVIEW_FILE
+  if grep -q "$REVIEW_TITLE" "$REVIEW_FILE"; then
+    # Append CHANGELOG_ENTRY under REVIEW_TITLE
+    echo "Appending to existing $REVIEW_TITLE section..."
+    sed -i "/^$REVIEW_TITLE$/a - [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" "$REVIEW_FILE"
   else
-    # Check if REVIEW_TITLE exists in REVIEW_FILE
-    if grep -q "$REVIEW_TITLE" "$REVIEW_FILE"; then
-      # Append CHANGELOG_ENTRY under REVIEW_TITLE
-      echo "Appending to existing review title..."
-      sed -i "/^$REVIEW_TITLE$/a - [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" "$REVIEW_FILE"
-    else
-      # Add new section with REVIEW_TITLE followed by CHANGELOG_ENTRY
-      echo "Creating new review title section..."
-      echo -e "\n$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
-    fi
+    # Add new section with REVIEW_TITLE followed by CHANGELOG_ENTRY
+    echo "Creating new $REVIEW_TITLE section..."
+    echo -e "\n$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
   fi
-
-  echo "Updated $REVIEW_FILE: "
-  cat "$REVIEW_FILE"
 fi
+
+echo "Updated $REVIEW_FILE: "
+cat "$REVIEW_FILE"
 
 # Commit the changelog and review update
 echo "Committing changelog and review update..."
