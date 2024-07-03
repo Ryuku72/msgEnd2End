@@ -8,6 +8,7 @@
 
 ### Released
 > 3rd July 2024
+- [00180b9](https://github.com/Ryuku72/MessageNovel/commit/00180b9) Added fixes to bash script
 - [02fa611](https://github.com/Ryuku72/MessageNovel/commit/02fa611) Cleaned up review log
 - [9db2e58](https://github.com/Ryuku72/MessageNovel/commit/9db2e58) Bash script update
 - [767cdd0](https://github.com/Ryuku72/MessageNovel/commit/767cdd0) Test for again

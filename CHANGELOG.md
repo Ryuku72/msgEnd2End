@@ -1,3 +1,4 @@
+* 00180b9 Added fixes to bash script
 * 02fa611 Cleaned up review log
 * b697206 bash update test 4
 * d439792 bash update test 3
