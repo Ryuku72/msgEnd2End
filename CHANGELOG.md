@@ -1,3 +1,6 @@
+## Changelog
+
+* 767cdd0 Test for again
 * cddde25 Test for new bash script
 * c69175c Updated Changelog and Review Page. Renamed ChatIcon to CommentIcon and added a chatIcon for future feature
 * 2da445d Added Changelog to be under about page. Added Tutorial System to Pages. Add an alert to Pages when the owner logs on and off
