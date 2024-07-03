@@ -29,7 +29,7 @@ fi
 
 # Update review.md with the commit message under ### Released
 REVIEW_FILE="./app/routes/about.logs/review.md"
-REVIEW_TITLE="### Released"
+REVIEW_TITLE="> 3rd July 2024"
 
 if [ ! -f "$REVIEW_FILE" ]; then
   echo -e "$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" > "$REVIEW_FILE"

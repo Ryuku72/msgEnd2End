@@ -7,9 +7,8 @@
 - Clean up locale
 
 ### Released
-- [07da544](https://github.com/Ryuku72/MessageNovel/commit/07da544) bash update attempt 15
-
 > 3rd July 2024
+- [07da544](https://github.com/Ryuku72/MessageNovel/commit/07da544) bash update attempt 15
 - [13918af](https://github.com/Ryuku72/MessageNovel/commit/13918af) bash update attempt 5
 - [e17f9a4](https://github.com/Ryuku72/MessageNovel/commit/e17f9a4) bash update attempt 3
 - [0c52861](https://github.com/Ryuku72/MessageNovel/commit/0c52861) bash update
