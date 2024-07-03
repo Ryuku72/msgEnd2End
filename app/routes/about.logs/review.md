@@ -1,3 +1,6 @@
+> 3rd July 2024
+
+- [0c52861](https://github.com/Ryuku72/MessageNovel/commit/0c52861) bash update
 ### UnReleased
 > Last Update: 3rd July 2024
 - Add Chat to Pages

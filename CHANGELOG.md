@@ -1,3 +1,4 @@
+* 0c52861 bash update
 ## Changelog
 
 * 767cdd0 Test for again
