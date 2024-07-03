@@ -21,7 +21,7 @@ git commit -m "$COMMIT_MESSAGE"
 
 # Get the latest short commit hash
 LATEST_COMMIT_HASH=$(git rev-parse --short HEAD)
-REPO_URL="https://github.com/Ryuku72/MessageNovel"
+REPO_URL="https://github.com/YourUsername/YourRepo" # Replace with your actual repository URL
 
 # Create the changelog entry
 CHANGELOG_ENTRY="* $LATEST_COMMIT_HASH $COMMIT_MESSAGE"
@@ -32,7 +32,8 @@ if [ ! -f CHANGELOG.md ]; then
   echo -e "## Changelog\n\n$CHANGELOG_ENTRY" > CHANGELOG.md
 else
   if grep -q "## Changelog" CHANGELOG.md; then
-    sed -i "1s/^/$CHANGELOG_ENTRY\n\n/" CHANGELOG.md
+    sed -i "1i\\
+$CHANGELOG_ENTRY\n" CHANGELOG.md
   else
     echo -e "## Changelog\n\n$CHANGELOG_ENTRY\n$(cat CHANGELOG.md)" > CHANGELOG.md
   fi
@@ -49,8 +50,7 @@ else
   else
     if grep -q "$REVIEW_TITLE" "$REVIEW_FILE"; then
       sed -i "/$REVIEW_TITLE/a\\
-\\
-$REVIEW_ENTRY" "$REVIEW_FILE"
+$REVIEW_ENTRY\n" "$REVIEW_FILE"
     else
       echo -e "$REVIEW_TITLE\n\n$REVIEW_ENTRY\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
     fi
