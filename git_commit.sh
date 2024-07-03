@@ -1,8 +1,13 @@
 #!/bin/bash
 
-# Check if at least one commit message is provided
+# Check if at least one review title (date) and commit message are provided
 if [ -z "$1" ]; then
   echo "Please provide a review title (date)."
+  exit 1
+fi
+
+if [ -z "$2" ]; then
+  echo "Please provide a commit message."
   exit 1
 fi
 
@@ -10,19 +15,13 @@ fi
 REVIEW_TITLE="$1"
 COMMIT_MESSAGE="$2"
 
-# Validate if the commit message is provided
-if [ -z "$COMMIT_MESSAGE" ]; then
-  echo "Please provide a commit message."
-  exit 1
-fi
-
 # Commit your changes
 git add .
 git commit -m "$COMMIT_MESSAGE"
 
 # Get the latest short commit hash
 LATEST_COMMIT_HASH=$(git rev-parse --short HEAD)
-REPO_URL="https://github.com/YourUsername/YourRepo" # Replace with your actual repository URL
+REPO_URL="https://github.com/Ryuku72/MessageNovel"
 
 # Create the changelog entry
 CHANGELOG_ENTRY="* $LATEST_COMMIT_HASH $COMMIT_MESSAGE"
