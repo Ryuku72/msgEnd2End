@@ -26,11 +26,7 @@ REVIEW_ENTRY="- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COM
 if [ ! -f CHANGELOG.md ]; then
   echo -e "## Changelog\n\n$CHANGELOG_ENTRY" > CHANGELOG.md
 else
-  if grep -q "## Changelog" CHANGELOG.md; then
-    sed -i "1s/^/$CHANGELOG_ENTRY\n\n/" CHANGELOG.md
-  else
-    echo -e "## Changelog\n\n$CHANGELOG_ENTRY\n$(cat CHANGELOG.md)" > CHANGELOG.md
-  fi
+  sed -i "1s/^/$CHANGELOG_ENTRY\n\n/" CHANGELOG.md
 fi
 
 # Update review.md with the provided review title
