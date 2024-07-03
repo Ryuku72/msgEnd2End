@@ -21,7 +21,7 @@ git commit -m "$COMMIT_MESSAGE"
 
 # Get the latest short commit hash
 LATEST_COMMIT_HASH=$(git rev-parse --short HEAD)
-REPO_URL="https://github.com/YourUsername/YourRepo" # Replace with your actual repository URL
+REPO_URL="https://github.com/Ryuku72/MessageNovel" # Replace with your actual repository URL
 
 # Create the changelog entry
 CHANGELOG_ENTRY="* $LATEST_COMMIT_HASH $COMMIT_MESSAGE"
