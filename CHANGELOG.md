@@ -1,3 +1,4 @@
+* cddde25 Test for new bash script
 # Changelog
 
 * 2da445d Added Changelog to be under about page. Added Tutorial System to Pages. Add an alert to Pages when the owner logs on and off
