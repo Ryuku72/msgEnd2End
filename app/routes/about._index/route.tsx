@@ -9,15 +9,16 @@ import { PublicLayout } from '~/components/PublicLayout';
 
 import { ArrowIcon } from '~/svg';
 
-import { LexicalLogo, LiveblocksLogo, VercelLogo } from './svg';
-import { BunLogo, BunTextLogo } from './svg/BunLogo/BunLogo';
-import GsapLogo from './svg/GsapLogo/GsapLogo';
-import ReactLogo from './svg/ReactLogo/ReactLogo';
-import RemixLogo from './svg/RemixLogo/RemixLogo';
-import SupabaseLogo from './svg/SupabaseLogo/SupabaseLogo';
-import TailwindLogo from './svg/TailwindLogo/TailwindLogo';
-import ThreeLogo from './svg/ThreeLogo/ThreeLogo';
-import ViteLogo from './svg/ViteLogo/ViteLogo';
+import { LexicalLogo, LiveblocksLogo, VercelLogo } from './assets';
+import { BunLogo, BunTextLogo } from './assets/BunLogo/BunLogo';
+import GsapLogo from './assets/GsapLogo/GsapLogo';
+import ReactLogo from './assets/ReactLogo/ReactLogo';
+import RemixLogo from './assets/RemixLogo/RemixLogo';
+import SupabaseLogo from './assets/SupabaseLogo/SupabaseLogo';
+import TailwindLogo from './assets/TailwindLogo/TailwindLogo';
+import ThreeLogo from './assets/ThreeLogo/ThreeLogo';
+import ViteLogo from './assets/ViteLogo/ViteLogo';
+import YjsLogo from './assets/yjs_logo.png';
 
 export const meta: MetaFunction = () => {
   return [{ title: LOCALES.meta.title }, { name: 'description', content: LOCALES.meta.description }];
@@ -70,6 +71,7 @@ export default function About() {
               <ViteLogo uniqueId="credit-Vite" className="w-auto h-full" />
               <p className="text-current text-[2.75rem] ml-2 font-bold tracking-wide">Vite</p>
             </div>
+            <img src={YjsLogo} alt="Yjs Logo" className="w-16 h-16 p-2 object-fill" />
             <LiveblocksLogo uniqueId="liveblocks-logo" className="w-auto max-w-full h-16 p-2" />
             <div className="flex max-w-full h-16 p-2 items-center">
               <BunLogo uniqueId="credit-bun" svgColor="text-gray-600" className="w-auto h-full" />
