@@ -6,8 +6,14 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-# Extract the commit message
+# Extract the commit message and review title
 COMMIT_MESSAGE="$1"
+REVIEW_TITLE="$2"
+
+# Default title if not provided
+if [ -z "$REVIEW_TITLE" ]; then
+  REVIEW_TITLE="### Released"
+fi
 
 # Commit your changes
 git add .
@@ -27,15 +33,14 @@ else
   echo -e "$CHANGELOG_ENTRY\n$(cat CHANGELOG.md)" > CHANGELOG.md
 fi
 
-# Update review.md with the commit message under ### Released
+# Update review.md with the commit message under REVIEW_TITLE
 REVIEW_FILE="./app/routes/about.logs/review.md"
-REVIEW_TITLE="> 3rd July 2024"
 
 if [ ! -f "$REVIEW_FILE" ]; then
   echo -e "$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" > "$REVIEW_FILE"
 else
   if grep -q "$REVIEW_TITLE" "$REVIEW_FILE"; then
-    awk -v text="- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" '/^> 3rd July 2024$/ {print; print text; next} 1' "$REVIEW_FILE" > temp && mv temp "$REVIEW_FILE"
+    awk -v text="- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE" "/^$REVIEW_TITLE$/ {print; print text; next} 1" "$REVIEW_FILE" > temp && mv temp "$REVIEW_FILE"
   else
     echo -e "\n$REVIEW_TITLE\n\n- [$LATEST_COMMIT_HASH]($REPO_URL/commit/$LATEST_COMMIT_HASH) $COMMIT_MESSAGE\n$(cat "$REVIEW_FILE")" > "$REVIEW_FILE"
   fi
