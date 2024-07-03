@@ -6,14 +6,15 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+# Check if at least date title is provided
+if [ -z "$2" ]; then
+  echo "Please provide Review Title (date)"
+  exit 1
+fi
+
 # Extract the commit message and review title
 COMMIT_MESSAGE="$1"
 REVIEW_TITLE="$2"
-
-# Default title if not provided
-if [ -z "$REVIEW_TITLE" ]; then
-  REVIEW_TITLE="### Released"
-fi
 
 # Commit your changes
 git add .
