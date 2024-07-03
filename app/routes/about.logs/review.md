@@ -8,13 +8,6 @@
 
 ### Released
 > 3rd July 2024
-- [b697206](https://github.com/Ryuku72/MessageNovel/commit/b697206) bash update test 4
-- [d0c2ebf](https://github.com/Ryuku72/MessageNovel/commit/d0c2ebf) bash update test 2
-- [fb42583](https://github.com/Ryuku72/MessageNovel/commit/fb42583) bash update test
-- [07da544](https://github.com/Ryuku72/MessageNovel/commit/07da544) bash update attempt 15
-- [13918af](https://github.com/Ryuku72/MessageNovel/commit/13918af) bash update attempt 5
-- [e17f9a4](https://github.com/Ryuku72/MessageNovel/commit/e17f9a4) bash update attempt 3
-- [0c52861](https://github.com/Ryuku72/MessageNovel/commit/0c52861) bash update
 - [9db2e58](https://github.com/Ryuku72/MessageNovel/commit/9db2e58) Bash script update
 - [767cdd0](https://github.com/Ryuku72/MessageNovel/commit/767cdd0) Test for again
 - [cddde25](https://github.com/Ryuku72/MessageNovel/commit/cddde25) Test for new bash script
@@ -248,5 +241,3 @@
 
 > 25th May 2024
 - [dcc68df](https://github.com/Ryuku72/MessageNovel/commit/dcc68df) Initial commit from create-remix
-
-* 765c86c bash update attempt 8
