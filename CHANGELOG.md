@@ -1,3 +1,4 @@
+* c8616f6 Bug fix with Chatinput, bug fix with Floating Text Editor, Updates to review.md
 * 97ce1b3 Added the ability to update and delete messages within 3 min window
 * 59a1754 Added a placeholder notification for chats based on socket events. Also fixed a bug with chat on mobile not being viewable against nav menu
 * 7864c8b Updated Readme. Fixed Scroll bug due to chats and comments on mobile. Updated Review. Increase page character count to 8500

@@ -8,6 +8,7 @@
 
 ### Released
 > 6th July 2024
+- [c8616f6](https://github.com/Ryuku72/MessageNovel/commit/c8616f6) Bug fix with Chatinput, bug fix with Floating Text Editor, Updates to review.md
 - Added Chat to Pages with various bells and whistles.
 - [97ce1b3](https://github.com/Ryuku72/MessageNovel/commit/97ce1b3) Added the ability to update and delete messages within 3 min window
 - [59a1754](https://github.com/Ryuku72/MessageNovel/commit/59a1754) Added a placeholder notification for chats based on socket events. Also fixed a bug with chat on mobile not being viewable against nav menu
