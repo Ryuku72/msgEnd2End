@@ -204,14 +204,14 @@ export default function DashIndex() {
                 Created:{' '}
                 <span
                   className={`${selectedNovel && selectedNovel?.id === novel?.id ? 'text-current' : ' md:text-yellow-400 group-hover:text-gray-700 text-current'} transition-all duration-500 ease-linear font-semibold tracking-wide`}>
-                  {CreateDate(novel.created_at)}
+                  {CreateDate(novel.created_at + 'Z')}
                 </span>
               </p>
               <p className="text-current text-xs relative z-10 text-left">
                 Last updated:{' '}
                 <span
                   className={`${selectedNovel && selectedNovel?.id === novel?.id ? 'text-current' : ' md:text-yellow-400 group-hover:text-gray-700 text-current'} transition-all duration-500 ease-linear font-semibold tracking-wide`}>
-                  {CreateDate(novel.updated_at)}{' '}
+                  {CreateDate(novel.updated_at + 'Z')}{' '}
                 </span>
               </p>
             </div>

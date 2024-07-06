@@ -206,13 +206,13 @@ export default function DashNovelId() {
               <p className="text-current text-sm text-left">
                 Created:{' '}
                 <span className="text-current transition-all duration-500 ease-linear font-semibold tracking-wide">
-                  {CreateDate(page.created_at)}
+                  {CreateDate(page.created_at + 'Z')}
                 </span>
               </p>
               <p className="text-current text-sm text-left">
                 Last updated:{' '}
                 <span className="text-current transition-all duration-500 ease-linear font-semibold tracking-wide">
-                  {CreateDate(novel.updated_at)}{' '}
+                  {CreateDate(novel.updated_at + 'Z')}{' '}
                 </span>
               </p>
             </div>

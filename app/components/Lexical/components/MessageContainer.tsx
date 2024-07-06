@@ -17,8 +17,8 @@ export default function MessageContainer({ user_id, message }: { user_id: string
   const initialConfig = InitialConfig({ namespace: message.id, editorState: messageContext, editable: false });
   const { img_url } = useOutletContext<DashOutletContext>();
   const todaysDate = CreateDate(new Date().toISOString());
-  const today = todaysDate === CreateDate(message.created_at);
-  const created_at = today ? 'at ' + CreateTimeOnly(message.created_at) : 'on ' + CreateDate(message.created_at);
+  const today = todaysDate === CreateDate(message.created_at + 'Z');
+  const created_at = today ? 'at ' + CreateTimeOnly(message.created_at) : 'on ' + CreateDate(message.created_at + 'Z');
 
   return (
     <div

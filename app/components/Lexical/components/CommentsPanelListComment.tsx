@@ -26,7 +26,7 @@ export function CommentsPanelList({
   const seconds = comment?.timeStamp ? Math.round((comment.timeStamp - Date.now()) / 1000) : 0;
   const minutes = Math.round(seconds / 60);
   const hours = Math.round(minutes / 60);
-  const date = CreateDate(comment?.timeStamp);
+  const date = CreateDate(new Date(comment?.timeStamp).toISOString());
   const [showModal, setShowModal] = useState(false);
 
 
