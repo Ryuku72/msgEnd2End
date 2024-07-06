@@ -19,6 +19,7 @@ import CloseIcon from '~/svg/CloseIcon/CloseIcon';
 import { InitialConfig } from '../config';
 import { KeySubmitPlugin } from '../plugins/KeySubmitPlug';
 import OnChangePlugin from '../plugins/OnChangePlugin';
+import { UpdateEditorPlugin } from '../plugins/UpdateEditorPlugin';
 import FloatingChatToolbar from './FloatingChatToolbar';
 import MessageContainer from './MessageContainer';
 
@@ -40,9 +41,11 @@ export default function ChatPanel({
   const [fullScreenComments, setFullScreenComments] = useState(false);
   const [editorState, setEditorState] = useState('');
   const [init, setInit] = useState(false);
+  const [update, setUpdate] = useState(false);
   const editorRef = useRef<LexicalEditor>(null);
   const seenRef = useRef<HTMLDivElement | null>(null);
   const scrollContainer = useRef<HTMLDivElement | null>(null);
+  const updateMessage = useRef({ message_id: '', selection: '' });
 
   const initialConfig = InitialConfig({ namespace, editable: true });
   const submit = useSubmit();
@@ -65,7 +68,7 @@ export default function ChatPanel({
 
     const observer = new IntersectionObserver(callback, options);
     if (scrollContainer.current && seenRef.current) observer.observe(seenRef.current);
-    
+
     return () => {
       observer.disconnect();
     };
@@ -80,6 +83,11 @@ export default function ChatPanel({
     []
   );
 
+  const handleUpdateRequest = (state: { message_id: string; selection: string }) => {
+    updateMessage.current = state;
+    setUpdate(true);
+  };
+
   const onSubmit = (_editorState: string) => {
     const formData = new FormData();
     if (!_editorState) return;
@@ -88,6 +96,19 @@ export default function ChatPanel({
     formData.append('user_id', user_id);
     submit(formData, { method: 'POST', action: '/api/page/chat/insert', navigate: false });
     if (editorRef.current) editorRef.current.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
+  };
+
+  const onUpdate = (_editorState: string, message_id: string) => {
+    const formData = new FormData();
+    if (!_editorState) return;
+    formData.append('message', _editorState);
+    formData.append('page_id', namespace);
+    formData.append('user_id', user_id);
+    formData.append('message_id', message_id);
+    submit(formData, { method: 'POST', action: '/api/page/chat/update', navigate: false });
+    if (editorRef.current) editorRef.current.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
+    updateMessage.current = { message_id: '', selection: '' };
+    setUpdate(false);
   };
 
   return (
@@ -125,10 +146,17 @@ export default function ChatPanel({
             </button>
           </div>
         </div>
-        <div className="flex flex-col-reverse flex-auto w-full py-1 px-2 gap-1 overflow-auto items-end" ref={scrollContainer}>
+        <div
+          className="flex flex-col-reverse flex-auto w-full py-1 px-2 gap-1 overflow-auto items-end"
+          ref={scrollContainer}>
           <div className="w-full flex flex-col flex-auto" ref={seenRef} />
           {messages.map(message => (
-            <MessageContainer key={message.id} user_id={user_id} message={message} />
+            <MessageContainer
+              key={message.id}
+              user_id={user_id}
+              message={message}
+              setUpdateMessage={handleUpdateRequest}
+            />
           ))}
         </div>
         <p className="text-xs italic text-gray-400 p-2 bg-yellow-100">Highlight Text To Show Text Options</p>
@@ -136,7 +164,8 @@ export default function ChatPanel({
           className="w-full bg-white bg-opacity-65 backdrop-blur-sm"
           onSubmit={(e: React.FormEvent) => {
             e.preventDefault();
-            onSubmit(editorState);
+            if (update) onUpdate(editorState, updateMessage.current.message_id);
+            else onSubmit(editorState);
           }}>
           <fieldset className="w-full flex items-end gap-1 relative p-0.5 pr-1">
             <LexicalComposer initialConfig={initialConfig}>
@@ -155,10 +184,12 @@ export default function ChatPanel({
               <KeySubmitPlugin
                 onSubmit={(editorState: EditorState) => {
                   const editorString = JSON.stringify(editorState.toJSON());
-                  onSubmit(editorString);
+                  if (updateMessage.current.message_id) onUpdate( editorString, updateMessage.current.message_id);
+                  else onSubmit(editorString);
                 }}
               />
               <ClearEditorPlugin />
+              <UpdateEditorPlugin editorStateJSONString={updateMessage.current.selection} />
               <OnChangePlugin onChange={setEditorState} />
               <EditorRefPlugin editorRef={editorRef} />
               <CreatePortalEl condition={init}>
