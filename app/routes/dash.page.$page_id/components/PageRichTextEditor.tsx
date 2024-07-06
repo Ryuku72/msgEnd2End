@@ -31,13 +31,13 @@ import OnChangePlugin from '~/components/Lexical/plugins/OnChangePlugin';
 import SpeechToTextPlugin from '~/components/Lexical/plugins/SpeechToTextPlugin';
 import ToggleEditState from '~/components/Lexical/plugins/ToggleEditState';
 import ToolbarPlugin from '~/components/Lexical/plugins/ToolbarPlugin';
+import { DashOutletContext } from '~/routes/dash/route';
 
 import Default_Avatar from '~/assets/default_avatar.jpeg';
 import { ChatIcon, ConnectIcon, DisconnectIcon, HelpIcon, PrivateNovelIcon, PublicNovelIcon, SyncIcon } from '~/svg';
 
 import { CornerAlert } from './CornerAlert';
 import TutorialModal from './TutorialModal';
-import { DashOutletContext } from '~/routes/dash/route';
 
 export type ActiveUserProfile = Omit<BasicProfile, 'id'> & { userId: string };
 
@@ -77,6 +77,7 @@ export function PageRichTextEditor({
   const [init, setInit] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [showChatNotif, setShowChatNotif] = useState(false);
 
   const submit = useSubmit();
 
@@ -173,7 +174,15 @@ export function PageRichTextEditor({
           <ToggleEditState enable_edit={toggleCollab || owner} />
           <MaxLengthPlugin maxLength={maxLength} setTextLength={setTextLength} />
           <CommentPlugin namespace={namespace} userData={userData} providerFactory={createProviderFactory} />
-          <ChatPlugin supabase={supabase} chat={chat} openChat={scrollLock === 'Chat'} close={() => setScrollLock('Novel')} namespace={namespace} user_id={userData.userId} />
+          <ChatPlugin
+            supabase={supabase}
+            chat={chat}
+            openChat={scrollLock === 'Chat'}
+            close={() => setScrollLock('Novel')}
+            namespace={namespace}
+            user_id={userData.userId}
+            setShowChatNotif={setShowChatNotif}
+          />
           <div className="sticky md:bottom-3 bottom-[90px] right-4 self-end m-2 flex gap-2">
             <p
               className={`bg-slate-400 backdrop-blur-sm bg-opacity-50 px-2 flex items-center h-access rounded-lg text-xs self-end cursor-default ${textLength < maxLength ? 'text-blue-800' : 'text-red-400'}`}>
@@ -211,8 +220,14 @@ export function PageRichTextEditor({
               type="button"
               onClick={() => setScrollLock(scrollLock === 'Chat' ? 'Novel' : 'Chat')}
               data-string="Chat"
-              className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 bg-white bg-opacity-25 backdrop-blur-sm  md:after:content-[attr(data-string)]">
-              <ChatIcon uniqueId="public-novel-chat-icon" className="w-5 h-auto" />
+              className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 bg-white bg-opacity-25 backdrop-blur-sm  md:after:content-[attr(data-string)] relative">
+              <div className={showChatNotif ? 'absolute top-1 right-1 flex gap-2 items-center z-50' : 'hidden'}>
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+              </div>
+              <ChatIcon uniqueId="public-novel-chat-icon" className="w-5 h-auto translate-x-0.5" />
             </button>
             <button
               type="button"

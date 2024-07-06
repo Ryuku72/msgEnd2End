@@ -27,11 +27,13 @@ export default function ChatPanel({
   show,
   messages,
   namespace,
-  user_id
+  user_id,
+  setLastSeen
 }: {
   messages: MessageWithUser[];
   namespace: string;
   user_id: string;
+  setLastSeen: (date: string) => void;
   close: () => void;
   show: boolean;
 }): JSX.Element {
@@ -39,6 +41,8 @@ export default function ChatPanel({
   const [editorState, setEditorState] = useState('');
   const [init, setInit] = useState(false);
   const editorRef = useRef<LexicalEditor>(null);
+  const seenRef = useRef<HTMLDivElement | null>(null);
+  const scrollContainer = useRef<HTMLDivElement | null>(null);
 
   const initialConfig = InitialConfig({ namespace, editable: true });
   const submit = useSubmit();
@@ -46,6 +50,26 @@ export default function ChatPanel({
   useEffect(() => {
     setInit(true);
   }, []);
+
+  useEffect(() => {
+    const options = {
+      root: scrollContainer.current,
+      rootMargin: '0px',
+      threshold: 1.0
+    };
+
+    const callback = (entries: IntersectionObserverEntry[]) => {
+      const [entry] = entries;
+      if (entry.isIntersecting && show) setLastSeen(new Date().toISOString());
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+    if (scrollContainer.current && seenRef.current) observer.observe(seenRef.current);
+    
+    return () => {
+      observer.disconnect();
+    };
+  }, [setLastSeen, show]);
 
   const CreatePortalEl = useMemo(
     () =>
@@ -69,7 +93,7 @@ export default function ChatPanel({
   return (
     <div
       data-id="ChatPanel"
-      className={`fixed flex flex-col flex-auto gap-1 right-0 z-100 transition-all ease-out duration-500 ${fullScreenComments ? 'md:pl-[85px] w-full h-full top-0' : 'md:w-[400px] w-full md:h-[calc(100%_-_80px)] h-full md:top-10 top-0'} ${show ? 'translate-x-0' : 'md:translate-x-[400px] translate-x-[767px]'}`}>
+      className={`fixed flex flex-col flex-auto gap-1 right-0 z-40 transition-all ease-out duration-500 ${fullScreenComments ? 'md:pl-[85px] w-full h-full top-0' : 'md:w-[400px] w-full md:h-[calc(100%_-_80px)] h-full md:top-10 top-0'} ${show ? 'translate-x-0' : 'md:translate-x-[400px] translate-x-[767px]'}`}>
       <div className="w-full flex flex-col flex-auto gap-1 overflow-hidden rounded-l-md bg-white bg-opacity-50 backdrop-blur-sm shadow-[0_0_10px_rgba(0,_0,_0,_0.1)] ">
         <div className="w-full flex-shrink-0 pt-4 px-6 pb-2 flex rounded-t-[inherit] justify-between items-center bg-white bg-opacity-80 backdrop-blur-sm">
           <div className="flex gap-3 items-center">
@@ -101,8 +125,8 @@ export default function ChatPanel({
             </button>
           </div>
         </div>
-        <div className="flex flex-col-reverse flex-auto w-full py-1 px-2 gap-1 overflow-auto items-end">
-          <div className="w-full flex flex-col flex-auto" />
+        <div className="flex flex-col-reverse flex-auto w-full py-1 px-2 gap-1 overflow-auto items-end" ref={scrollContainer}>
+          <div className="w-full flex flex-col flex-auto" ref={seenRef} />
           {messages.map(message => (
             <MessageContainer key={message.id} user_id={user_id} message={message} />
           ))}

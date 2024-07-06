@@ -139,7 +139,7 @@ export default function DashSettings() {
               {isLoading ? (
                 <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
               ) : (
-                <UpdateIcon uniqueId="settings-save" className="w-6 h-auto rotate-180" />
+                <UpdateIcon uniqueId="settings-save" className="w-7 h-auto" />
               )}
             </button>
           </div>

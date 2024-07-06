@@ -28,15 +28,16 @@ type PageBroadcast = Omit<SupabaseBroadcast, 'new' | 'old'> & { new: Page; old: 
 
 export default function DashPageId() {
   const loaderData = useLoaderData<{ page: Page, ownerInfo: BasicProfile, chat: MessageWithUser[] }>();
+  const { user, supabase } = useOutletContext<DashOutletContext>();
+  const navigationState = useNavigation();
+  const navigate = useNavigate();
+
   const [pageData, setPageData] = useState(loaderData?.page);
   const [ownerInfo] = useState(loaderData?.ownerInfo);
 
-  const { user, supabase } = useOutletContext<DashOutletContext>();
-  const navigationState = useNavigation();
   const isLoading = ['submitting'].includes(navigationState.state);
   const loadingPagesDash =
     'loading' === navigationState.state && navigationState.location.pathname === `/dash/novel/${pageData?.novel_id}`;
-  const navigate = useNavigate();
 
   const LocalStrings: (typeof LOCALES)['dash']['draft'] = LOCALES.dash.draft;
   const [titleValue, setTitleValue] = useState(loaderData?.page.reference_title);
