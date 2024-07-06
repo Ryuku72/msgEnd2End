@@ -10,6 +10,7 @@
 
 ### Released
 > 6th July 2024
+- [59a1754](https://github.com/Ryuku72/MessageNovel/commit/59a1754) Git add. Added a placeholder notification for chats based on socket events. Also fixed a bug with chat on mobile not being viewable against nav menu
 - [7864c8b](https://github.com/Ryuku72/MessageNovel/commit/7864c8b) Updated Readme. Fixed Scroll bug due to chats and comments on mobile. Updated Review. Increase page character count to 8500
 - [eca3696](https://github.com/Ryuku72/MessageNovel/commit/eca3696) Built out Chat mechanic for pages. Added Update Icon, added back navigation to all routes that have a param. Still require chat delete and update and update readme docs about the new Chats table
 
