@@ -51,7 +51,6 @@ function initialEditorState(): void {
 
 export function PageRichTextEditor({
   namespace,
-  maxLength = 4200,
   userData,
   enableCollab,
   ownerId,
@@ -60,7 +59,6 @@ export function PageRichTextEditor({
   chat
 }: {
   namespace: string;
-  maxLength?: number;
   enableCollab: boolean;
   userData: ActiveUserProfile;
   ownerId: string;
@@ -94,6 +92,7 @@ export function PageRichTextEditor({
   const otherusers = othersInfo?.map(user => user.info);
   const users = [userInfo].concat(otherusers);
   const ownerIsPresent = users.some(user => user.userId === ownerId);
+  const maxLength = 8500;
 
   useEffect(() => {
     setInit(true);

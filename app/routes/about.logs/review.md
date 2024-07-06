@@ -1,6 +1,8 @@
 ### UnReleased
-> Last Update: 3rd July 2024
-- Add Chat to Pages
+> Last Update: 6th July 2024
+- Add Chat to Pages (Working on now)
+- Add notifications to Pages for a new comment or chat message (green dot)
+- Add private mode to both pages and novels (short term: password, long term: email)
 - Add a donation feild to About Page
 - Add AI Avatar Generation and AI text via Vercel AI
 - Clean up code

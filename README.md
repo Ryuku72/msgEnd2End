@@ -72,12 +72,14 @@ CREATE TABLE
     username text,
     color text,
     avatar text,
-    created_at timestamp DEFAULT now(),
-    updated_at timestamp DEFAULT now(),
+    created_at timestamp DEFAULT timezone('UTC', now()),
+    updated_at timestamp DEFAULT timezone('UTC', now()),
     PRIMARY KEY (id)
   );
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+alter publication supabase_realtime
+add table public.profiles;
 
 CREATE POLICY "Allow select for all profiles" ON public.profiles FOR
 SELECT
@@ -92,7 +94,7 @@ CREATE POLICY "Can only delete own user data." ON public.profiles FOR DELETE USI
 CREATE OR REPLACE FUNCTION handle_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.updated_at = NOW();
+  NEW.updated_at = timezone('UTC', now());
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -166,8 +168,8 @@ drop table if exists public.novels cascade;
 create table
   public.novels (
     id uuid NOT NULL DEFAULT uuid_generate_v4 () unique,
-    created_at timestamp default now(),
-    updated_at timestamp default now(),
+    created_at timestamp default timezone('UTC', now()),
+    updated_at timestamp default timezone('UTC', now()),
     owner uuid REFERENCES public.profiles (id) ON DELETE CASCADE,
     title text,
     description jsonb,
@@ -176,6 +178,8 @@ create table
   );
 
 alter table public.novels enable row level security;
+alter publication supabase_realtime
+add table public.novels;
 
 CREATE POLICY "Allow select for all novels" ON public.novels FOR
 SELECT
@@ -194,7 +198,7 @@ create policy "Can only delete if owner" on public.novels for delete using (auth
 CREATE OR REPLACE FUNCTION handle_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.updated_at = NOW();
+  NEW.updated_at = timezone('UTC', now());
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -224,7 +228,6 @@ OR REPLACE TRIGGER create_user_novel_entry_trigger
 AFTER INSERT ON public.profiles FOR EACH ROW WHEN (new.id IS NOT NULL)
 EXECUTE FUNCTION public.create_first_novel_entry ();
 
-
 ```
 
 ### Public Novel Members
@@ -240,6 +243,8 @@ CREATE TABLE
   );
 
 ALTER TABLE public.novel_members ENABLE ROW LEVEL SECURITY;
+alter publication supabase_realtime
+add table public.novel_members;
 
 create policy "Can only select if authenticated." on public.novel_members for
 select
@@ -286,8 +291,8 @@ drop table if exists public.pages cascade;
 create table
   public.pages (
     id uuid NOT NULL default uuid_generate_v4 () unique,
-    created_at timestamp default now(),
-    updated_at timestamp default now(),
+    created_at timestamp default timezone('UTC', now()),
+    updated_at timestamp default timezone('UTC', now()),
     novel_id uuid references public.novels (id) on delete cascade,
     owner uuid references public.profiles (id) on delete cascade,
     reference_title text,
@@ -298,6 +303,8 @@ create table
   );
 
 alter table public.pages enable row level security;
+alter publication supabase_realtime
+add table public.pages;
 
 CREATE POLICY "Allow select for all" ON public.pages FOR
 SELECT
@@ -314,27 +321,12 @@ FOR UPDATE
     AND owner = auth.uid ()
   );
 
-CREATE POLICY "Can only update if page member." ON public.pages
-FOR UPDATE
-  USING (
-    auth.role () = 'authenticated'
-    AND EXISTS (
-      SELECT
-        1
-      FROM
-        public.page_members
-      WHERE
-        page_members.page_id = pages.id
-        AND page_members.user_id = auth.uid ()
-    )
-  );
-
 CREATE POLICY "Owner can delete pages" ON public.pages FOR DELETE USING (auth.uid () = owner);
 
 CREATE OR REPLACE FUNCTION handle_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.updated_at = NOW();
+  NEW.updated_at = timezone('UTC', now());
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -379,7 +371,7 @@ EXECUTE FUNCTION public.create_first_page ();
 CREATE
 OR REPLACE trigger "webhook_novel_add_page_trigger" after insert
 on public.pages for each row WHEN (NEW.example = true)
-execute function "supabase_functions"."http_request"(
+execute function supabase_functions.http_request(
   'https://messagenovel.vercel.app/api/novel/insert',
   'POST',
   '{"Content-Type":"application/json"}',
@@ -389,7 +381,7 @@ execute function "supabase_functions"."http_request"(
 
 CREATE
 OR REPLACE trigger "webhook_novel_delete_page_trigger" after delete on public.pages for each row
-execute function "supabase_functions"."http_request"(
+execute function supabase_functions.http_request(
   'https://messagenovel.vercel.app/api/novel/delete',
   'POST',
   '{"Content-Type":"application/json"}',
@@ -412,6 +404,8 @@ CREATE TABLE
   );
 
 ALTER TABLE public.page_members ENABLE ROW LEVEL SECURITY;
+alter publication supabase_realtime
+add table public.page_members;
 
 create
 or replace function public.create_first_page_member () returns trigger as $$
@@ -448,6 +442,65 @@ AFTER INSERT ON public.pages FOR EACH ROW WHEN (
 )
 EXECUTE FUNCTION public.create_first_page_member ();
 
+CREATE POLICY "Can only update if page member." ON public.pages
+FOR UPDATE
+  USING (
+    auth.role () = 'authenticated'
+    AND EXISTS (
+      SELECT
+        1
+      FROM
+        public.page_members
+      WHERE
+        page_members.page_id = pages.id
+        AND page_members.user_id = auth.uid ()
+    )
+  );
+```
+
+### Chats
+
+```sh
+drop table if exists public.chats cascade;
+
+create table
+  public.chats (
+    id uuid primary key default uuid_generate_v4 () unique,
+    created_at timestamp default timezone('UTC', now()),
+    updated_at timestamp default timezone('UTC', now()),
+    page_id uuid references public.pages (id) on delete cascade,
+    user_id uuid references public.profiles (id) on delete cascade,
+    message jsonb not null
+  );
+
+alter table public.chats enable row level security;
+
+alter publication supabase_realtime
+add table public.chats;
+
+create policy "Allow select if authenticated" on public.chats for
+select
+  to authenticated using (true);
+
+create policy "Can only insert if authenticated." on public.chats for insert to authenticated
+with
+  check (true);
+
+create policy "Can only update if owner." on public.chats
+for update
+  using (
+    auth.role () = 'authenticated'
+    and user_id = auth.uid ()
+  );
+
+create policy "Owner can delete chat" on public.chats for delete using (user_id = auth.uid());
+
+create
+or replace function handle_updated_at () returns trigger as $$ BEGIN NEW.updated_at = timezone('UTC', now()); RETURN NEW; END; $$ language plpgsql;
+
+create trigger set_updated_at before
+update on public.chats for each row
+execute function handle_updated_at ();
 
 ```
 
