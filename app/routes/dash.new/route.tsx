@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Form, NavLink, useLoaderData, useNavigation, useOutletContext, useSearchParams } from '@remix-run/react';
+import { Form, Params, useLoaderData, useLocation, useNavigate, useNavigation, useOutletContext, useSearchParams } from '@remix-run/react';
 
 import { useEffect, useState } from 'react';
 
@@ -29,6 +29,8 @@ export default function DashNew() {
   const { user, supabase } = useOutletContext<DashOutletContext>();
   const navigationState = useNavigation();
   const [searchParams] = useSearchParams();
+  const { state } = useLocation();
+  const navigate = useNavigate();
 
   const [draftNovelTitle, setDraftNovelTitle] = useState(library?.title || '');
   const [draftNovelDescription, setDraftNovelDescription] = useState(
@@ -60,13 +62,13 @@ export default function DashNew() {
           novel_id: searchNovelId || '',
           page_id: '',
           room: searchNovelId ? `Room: Updating ${draftNovelTitle} Details` : 'Room: New Novel',
-          user: user
+          user_id: user.id
         });
       });
     return () => {
       channel.unsubscribe();
     };
-  }, [draftNovelTitle, searchNovelId, supabase, user]);
+  }, [draftNovelTitle, searchNovelId, supabase, user.id]);
 
   return (
     <div className="flex flex-col flex-auto md:flex-1 items-center w-full md:px-10 px-3 pt-4 pb-[100px] md:py-6 gap-6 m-auto">
@@ -95,13 +97,19 @@ export default function DashNew() {
               clearCondition={resetState}
             />
             <div className="w-full flex gap-3 flex-wrap mt-2 justify-end">
-              <NavLink data-string={isDashLoading ? '' : 'Back'} to="/dash" className="cancelButton md:after:content-[attr(data-string)] md:w-wide-button w-icon">
+              <button
+                type="button"
+                onClick={() => {
+                  state && Object.keys(state as Params).length > 0 ? navigate(-1) : navigate('/dash');
+                }}
+                data-string={isDashLoading ? '' : 'Back'}
+                className="cancelButton md:after:content-[attr(data-string)] md:w-wide-button w-icon">
                 {isDashLoading ? (
                   <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="dash-back-spinner" />
                 ) : (
                   <ArrowIcon uniqueId="dash-new-back" className="w-6 h-auto rotate-180" />
                 )}
-              </NavLink>
+              </button>
               <button
                 className="confirmButton md:after:content-[attr(data-string)] md:w-wide-button w-icon !gap-2.5"
                 data-string={isLoading ? '' : searchNovelId ? 'Update Novel' : LocalStrings.primary_button}>

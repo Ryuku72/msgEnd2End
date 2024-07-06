@@ -155,12 +155,12 @@ export default function DashNovelId() {
       })
       .subscribe(status => {
         if (status !== 'SUBSCRIBED') return;
-        channel.track({ novel_id: novel.id, page_id: '', room: 'Novel: ' + novel.title, user: user });
+        channel.track({ novel_id: novel.id, page_id: '', room: 'Novel: ' + novel.title, user_id: user.id });
       });
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, user, novel.id, novel.title]);
+  }, [supabase, user.id, novel.id, novel.title]);
 
   useEffect(() => {
     debounceTimer.current = setTimeout(() => {
@@ -339,7 +339,7 @@ export default function DashNovelId() {
       <div className="flex w-full max-w-wide justify-center sticky md:bottom-4 bottom-[100px]">
         <Link
           to="/dash"
-          data-string={isLoadingDash ? '' : 'Back'}
+          data-string={isLoadingDash ? '' : 'Novels'}
           className="cancelButton after:content-[attr(data-string)] w-button"
           type="button">
           {isLoadingDash ? (
@@ -381,7 +381,7 @@ export default function DashNovelId() {
             <button
               type="button"
               onClick={() => setSelectedPage(null)}
-              data-string="Back"
+              data-string="Novel Select"
               className="confirmButton md:after:content-[attr(data-string)] md:w-button w-icon">
               <ArrowIcon uniqueId="settings-delete-back" className="w-6 h-auto rotate-180" />
             </button>

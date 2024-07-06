@@ -84,7 +84,7 @@ export function DescriptionModel({ selectedNovel, close, userId, ownerId, member
             <div>
               <div>
                 <p className="text-gray-500 text-sm">
-                  <strong>Last Update:</strong> {CreateDate(selectedNovel?.updated_at, true)}
+                  <strong>Last Update:</strong> {selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at, true)}
                 </p>
                 <p className="text-gray-500 text-sm">
                   <strong>Members:</strong> {selectedNovel?.members?.length}

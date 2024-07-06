@@ -7,6 +7,8 @@
 - Clean up locale
 
 ### Released
+> 6th July 2024
+
 > 3rd July 2024
 - [00180b9](https://github.com/Ryuku72/MessageNovel/commit/00180b9) Added fixes to bash script
 - [02fa611](https://github.com/Ryuku72/MessageNovel/commit/02fa611) Cleaned up review log

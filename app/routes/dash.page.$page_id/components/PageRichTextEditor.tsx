@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useSubmit } from '@remix-run/react';
+import { useOutletContext, useSubmit } from '@remix-run/react';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -16,13 +16,15 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { Provider } from '@lexical/yjs';
 import { useOthers, useRoom, useStatus } from '@liveblocks/react';
 import { LiveblocksYjsProvider } from '@liveblocks/yjs';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
 import { Doc } from 'yjs';
 
 import { userColor } from '~/helpers/UserColor';
-import { BasicProfile } from '~/types';
+import { BasicProfile, MessageWithUser } from '~/types';
 
 import { InitialConfig } from '~/components/Lexical/config';
+import ChatPlugin from '~/components/Lexical/plugins/ChatPlugin';
 import CommentPlugin from '~/components/Lexical/plugins/CommentPlugin';
 import { MaxLengthPlugin } from '~/components/Lexical/plugins/MaxLengthPlugin';
 import OnChangePlugin from '~/components/Lexical/plugins/OnChangePlugin';
@@ -35,6 +37,7 @@ import { ChatIcon, ConnectIcon, DisconnectIcon, HelpIcon, PrivateNovelIcon, Publ
 
 import { CornerAlert } from './CornerAlert';
 import TutorialModal from './TutorialModal';
+import { DashOutletContext } from '~/routes/dash/route';
 
 export type ActiveUserProfile = Omit<BasicProfile, 'id'> & { userId: string };
 
@@ -52,7 +55,9 @@ export function PageRichTextEditor({
   userData,
   enableCollab,
   ownerId,
-  ownerInfo
+  ownerInfo,
+  supabase,
+  chat
 }: {
   namespace: string;
   maxLength?: number;
@@ -60,8 +65,11 @@ export function PageRichTextEditor({
   userData: ActiveUserProfile;
   ownerId: string;
   ownerInfo: BasicProfile;
+  supabase: SupabaseClient;
+  chat: MessageWithUser[];
 }) {
   const owner = userData.userId === ownerId;
+  const { scrollLock, setScrollLock } = useOutletContext<DashOutletContext>();
 
   const initialConfig = InitialConfig({ namespace, editable: enableCollab || owner });
   const [editorState, setEditorState] = useState('');
@@ -166,6 +174,7 @@ export function PageRichTextEditor({
           <ToggleEditState enable_edit={toggleCollab || owner} />
           <MaxLengthPlugin maxLength={maxLength} setTextLength={setTextLength} />
           <CommentPlugin namespace={namespace} userData={userData} providerFactory={createProviderFactory} />
+          <ChatPlugin supabase={supabase} chat={chat} openChat={scrollLock === 'Chat'} close={() => setScrollLock('Novel')} namespace={namespace} user_id={userData.userId} />
           <div className="sticky md:bottom-3 bottom-[90px] right-4 self-end m-2 flex gap-2">
             <p
               className={`bg-slate-400 backdrop-blur-sm bg-opacity-50 px-2 flex items-center h-access rounded-lg text-xs self-end cursor-default ${textLength < maxLength ? 'text-blue-800' : 'text-red-400'}`}>
@@ -201,6 +210,7 @@ export function PageRichTextEditor({
             </button>
             <button
               type="button"
+              onClick={() => setScrollLock(scrollLock === 'Chat' ? 'Novel' : 'Chat')}
               data-string="Chat"
               className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 bg-white bg-opacity-25 backdrop-blur-sm  md:after:content-[attr(data-string)]">
               <ChatIcon uniqueId="public-novel-chat-icon" className="w-5 h-auto" />

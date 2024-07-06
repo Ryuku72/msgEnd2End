@@ -4,9 +4,10 @@ import { $isMarkNode, MarkNode } from '@lexical/mark';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getNodeByKey, NodeKey } from 'lexical';
 
+import { ExpandIcon, ShrinkIcon } from '~/svg';
 import CloseIcon from '~/svg/CloseIcon/CloseIcon';
 
-import { Comment, Comments, Thread } from '../helpers';
+import { Comment, Comments, Thread } from '../helpers/comments';
 import { CommentThread, CommentsPanelList } from './CommentsPanelListComment';
 
 export default function CommentsPanel({
@@ -19,7 +20,7 @@ export default function CommentsPanel({
   authorDetails,
   show
 }: {
-  authorDetails: { name: string; color: string }
+  authorDetails: { name: string; color: string };
   activeIDs: string[];
   comments: Comments;
   deleteCommentOrThread: (commentOrThread: Comment | Thread, thread?: Thread) => void;
@@ -35,6 +36,7 @@ export default function CommentsPanel({
   const [counter, setCounter] = useState(0);
   const [init, setInit] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [fullScreenComments, setFullScreenComments] = useState(false);
 
   const rtf = useMemo(
     () =>
@@ -87,7 +89,7 @@ export default function CommentsPanel({
   return (
     <div
       data-id="CommentPlugin_CommentsPanel"
-      className={`fixed flex flex-col flex-auto gap-1 right-0 md:w-[400px] w-full md:h-[calc(100%_-_80px)] h-full md:top-10 top-0 z-40 transition-transform ease-out duration-500 ${show ? 'translate-x-0' : 'md:translate-x-[400px] translate-x-[767px]'}`}>
+      className={`fixed flex flex-col flex-auto gap-1 right-0 z-40 transition-all ease-out duration-500 ${fullScreenComments ? 'md:pl-[85px] w-full h-full top-0' : 'md:w-[400px] w-full md:h-[calc(100%_-_80px)] h-full md:top-10 top-0'} ${show ? 'translate-x-0' : 'md:translate-x-[400px] translate-x-[767px]'}`}>
       <div className="w-full flex flex-col flex-auto gap-1 overflow-hidden rounded-l-md bg-white bg-opacity-50 backdrop-blur-sm shadow-[0_0_10px_rgba(0,_0,_0,_0.1)] ">
         <div className="w-full flex-shrink-0 pt-4 px-6 pb-2 flex rounded-t-[inherit] justify-between items-center bg-white bg-opacity-80 backdrop-blur-sm">
           <div className="flex gap-3 items-center">
@@ -95,12 +97,29 @@ export default function CommentsPanel({
               &#8197;Comments&nbsp;&nbsp;&nbsp;
             </h3>
           </div>
-          <button
-            className="crossButtond"
-            type="button"
-            onClick={close}>
-            <CloseIcon className="w-3 h-3" uniqueId="dash-close" svgColor="currentColor" />
-          </button>
+          <div className="flex gap-1">
+            <button
+              type="button"
+              className="w-10 h-10 md:flexCenter hidden text-slate-500 hover:text-blue-400 group"
+              onClick={() => setFullScreenComments(!fullScreenComments)}>
+              {fullScreenComments ? (
+                <ShrinkIcon
+                  className="w-5 h-5 scale-125 group-hover:scale-90 transition-transform"
+                  uniqueId="shrink-comments-icon"
+                  svgColor="currentColor"
+                />
+              ) : (
+                <ExpandIcon
+                  className="w-5 h-5 group-hover:scale-150 transition-transform"
+                  uniqueId="expand-comments-icon"
+                  svgColor="currentColor"
+                />
+              )}
+            </button>
+            <button className="crossButton" type="button" onClick={close}>
+              <CloseIcon className="w-3 h-3" uniqueId="close-comments-icon" svgColor="currentColor" />
+            </button>
+          </div>
         </div>
         <div
           data-id="CommentPlugin_CommentsPanel_Empty"

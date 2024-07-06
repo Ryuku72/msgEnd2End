@@ -4,7 +4,7 @@ import { CreateDate } from '~/helpers/DateHelper';
 
 import { StickyIcon, TrashIcon } from '~/svg';
 
-import { Comment, Thread } from '../helpers';
+import { Comment, Thread } from '../helpers/comments';
 import CommentsComposer from './CommentComposer';
 import { DeletePopupModal } from './DeletePopUpModal';
 
@@ -105,7 +105,7 @@ export function CommentThread({
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <li
       data-id="CommentPlugin_CommentsPanel_List_Thread"
-      className={`w-full relative transition-all duration-200 ease-linear ${
+      className={`w-full relative transition-all duration-200 ease-linear items-end ${
         markNodeMapHasId ? 'cursor-pointer' : 'cursor-default'
       } ${activeIdExists ? 'pl-0' : 'pl-3'}`}
       onClick={() => handleClickThread()}>

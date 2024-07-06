@@ -1,5 +1,13 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Link, useLoaderData, useNavigation, useOutletContext } from '@remix-run/react';
+import {
+  Link,
+  Params,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+  useNavigation,
+  useOutletContext
+} from '@remix-run/react';
 
 import { Fragment, useEffect, useRef, useState } from 'react';
 
@@ -7,6 +15,7 @@ import { CreateDate } from '~/helpers/DateHelper';
 import LOCALES from '~/locales/language_en.json';
 import { Novel, NovelWithMemberIds, Novel_Member, OnlineUser, SupabaseBroadcast } from '~/types';
 
+import { ArrowIcon } from '~/svg';
 import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
 import PlusIcon from '~/svg/PlusIcon/PlusIcon';
 
@@ -29,6 +38,8 @@ export default function DashIndex() {
   const library = (useLoaderData() as NovelWithMemberIds[]) || [];
   const { user, supabase } = useOutletContext<DashOutletContext>();
   const navigationState = useNavigation();
+  const { state } = useLocation();
+  const navigate = useNavigate();
   const isLoading = ['submitting'].includes(navigationState.state);
 
   const [LibraryNovels, setLibraryNovels] = useState(library);
@@ -39,6 +50,7 @@ export default function DashIndex() {
   const lastUpdate = useRef('');
 
   const LocalStrings = LOCALES.dash;
+  const isLoadingPage = 'loading' === navigationState.state && navigationState.location.pathname !== '/dash';
 
   useEffect(() => {
     const channel = supabase
@@ -59,12 +71,12 @@ export default function DashIndex() {
       })
       .subscribe(status => {
         if (status !== 'SUBSCRIBED') return;
-        channel.track({ novel_id: '', page_id: '', room: 'Room: Libray', user: user });
+        channel.track({ novel_id: '', page_id: '', room: 'Room: Libray', user_id: user.id });
       });
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, user]);
+  }, [supabase, user.id]);
 
   useEffect(() => {
     if (!supabase) return;
@@ -206,10 +218,24 @@ export default function DashIndex() {
           </button>
         ))}
       </div>
-      <div className="w-full max-w-[1850px] p-2 flex md:sticky md:bottom-0 pb-[120px] md:pb-2">
-        <Link
-          to="/dash/new"
-          className="confirmButton px-5">
+      <div className="w-full max-w-[1850px] p-2 gap-2 flex md:sticky md:bottom-0 pb-[120px] md:pb-2">
+      <button
+          type="button"
+          onClick={() => {
+            state && Object.keys(state as Params).length > 0 ? navigate(-1) : navigate('/dash');
+          }}
+          className={
+            state && Object.keys(state as Params).length > 0
+              ? 'cancelButton w-icon'
+              : 'hidden'
+          }>
+          {isLoadingPage ? (
+            <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="dash-back-spinner" />
+          ) : (
+            <ArrowIcon uniqueId="dash-new-back" className="w-6 h-auto rotate-180" />
+          )}
+        </button>
+        <Link to="/dash/new" className="confirmButton px-5">
           {isLoading ? (
             <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
           ) : (

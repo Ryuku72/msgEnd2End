@@ -4,7 +4,7 @@ import { Form, NavLink, useLoaderData, useNavigate, useNavigation, useOutletCont
 import { useEffect, useState } from 'react';
 
 import LOCALES from '~/locales/language_en.json';
-import { BasicProfile, Page, SupabaseBroadcast } from '~/types';
+import { BasicProfile, MessageWithUser, Page, SupabaseBroadcast } from '~/types';
 
 import { LiveBlocksRoom } from '~/components/LiveBlocksRoom';
 import TitleInput from '~/components/TitleInput';
@@ -27,7 +27,7 @@ export function action(data: ActionFunctionArgs) {
 type PageBroadcast = Omit<SupabaseBroadcast, 'new' | 'old'> & { new: Page; old: Page };
 
 export default function DashPageId() {
-  const loaderData = useLoaderData<{ page: Page, ownerInfo: BasicProfile }>();
+  const loaderData = useLoaderData<{ page: Page, ownerInfo: BasicProfile, chat: MessageWithUser[] }>();
   const [pageData, setPageData] = useState(loaderData?.page);
   const [ownerInfo] = useState(loaderData?.ownerInfo);
 
@@ -91,7 +91,7 @@ export default function DashPageId() {
           novel_id: loaderData?.page.novel_id,
           page_id: loaderData?.page.id,
           room: 'Pages: ' + loaderData?.page.reference_title,
-          user: user
+          user_id: user.id
         });
       });
     return () => {
@@ -125,13 +125,15 @@ export default function DashPageId() {
                 enableCollab={pageData.enable_collab}
                 ownerId={pageData.owner}
                 ownerInfo={ownerInfo}
+                supabase={supabase}
+                chat={loaderData?.chat}
               />
             </LiveBlocksRoom>
             <div className="w-full flex items-center gap-3 justify-end pt-3">
               <NavLink
                 to={`/dash/novel/${pageData?.novel_id}`}
                 className="cancelButton w-button after:content-[attr(data-string)]"
-                data-string={loadingPagesDash ? '' : LocalStrings.secondary_button}>
+                data-string={loadingPagesDash ? '' : 'Pages'}>
                 {loadingPagesDash ? (
                   <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-pages-spinner" />
                 ) : (

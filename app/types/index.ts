@@ -53,6 +53,17 @@ export type AuthProfileEntry = User & {
 
 export type UserDataEntry = Omit<ProfileEntry, 'created_at' | 'updated_at' | 'email'>;
 
+export type Message = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  page_id: string;
+  user_id: string;
+  message: string;
+}
+
+export type MessageWithUser = Message & { user: BasicProfile };
+
 export type SVG_Stoke_Component_props = {
   className: string;
   svgColor?: string;
@@ -104,7 +115,7 @@ export type Novel_Member = {
   user_id: string;
 };
 
-export type OnlineUser = { novel_id: string; page_id: string; room: string; user: BasicProfile };
+export type OnlineUser = { novel_id: string; page_id: string; room: string; user_id: string };
 
 // Used for tailwind extension
 export type Escape = (className: string) => string;

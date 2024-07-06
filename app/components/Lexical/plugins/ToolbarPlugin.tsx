@@ -1,4 +1,4 @@
-import { useSearchParams } from '@remix-run/react';
+import { useOutletContext } from '@remix-run/react';
 
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 
@@ -55,25 +55,13 @@ import {
 } from '~/svg';
 
 import { SPEECH_TO_TEXT_COMMAND } from './SpeechToTextPlugin';
+import { blockTypeToBlockName, HighPriory, LowPriority } from '../helpers';
+import { DashOutletContext } from '~/routes/dash/route';
 
-const LowPriority = 1;
-const HighPriory = 2;
-
-function Divider() {
+export function Divider() {
   return <div className="w-[1px] bg-gray-300 mx-2" />;
 }
 
-const blockTypeToBlockName = {
-  bullet: 'Bulleted List',
-  check: 'Check List',
-  code: 'Code Block',
-  h1: 'Heading 1',
-  h2: 'Heading 2',
-  h3: 'Heading 3',
-  number: 'Numbered List',
-  paragraph: 'Normal',
-  quote: 'Quote'
-};
 export type ToolbarPluginProps = {
   handleConnectionToggle: () => void;
   status: string;
@@ -82,8 +70,9 @@ export type ToolbarPluginProps = {
 };
 
 export default function ToolbarPlugin() {
+  const { scrollLock, setScrollLock } = useOutletContext<DashOutletContext>();
   const [editor] = useLexicalComposerContext();
-  const toolbarRef = useRef(null);
+
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const [isBold, setIsBold] = useState(false);
@@ -94,9 +83,7 @@ export default function ToolbarPlugin() {
   const [elementFormat, setElementFormat] = useState<ElementFormatType>('left');
   const [blockType, setBlockType] = useState<keyof typeof blockTypeToBlockName>('paragraph');
   const [enableSpeech, setEnableSpeech] = useState(false);
-
-  const [searchParams, setSearchParams] = useSearchParams();
-  const showComments = searchParams.get('showComments');
+  const toolbarRef = useRef(null);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -242,12 +229,6 @@ export default function ToolbarPlugin() {
     } else {
       formatParagraph();
     }
-  };
-
-  const handleShowComments = () => {
-    if (showComments) searchParams.delete('showComments');
-    else searchParams.set('showComments', 'true');
-    setSearchParams(searchParams);
   };
 
   return (
@@ -505,10 +486,10 @@ export default function ToolbarPlugin() {
       <Divider />
       <button
         type="button"
-        className={`flex gap-3 rounded cursor-pointer w-access h-access items-center justify-center px-2 bg-opacity-75 backdrop-blur-sm ${showComments ? 'bg-pink-400 text-white' : 'bg-white text-gray-500'}`}
+        className={`flex gap-3 rounded cursor-pointer w-access h-access items-center justify-center px-2 bg-opacity-75 backdrop-blur-sm ${scrollLock === 'Comments' ? 'bg-pink-400 text-white' : 'bg-white text-gray-500'}`}
         data-id="CommentPlugin_ShowCommentsButton"
-        onClick={() => handleShowComments()}
-        title={showComments ? 'Hide Comments' : 'Show Comments'}>
+        onClick={() => setScrollLock(scrollLock === 'Comments' ? 'Novel' : 'Comments')}
+        title={scrollLock === 'Comments' ? 'Hide Comments' : 'Show Comments'}>
         <CommentsIcon uniqueId="commentPlugin-icon" className="w-5 h-auto -scale-x-100" />
       </button>
     </div>

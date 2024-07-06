@@ -1,7 +1,9 @@
 import DialogWrapper from '~/components/DialogWrapper';
+
+import { ArrowIcon, TrashIcon } from '~/svg';
 import CloseIcon from '~/svg/CloseIcon/CloseIcon';
 
-import { Comment, Thread } from '../helpers';
+import { Comment, Thread } from '../helpers/comments';
 
 export function DeletePopupModal({
   open,
@@ -30,10 +32,7 @@ export function DeletePopupModal({
             <h3 className="font-medium text-xl text-gray-600 underline underline-offset-4 capitalize">
               &#8197;{title}&nbsp;&nbsp;&nbsp;
             </h3>
-            <button
-              className="crossButton"
-              type="button"
-              onClick={close}>
+            <button className="crossButton" type="button" onClick={close}>
               <CloseIcon className="w-3 h-3" uniqueId="dash-close" svgColor="currentColor" />
             </button>
           </div>
@@ -42,20 +41,22 @@ export function DeletePopupModal({
             <div className="flex w-full justify-end bg-white rounded-b-md gap-3">
               <button
                 type="button"
-                className="deleteButton py-2.5"
+                data-string="Delete"
+                className="deleteButton w-button after:content-[attr(data-string)]"
                 onClick={() => {
                   deleteCommentOrThread(commentOrThread, thread);
                   close();
                 }}>
-                Delete
-              </button>{' '}
+                <TrashIcon uniqueId="delete-comment-icon" svgColor="#fff" className="w-5 h-auto" />
+              </button>
               <button
                 type="button"
-                className="confirmButton py-2.5"
+                data-string="Cancel"
+                className="confirmButton w-button after:content-[attr(data-string)]"
                 onClick={() => {
                   close();
                 }}>
-                Cancel
+               <ArrowIcon uniqueId="settings-delete-back" className="w-6 h-auto rotate-180" />
               </button>
             </div>
           </div>

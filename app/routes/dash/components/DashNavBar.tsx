@@ -1,4 +1,4 @@
-import { Form, NavLink, useNavigation } from '@remix-run/react';
+import { Form, NavLink, useNavigation, useParams } from '@remix-run/react';
 
 import LOCALES from '~/locales/language_en.json';
 import { UserDataEntry } from '~/types';
@@ -16,6 +16,8 @@ export type DashNavBarProps = {
 
 export default function DashNavBar({ user }: DashNavBarProps) {
   const navigationState = useNavigation();
+  const params = useParams();
+
   const isAuthLoading = ['submitting'].includes(navigationState.state) && navigationState.formAction === '/auth';
   const isDashLoading = navigationState.state ==='loading' && navigationState.location.pathname === '/dash';
   const isNetworkLoading = navigationState.state ==='loading' && navigationState.location.pathname === '/dash/users';
@@ -26,7 +28,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
       <div className="flex-shrink-0 md:w-auto w-full flex md:flex-col flex-row gap-3 px-3 md:py-6 py-3 items-center bg-slate-50 bg-opacity-35 backdrop-blur-sm z-10 fixed md:h-full bottom-0 md:overflow-x-hidden overflow-x-auto">
         <div className="flex md:flex-col flex-row flex-auto gap-3">
           <div className="has-tooltip cursor-pointer relative">
-            <NavLink to="/dash/settings" className="flex w-navicon h-icon flex-shrink-0">
+            <NavLink to="/dash/settings" state={params} className="flex w-navicon h-icon flex-shrink-0">
               <img
                 alt="create-img"
                 className="w-full h-full rounded object-cover bg-gradient-to-b from-slate-500 to-fuchsia-600"
@@ -52,6 +54,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
                 `w-navicon ${isActive || isPending || isTransitioning ? 'confirmButton' : 'altButton'}`
               }
               type="button"
+              state={params}
               to="/dash">
               {isDashLoading ? (
                 <LoadingSpinner className="w-8 h-8" svgColor="#fff" uniqueId="index-spinner" />
@@ -67,6 +70,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
           </div>
           <div className="has-tooltip cursor-pointer relative">
             <NavLink
+              state={params}
               className={({ isActive, isPending, isTransitioning }) =>
                 `w-navicon ${isActive || isPending || isTransitioning ? 'confirmButton' : 'altButton'}`
               }
@@ -82,6 +86,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
           </div>
           <div className="has-tooltip cursor-pointer relative">
             <NavLink
+              state={params}
               className={({ isActive, isPending, isTransitioning }) =>
                 `w-navicon ${isActive || isPending || isTransitioning ? 'confirmButton' : 'altButton'}`
               }

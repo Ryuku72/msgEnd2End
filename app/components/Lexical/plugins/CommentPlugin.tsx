@@ -1,4 +1,4 @@
-import { useNavigate, useParams, useSearchParams } from '@remix-run/react';
+import { useOutletContext } from '@remix-run/react';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -31,7 +31,8 @@ import { ActiveUserProfile } from '~/routes/dash.page.$page_id/components/PageRi
 import AddCommentBox from '../components/AddCommentBox';
 import CommentInputModal from '../components/CommentInputModal';
 import CommentsPanel from '../components/CommentsPanel';
-import { Comment, CommentStore, Thread, useCollabAuthorName, useCommentStore } from '../helpers';
+import { Comment, CommentStore, Thread, useCollabAuthorName, useCommentStore } from '../helpers/comments';
+import { DashOutletContext } from '~/routes/dash/route';
 
 export const INSERT_INLINE_COMMAND: LexicalCommand<void> = createCommand('INSERT_INLINE_COMMAND');
 
@@ -44,10 +45,7 @@ export default function CommentPlugin({
   userData: ActiveUserProfile;
   providerFactory?: (id: string, yjsDocMap: Map<string, Doc>) => Provider;
 }): JSX.Element {
-  const params = useParams();
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const showComments = searchParams.get('showComments');
+  const { scrollLock, setScrollLock } = useOutletContext<DashOutletContext>();
 
   const [activeAnchorKey, setActiveAnchorKey] = useState<NodeKey | null>();
   const [activeIDs, setActiveIDs] = useState<Array<string>>([]);
@@ -101,7 +99,7 @@ export default function CommentPlugin({
   useEffect(() => {
     const changedElems: Array<HTMLElement> = [];
     function onClick() {
-      navigate(`/dash/page/${params.page_id}?showComments=true`);
+      setScrollLock('Comments');
     }
     mapKeys.map(id => {
       const dataInfo = comments.find(comment => comment.id === id);
@@ -124,7 +122,7 @@ export default function CommentPlugin({
         changedElem.removeEventListener('click', onClick, false);
       }
     };
-  }, [mapKeys]);
+  }, [comments, editor, mapKeys, markNodeMap, setScrollLock]);
 
   useEffect(() => {
     const markNodeKeysToIDs: Map<NodeKey, Array<string>> = new Map();
@@ -252,13 +250,10 @@ export default function CommentPlugin({
           }
         });
         setShowCommentInput(false);
-        if (!showComments) {
-          searchParams.set('showComments', 'true');
-          setSearchParams(searchParams);
-        }
+        setScrollLock('Comments');
       }
     },
-    [commentStore, editor, namespace, searchParams, setSearchParams, showComments]
+    [commentStore, editor, namespace, setScrollLock]
   );
 
   const deleteCommentOrThread = useCallback(
@@ -307,12 +302,6 @@ export default function CommentPlugin({
     []
   );
 
-  const handleShowComments = () => {
-    if (showComments) searchParams.delete('showComments');
-    else searchParams.set('showComments', 'true');
-    setSearchParams(searchParams);
-  };
-
   return (
     <div className="relative">
       <CreatePortalEl condition={init}>
@@ -322,9 +311,9 @@ export default function CommentPlugin({
           deleteCommentOrThread={deleteCommentOrThread}
           activeIDs={activeIDs}
           markNodeMap={markNodeMap}
-          close={() => handleShowComments()}
+          close={() => setScrollLock('novel')}
           authorDetails={authorDetails}
-          show={Boolean(showComments)}
+          show={scrollLock === 'Comments'}
         />
       </CreatePortalEl>
       <CreatePortalEl condition={showCommentInput}>

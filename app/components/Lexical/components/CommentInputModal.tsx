@@ -5,8 +5,9 @@ import { $getSelection, $isRangeSelection, EditorState, LexicalEditor, RangeSele
 
 import { userColor } from '~/helpers/UserColor';
 
-import { Comment, Thread, createComment, createThread, handleOnChange } from '../helpers';
+import { Comment, Thread, createComment, createThread, handleOnChange } from '../helpers/comments';
 import BaseTextEditor from './BaseTextEditor';
+import { ArrowIcon, StickyIcon } from '~/svg';
 
 export default function CommentInputModal({
   editor,
@@ -125,12 +126,12 @@ export default function CommentInputModal({
       quote = quote.slice(0, 99) + '…';
     }
     submitAddComment(
-      createThread(
+      createThread({
         quote,
-        [createComment(userText, authorDetails.name, authorDetails.color)],
-        undefined,
-        authorDetails.color
-      ),
+        comments: [createComment({ content: userText, author: authorDetails.name })],
+        id: undefined,
+        color: authorDetails.color
+  }),
       true,
       undefined,
       selectionRef.current
@@ -160,7 +161,7 @@ export default function CommentInputModal({
         className="absolute before:absolute w-[300px] bg-white shadow-[0_0_5px_rgba(0,_0,_0,_0.05)] rounded z-20 tooltip-spike-t [&>:first-child]:min-h-[100px] flex flex-col p-1 pt-3"
         ref={commentBoxRef}>
         <BaseTextEditor onEscape={onEscape} onChange={onChange} closed={!open} onSubmit={onSubmit} />
-        <p className="p-2 pt-0 text-xs italic text-gray-400">
+        <p className="p-2 text-xs italic text-gray-400">
           Submit: <kbd>Ctrl</kbd> or <kbd>Window</kbd> + <kbd>Enter</kbd>
         </p>
         <div className="flex p-2 pt-0.5 gap-3">
@@ -168,16 +169,18 @@ export default function CommentInputModal({
             type="button"
             onClick={cancelAddComment}
             data-id="CommentPlugin_CommentInputBox_Button"
-            className="cancelButton py-1 font-normal rounded">
-            Cancel
+            data-string="Cancel"
+            className="cancelButton w-button !h-[35px] font-normal rounded after:content-[attr(data-string)]">
+            <ArrowIcon uniqueId="lexical-comment-cancel-icon" className="w-5 h-auto rotate-180" />
           </button>
           <button
             type="button"
             onClick={onClick}
             disabled={!canSubmit}
-            className="confirmButton py-1 disabled:bg-gray-100 disabled:text-gray-300 font-normal rounded"
-            data-id="CommentPlugin_CommentInputBox_Button primary">
-            Comment
+            data-string="Comment"
+            className="confirmButton w-button !h-[35px] disabled:bg-gray-100 disabled:text-gray-300 font-normal rounded after:content-[attr(data-string)]"
+            data-id="CommentPlugin_CommentInputBox_Button">
+            <StickyIcon svgColor="currentColor" uniqueId="lexical-comment-input-icon" className="w-5 h-auto" /> 
           </button>
         </div>
       </div>

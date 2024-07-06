@@ -568,14 +568,6 @@ export function ArrowIcon({ className = '', svgColor = 'currentColor', uniqueId 
   );
 }
 
-export function SaveIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill={svgColor} className={className} id={uniqueId} viewBox="0 0 32 32">
-      <path d="M26 0H6a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h20a6 6 0 0 0 6-6V6a6 6 0 0 0-6-6zm-6 2v3a1 1 0 1 0 2 0V2h1v7H9V2zm10 24a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4h1v8a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2h1a4 4 0 0 1 4 4zM24 14H8a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V15a1 1 0 0 0-1-1zm-1 12H9V16h14zM12 20h8a1 1 0 0 0 0-2h-8a1 1 0 0 0 0 2zM12 24h8a1 1 0 0 0 0-2h-8a1 1 0 0 0 0 2z" />
-    </svg>
-  );
-}
-
 export function PublishIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
   return (
     <svg
@@ -712,6 +704,36 @@ export function ChatIcon({ className = '', svgColor = 'currentColor', uniqueId }
         stroke={svgColor}
         strokeWidth="1.5"
         strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function ExpandIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill={svgColor} id={uniqueId} className={className} viewBox="0 0 24 24">
+      <path d="M3,4V20a1,1,0,0,0,1,1H20a1,1,0,0,0,1-1V4a1,1,0,0,0-1-1H4A1,1,0,0,0,3,4ZM5,5H19V19H10V15a1,1,0,0,0-1-1H5Zm6.293,7.707a1,1,0,0,1,0-1.414L14.086,8.5H13a1,1,0,0,1,0-2h3.5a1.01,1.01,0,0,1,.382.077A1,1,0,0,1,17.5,7.5V11a1,1,0,0,1-2,0V9.914l-2.793,2.793A1,1,0,0,1,11.293,12.707Z" />
+    </svg>
+  );
+}
+
+export function ShrinkIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill={svgColor} id={uniqueId} className={className} viewBox="0 0 24 24">
+      <path d="M20,21a1,1,0,0,0,1-1V4a1,1,0,0,0-1-1H4A1,1,0,0,0,3,4V20a1,1,0,0,0,1,1ZM5,5H19V19H10V15a1,1,0,0,0-1-1H5Zm6.077,7.382A1.01,1.01,0,0,1,11,12V8.5a1,1,0,0,1,2,0V9.586l2.793-2.793a1,1,0,1,1,1.414,1.414L14.414,11H15.5a1,1,0,0,1,0,2H12a1.01,1.01,0,0,1-.382-.077A1,1,0,0,1,11.077,12.382Z" />
+    </svg>
+  );
+}
+
+export function UpdateIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" id={uniqueId} className={className} viewBox="0 0 24 24" fill="none">
+      <path
+        d="M20.9844 10H17M20.9844 10V6M20.9844 10L17.6569 6.34315C14.5327 3.21895 9.46734 3.21895 6.34315 6.34315C3.21895 9.46734 3.21895 14.5327 6.34315 17.6569C9.46734 20.781 14.5327 20.781 17.6569 17.6569C18.4407 16.873 19.0279 15.9669 19.4184 15M12 9V13L15 14.5"
+        stroke={svgColor}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

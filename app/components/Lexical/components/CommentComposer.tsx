@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 
 import { CLEAR_EDITOR_COMMAND, EditorState, LexicalEditor } from 'lexical';
 
-import { Comment, Thread, createComment, handleOnChange } from '../helpers';
+import { Comment, Thread, createComment, handleOnChange } from '../helpers/comments';
 import { SendIcon } from '~/svg';
 import BaseTextEditor from './BaseTextEditor';
 
@@ -33,7 +33,7 @@ export default function CommentsComposer({
   };
 
   const handleSubmit = (editor: LexicalEditor, userText: string) => {
-    submitAddComment(createComment(userText, authorDetails.name, authorDetails.color), false, thread);
+    submitAddComment(createComment({ content: userText, author: authorDetails.name }), false, thread);
     if (editor !== null) {
       editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
     }

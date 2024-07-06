@@ -1,11 +1,13 @@
 import { LoaderFunctionArgs } from '@remix-run/node';
-import { useLoaderData, useOutletContext } from '@remix-run/react';
+import { Params, useLoaderData, useLocation, useNavigate, useNavigation, useOutletContext } from '@remix-run/react';
 
 import { useEffect, useRef, useState } from 'react';
 
 import { OnlineUser, ProfileEntry, SupabaseBroadcast } from '~/types';
 
 import Default_Avatar from '~/assets/default_avatar.jpeg';
+import { ArrowIcon } from '~/svg';
+import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
 
 import { DashOutletContext } from '../dash/route';
 import { UserLoader } from './services';
@@ -19,11 +21,17 @@ export type UserChangesBroadcast = Omit<SupabaseBroadcast, 'new' | 'old'> & { ne
 export default function DashUsers() {
   const profiles = useLoaderData<ProfileEntry[]>();
   const { supabase, img_url, user } = useOutletContext<DashOutletContext>();
+  const { state } = useLocation();
+  const navigationState = useNavigation();
+  const navigate = useNavigate();
+
   const [userProfiles, setUserProfiles] = useState<ProfileEntry[]>(profiles);
   const [onlineUsers, setOnlineUsers] = useState<{ user_id: string; room: string }[]>([]);
   const [debouncedOnlineUsers, setDebouncedOnlineUsers] = useState<{ user_id: string; room: string }[]>([]);
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const lastUpdate = useRef('');
+
+  const loadingDash = 'loading' === navigationState.state && navigationState.location.pathname === '/dash';
 
   useEffect(() => {
     if (!supabase) return;
@@ -69,7 +77,7 @@ export default function DashUsers() {
         const online = Object.keys(presenceState)
           .map(presenceId => {
             const presences = presenceState[presenceId] as unknown as OnlineUser[];
-            return presences.map(presence => ({ user_id: presence.user.id, room: presence.room }));
+            return presences.map(presence => ({ user_id: presence.user_id, room: presence.room }));
           })
           .flat();
         /** sort and set the users */
@@ -78,7 +86,7 @@ export default function DashUsers() {
       })
       .subscribe(status => {
         if (status !== 'SUBSCRIBED') return;
-        return channel.track({ novel_id: '', page_id: '', room: 'Room: Participants', user: user });
+        return channel.track({ novel_id: '', page_id: '', room: 'Room: Participants', user_id: user.id });
       });
     return () => {
       channel.unsubscribe();
@@ -134,6 +142,19 @@ export default function DashUsers() {
           );
         })}
       </div>
+      <button
+        type="button"
+        data-string={loadingDash ? '' : 'Back'}
+        onClick={() => {
+          state && Object.keys(state as Params).length > 0 ? navigate(-1) : navigate('/dash');
+        }}
+        className="cancelButton md:w-wide-button md:after:content-[attr(data-string)] w-icon">
+        {loadingDash ? (
+          <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="dash-spinner" />
+        ) : (
+          <ArrowIcon uniqueId="settings-back" className="w-6 h-auto rotate-180" />
+        )}
+      </button>
     </div>
   );
 }

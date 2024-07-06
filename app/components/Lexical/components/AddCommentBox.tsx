@@ -126,11 +126,11 @@ export default function AddCommentBox({
     <button
       type="button"
       data-id="CommentPlugin_AddCommentBox_button"
-      className="h-button pl-0 pr-3 flexCenter absolute rounded-xl bg-white z-10 shadow-l text-gray-500 cursor-pointer hover:bg-gray-100 text-md"
+      data-string="Comment"
+      className="h-button pl-0 pr-3 flexCenter absolute rounded-xl hover:bg-yellow-100 z-10 shadow-l font-semibold cursor-pointer bg-white text-gray-500 text-md after:content-[attr(data-string)]"
       onClick={onAddComment}
       ref={boxRef}>
       <StickyIcon svgColor="currentColor" uniqueId="lexical-comment" className="w-access h-auto p-2" />
-      Comment
     </button>
   );
 }

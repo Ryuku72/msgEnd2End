@@ -1,22 +1,31 @@
 import { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
-import { Form, Link, useActionData, useNavigation, useOutletContext, useSubmit } from '@remix-run/react';
+import {
+  Form,
+  Params,
+  useActionData,
+  useLocation,
+  useNavigate,
+  useNavigation,
+  useOutletContext,
+  useSubmit
+} from '@remix-run/react';
 
 import { useEffect, useState } from 'react';
 
 import LOCALES from '~/locales/language_en.json';
+import { UserDataEntry } from '~/types';
 
 import AvatarInput from '~/components/AvatarSelectInput';
 import ColorInput from '~/components/ColorInput';
 import DialogWrapper from '~/components/DialogWrapper';
 import TitleInput from '~/components/TitleInput';
 
-import { ArrowIcon, SaveIcon, TrashIcon } from '~/svg';
+import { ArrowIcon, TrashIcon, UpdateIcon } from '~/svg';
 import CloseIcon from '~/svg/CloseIcon/CloseIcon';
 import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
 
 import { DashOutletContext } from '../dash/route';
 import { SettingsAction } from './services';
-import { UserDataEntry } from '~/types';
 
 export const meta: MetaFunction = () => {
   return [{ title: LOCALES.meta.title }, { name: 'description', content: LOCALES.meta.description }];
@@ -28,9 +37,10 @@ export function action({ request }: ActionFunctionArgs) {
 
 export default function DashSettings() {
   const { user, supabase } = useOutletContext<DashOutletContext>();
-  const actionData = useActionData() as ({ data: UserDataEntry; error: Error });
+  const actionData = useActionData() as { data: UserDataEntry; error: Error };
   const navigationState = useNavigation();
-  const isLoading = 'submitting' === navigationState.state;
+  const { state } = useLocation();
+  const navigate = useNavigate();
   const submit = useSubmit();
 
   const [colorSelect, setColorSelect] = useState(user.color);
@@ -39,6 +49,7 @@ export default function DashSettings() {
   const [showDelModal, setShowDelModal] = useState(false);
 
   const disabled = username === user.username && !imageFile && user.color === colorSelect;
+  const isLoading = 'submitting' === navigationState.state;
   const formDisabled =
     ['submitting', 'loading'].includes(navigationState.state) && navigationState.formMethod === 'POST';
   const loadingDash = 'loading' === navigationState.state && navigationState.location.pathname === '/dash';
@@ -49,12 +60,12 @@ export default function DashSettings() {
       .channel('user location', { config: { presence: { key: user.id }, broadcast: { self: true } } })
       .subscribe(status => {
         if (status !== 'SUBSCRIBED') return;
-        return channel.track({ novel_id: '', page_id: '', room: 'Room: User Settings', user: user });
+        return channel.track({ novel_id: '', page_id: '', room: 'Room: User Settings', user_id: user.id });
       });
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, user.id]);
+  }, [supabase, user, user.id]);
 
   useEffect(() => {
     if (!actionData) return;
@@ -107,13 +118,19 @@ export default function DashSettings() {
             </div>
           </div>
           <div className="flex flex-wrap gap-3 w-full justify-center">
-            <Link data-string={loadingDash ? '' : 'Back'}  to="/dash" className="cancelButton md:w-wide-button md:after:content-[attr(data-string)] w-icon" type="button">
+            <button
+              type="button"
+              data-string={loadingDash ? '' : 'Back'}
+              onClick={() => {
+                state && Object.keys(state as Params).length > 0 ? navigate(-1) : navigate('/dash');
+              }}
+              className="cancelButton md:w-wide-button md:after:content-[attr(data-string)] w-icon">
               {loadingDash ? (
                 <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="dash-spinner" />
               ) : (
                 <ArrowIcon uniqueId="settings-back" className="w-6 h-auto rotate-180" />
               )}
-            </Link>
+            </button>
             <button
               className="confirmButton disabled:bg-gray-300 md:after:content-[attr(data-string)] md:w-wide-button w-icon"
               type="submit"
@@ -122,7 +139,7 @@ export default function DashSettings() {
               {isLoading ? (
                 <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
               ) : (
-                <SaveIcon uniqueId="settings-save" className="w-6 h-auto rotate-180" />
+                <UpdateIcon uniqueId="settings-save" className="w-6 h-auto rotate-180" />
               )}
             </button>
           </div>

@@ -21,8 +21,8 @@ export type TutorialModalProps = {
 export default function TutorialModal({ showTutorial, setShowTutorial }: TutorialModalProps) {
   return (
     <DialogWrapper open={showTutorial}>
-      <div className="w-full md:max-w-[800px] md:p-4 flex gap-1 md:self-center self-baseline text-mono m-auto md:m-0">
-        <div className="w-full flex flex-col gap-1 bg-white bg-opacity-50 rounded-lg">
+      <div className="w-full md:max-w-[800px] flex gap-1 text-mono">
+        <div className="w-full flex flex-col gap-1 bg-white bg-opacity-50 rounded-lg overflow-auto">
           <div className="flex justify-between items-center pt-4 px-6 pb-2 bg-black bg-opacity-75 backdrop-blur-sm text-white rounded-t-lg">
             <h3 className="font-medium text-xl underline underline-offset-4 capitalize flex items-center gap-2">
               &nbsp;Tutorial&nbsp;&nbsp;&nbsp;

@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { Outlet, useLoaderData, useOutletContext, useSearchParams } from '@remix-run/react';
+import { Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { createBrowserClient } from '@supabase/ssr';
 import { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
@@ -25,6 +25,8 @@ export type DashOutletContext = {
   supabase: SupabaseClient;
   channel: RealtimeChannel;
   img_url: string;
+  scrollLock: string; 
+  setScrollLock: (state: string) => void;
 };
 
 export default function Dash() {
@@ -33,8 +35,7 @@ export default function Dash() {
     env: { SUPABASE_URL: string; SUPABASE_ANON_KEY: string; SUPABASE_IMG_STORAGE: string };
   }>();
   const { sceneReady } = useOutletContext<{ sceneReady: boolean }>();
-  const [searchParams] = useSearchParams();
-  const showComments = searchParams.get('showComments');
+  const [scrollLock, setScrollLock] = useState<'Chat' | 'Comments' | 'Novel'>('Novel');
 
   const supabase = createBrowserClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
 
@@ -48,10 +49,10 @@ export default function Dash() {
 
   return (
     <div
-      className={`w-full flex flex-auto flex-row relative ${showComments ? 'md:overflow-visible overflow-hidden' : 'overflow-visible'}`}
+      className={`w-full flex flex-auto flex-row relative ${scrollLock ? 'md:overflow-visible overflow-hidden' : 'overflow-visible'}`}
       id="dash-default">
       <DashNavBar user={user} />
-      <Outlet context={{ user, supabase, img_url: env.SUPABASE_IMG_STORAGE + 'public/avatars/' }} />
+      <Outlet context={{ user, supabase, img_url: env.SUPABASE_IMG_STORAGE + 'public/avatars/', scrollLock, setScrollLock }} />
     </div>
   );
 }

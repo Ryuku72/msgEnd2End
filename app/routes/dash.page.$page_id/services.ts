@@ -13,10 +13,10 @@ export async function DashPageIdLoader({ request, params }: LoaderFunctionArgs) 
       .select('*, ownerProfile:profiles!owner(id,avatar,username,color)')
       .match({ id: params.page_id as string })
       .single();
-
     if (response.error) throw response.error;
-
-    return json({ page: response.data, ownerInfo: response.data.ownerProfile }, { headers });
+    const chatResponse = await supabaseClient.from('chats').select('*,user:profiles!user_id(id,username,color,avatar)').match({ page_id:  params.page_id as string }).order('created_at', { ascending: false });
+    if (chatResponse.error) throw chatResponse.error;
+    return json({ page: response.data, ownerInfo: response.data.ownerProfile, chat: chatResponse.data }, { headers });
   } catch (error) {
     console.error(error);
     console.error('process error in dash novel id');
