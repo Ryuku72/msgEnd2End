@@ -49,7 +49,7 @@ export default function Dash() {
 
   return (
     <div
-      className={`w-full flex flex-auto flex-row relative ${scrollLock ? 'md:overflow-visible overflow-hidden' : 'overflow-visible'}`}
+      className={`w-full flex flex-auto flex-row relative ${scrollLock !== 'Novel' ? 'md:overflow-visible overflow-hidden' : 'overflow-visible'}`}
       id="dash-default">
       <DashNavBar user={user} />
       <Outlet context={{ user, supabase, img_url: env.SUPABASE_IMG_STORAGE + 'public/avatars/', scrollLock, setScrollLock }} />
