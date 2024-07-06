@@ -192,7 +192,7 @@ export default function FloatingChatToolbar(): JSX.Element {
 
 
   return (
-    <div ref={boxRef} className="absolute z-100 flex gap-1 bg-white text-gray-500 shadow-lg py-1 px-3 rounded-2xl">
+    <div ref={boxRef} className="absolute z-50 flex gap-1 bg-white text-gray-500 shadow-lg py-1 px-3 rounded-2xl">
       <button
         type="button"
         title="Format Bold"

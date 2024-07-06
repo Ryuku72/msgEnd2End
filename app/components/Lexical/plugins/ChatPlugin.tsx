@@ -35,9 +35,12 @@ export default function ChatPlugin({
   }, []);
 
   useEffect(() => {
-    if (!messages || !lastSeenMessage) return;
+    if (openChat) {
+      setShowChatNotif(false);
+      return setLastSeenMessage(messages[0]?.created_at + 'Z');
+    } else if (!messages || !lastSeenMessage) return;
     const lastClientMessage = new Date(messages[0]?.created_at + 'Z');
-    if (new Date(lastSeenMessage) < lastClientMessage && !openChat) setShowChatNotif(true);
+    if (new Date(lastSeenMessage) < lastClientMessage) setShowChatNotif(true);
     else setShowChatNotif(false);
   }, [setShowChatNotif, lastSeenMessage, messages, openChat]);
 

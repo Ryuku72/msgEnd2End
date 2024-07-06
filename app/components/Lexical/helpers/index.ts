@@ -1,3 +1,5 @@
+import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
+
 export const emptyContent =
   '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
 
@@ -15,3 +17,11 @@ export const blockTypeToBlockName = {
 
 export const LowPriority = 1;
 export const HighPriory = 2;
+
+export function initialEditorState(): void {
+  const root = $getRoot();
+  const paragraph = $createParagraphNode();
+  const text = $createTextNode();
+  paragraph.append(text);
+  root.append(paragraph);
+}

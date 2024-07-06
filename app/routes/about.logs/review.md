@@ -1,7 +1,5 @@
 ### UnReleased
 > Last Update: 6th July 2024
-- Add Chat to Pages (Working on now)
-- Add notifications to Pages for a new comment or chat message (green dot)
 - Add private mode to both pages and novels (short term: password, long term: email)
 - Add a donation feild to About Page
 - Add AI Avatar Generation and AI text via Vercel AI
@@ -10,6 +8,7 @@
 
 ### Released
 > 6th July 2024
+- Added Chat to Pages with various bells and whistles.
 - [97ce1b3](https://github.com/Ryuku72/MessageNovel/commit/97ce1b3) Added the ability to update and delete messages within 3 min window
 - [59a1754](https://github.com/Ryuku72/MessageNovel/commit/59a1754) Added a placeholder notification for chats based on socket events. Also fixed a bug with chat on mobile not being viewable against nav menu
 - [7864c8b](https://github.com/Ryuku72/MessageNovel/commit/7864c8b) Updated Readme. Fixed Scroll bug due to chats and comments on mobile. Updated Review. Increase page character count to 8500

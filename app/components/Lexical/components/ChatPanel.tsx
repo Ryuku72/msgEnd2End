@@ -17,6 +17,7 @@ import { ExpandIcon, SendIcon, ShrinkIcon } from '~/svg';
 import CloseIcon from '~/svg/CloseIcon/CloseIcon';
 
 import { InitialConfig } from '../config';
+import { emptyContent } from '../helpers';
 import { KeySubmitPlugin } from '../plugins/KeySubmitPlug';
 import OnChangePlugin from '../plugins/OnChangePlugin';
 import { UpdateEditorPlugin } from '../plugins/UpdateEditorPlugin';
@@ -47,7 +48,7 @@ export default function ChatPanel({
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const updateMessage = useRef({ message_id: '', selection: '' });
 
-  const initialConfig = InitialConfig({ namespace, editable: true });
+  const initialConfig = InitialConfig({ namespace, editorState: JSON.parse(emptyContent), editable: true });
   const submit = useSubmit();
 
   useEffect(() => {
@@ -147,7 +148,7 @@ export default function ChatPanel({
           </div>
         </div>
         <div
-          className="flex flex-col-reverse flex-auto w-full py-1 px-2 gap-1 overflow-auto items-end"
+          className="flex flex-col-reverse flex-auto w-full py-1 px-2 gap-2 overflow-auto items-end"
           ref={scrollContainer}>
           <div className="w-full flex flex-col flex-auto" ref={seenRef} />
           {messages.map(message => (
@@ -177,14 +178,16 @@ export default function ChatPanel({
                   />
                 }
                 placeholder={
-                  <div className="absolute top-4 z-0 px-2 pointer-events-none text-gray-400">Enter some text...</div>
+                  <div className="absolute top-2 z-0 pt-2 pb-3 px-2 pointer-events-none text-gray-400">
+                    Enter some text...
+                  </div>
                 }
                 ErrorBoundary={LexicalErrorBoundary}
               />
               <KeySubmitPlugin
                 onSubmit={(editorState: EditorState) => {
                   const editorString = JSON.stringify(editorState.toJSON());
-                  if (updateMessage.current.message_id) onUpdate( editorString, updateMessage.current.message_id);
+                  if (updateMessage.current.message_id) onUpdate(editorString, updateMessage.current.message_id);
                   else onSubmit(editorString);
                 }}
               />

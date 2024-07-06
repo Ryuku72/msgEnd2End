@@ -17,7 +17,6 @@ import { Provider } from '@lexical/yjs';
 import { useOthers, useRoom, useStatus } from '@liveblocks/react';
 import { LiveblocksYjsProvider } from '@liveblocks/yjs';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
 import { Doc } from 'yjs';
 
 import { userColor } from '~/helpers/UserColor';
@@ -38,16 +37,9 @@ import { ChatIcon, ConnectIcon, DisconnectIcon, HelpIcon, PrivateNovelIcon, Publ
 
 import { CornerAlert } from './CornerAlert';
 import TutorialModal from './TutorialModal';
+import { initialEditorState } from '~/components/Lexical/helpers';
 
 export type ActiveUserProfile = Omit<BasicProfile, 'id'> & { userId: string };
-
-function initialEditorState(): void {
-  const root = $getRoot();
-  const paragraph = $createParagraphNode();
-  const text = $createTextNode();
-  paragraph.append(text);
-  root.append(paragraph);
-}
 
 export function PageRichTextEditor({
   namespace,
