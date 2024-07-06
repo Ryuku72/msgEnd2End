@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Form, Params, useLoaderData, useLocation, useNavigate, useNavigation, useOutletContext, useSearchParams } from '@remix-run/react';
+import { Form, useLoaderData, useLocation, useNavigate, useNavigation, useOutletContext, useSearchParams } from '@remix-run/react';
 
 import { useEffect, useState } from 'react';
 
@@ -100,7 +100,7 @@ export default function DashNew() {
               <button
                 type="button"
                 onClick={() => {
-                  state && Object.keys(state as Params).length > 0 ? navigate(-1) : navigate('/dash');
+                  state && (state?.novel_id ||  state?.page_id) ? navigate(-1) : navigate('/dash');
                 }}
                 data-string={isDashLoading ? '' : 'Back'}
                 className="cancelButton md:after:content-[attr(data-string)] md:w-wide-button w-icon">

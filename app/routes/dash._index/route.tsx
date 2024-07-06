@@ -1,7 +1,6 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import {
   Link,
-  Params,
   useLoaderData,
   useLocation,
   useNavigate,
@@ -20,7 +19,7 @@ import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
 import PlusIcon from '~/svg/PlusIcon/PlusIcon';
 
 import { DashOutletContext } from '../dash/route';
-import { DescriptionModel } from './components/DescriptionModel';
+import { DescriptionModal } from './components/DescriptionModal';
 import { DashIndexAction, DashIndexLoader } from './service';
 
 export function loader({ request }: LoaderFunctionArgs) {
@@ -222,10 +221,10 @@ export default function DashIndex() {
       <button
           type="button"
           onClick={() => {
-            state && Object.keys(state as Params).length > 0 ? navigate(-1) : navigate('/dash');
+            state && (state?.novel_id ||  state?.page_id) ? navigate(-1) : navigate('/dash');
           }}
           className={
-            state && Object.keys(state as Params).length > 0
+            state && (state?.novel_id ||  state?.page_id)
               ? 'cancelButton w-icon'
               : 'hidden'
           }>
@@ -246,7 +245,7 @@ export default function DashIndex() {
           )}
         </Link>
       </div>
-      <DescriptionModel
+      <DescriptionModal
         selectedNovel={selectedNovel}
         close={() => setSelectedNovel(null)}
         ownerId={selectedNovel?.owner.id || ''}

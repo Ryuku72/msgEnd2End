@@ -16,7 +16,7 @@ import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
 
 import EditorTextPlugin from './EditorTextPlugin';
 
-type DescriptionModelProps = {
+type DescriptionModalProps = {
   selectedNovel: NovelWithMemberIds | null;
   userId: string;
   members: { user_id: string }[];
@@ -24,7 +24,7 @@ type DescriptionModelProps = {
   close: () => void;
 };
 
-export function DescriptionModel({ selectedNovel, close, userId, ownerId, members = [] }: DescriptionModelProps) {
+export function DescriptionModal({ selectedNovel, close, userId, ownerId, members = [] }: DescriptionModalProps) {
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const navigationState = useNavigation();

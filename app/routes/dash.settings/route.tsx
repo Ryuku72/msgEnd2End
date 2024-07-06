@@ -1,7 +1,6 @@
 import { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import {
   Form,
-  Params,
   useActionData,
   useLocation,
   useNavigate,
@@ -122,7 +121,7 @@ export default function DashSettings() {
               type="button"
               data-string={loadingDash ? '' : 'Back'}
               onClick={() => {
-                state && Object.keys(state as Params).length > 0 ? navigate(-1) : navigate('/dash');
+                state && (state?.novel_id ||  state?.page_id) ? navigate(-1) : navigate('/dash');
               }}
               className="cancelButton md:w-wide-button md:after:content-[attr(data-string)] w-icon">
               {loadingDash ? (
