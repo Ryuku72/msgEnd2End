@@ -1,5 +1,5 @@
-* 97ce1b3 Git add. Added the ability to update and delete messages within 3 min window
-* 59a1754 Git add. Added a placeholder notification for chats based on socket events. Also fixed a bug with chat on mobile not being viewable against nav menu
+* 97ce1b3 Added the ability to update and delete messages within 3 min window
+* 59a1754 Added a placeholder notification for chats based on socket events. Also fixed a bug with chat on mobile not being viewable against nav menu
 * 7864c8b Updated Readme. Fixed Scroll bug due to chats and comments on mobile. Updated Review. Increase page character count to 8500
 * eca3696 Built out Chat mechanic for pages. Added Update Icon, added back navigation to all routes that have a param. Still require chat delete and update and update readme docs about the new Chats table
 * 00180b9 Added fixes to bash script
