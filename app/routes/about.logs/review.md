@@ -8,6 +8,7 @@
 
 ### Released
 > 6th July 2024
+- [eca3696](https://github.com/Ryuku72/MessageNovel/commit/eca3696) Built out Chat mechanic for pages. Added Update Icon, added back navigation to all routes that have a param. Still require chat delete and update and update readme docs about the new Chats table
 
 > 3rd July 2024
 - [00180b9](https://github.com/Ryuku72/MessageNovel/commit/00180b9) Added fixes to bash script

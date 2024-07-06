@@ -1,3 +1,4 @@
+* eca3696 Built out Chat mechanic for pages. Added Update Icon, added back navigation to all routes that have a param. Still require chat delete and update and update readme docs about the new Chats table
 * 00180b9 Added fixes to bash script
 * 02fa611 Cleaned up review log
 * b697206 bash update test 4
