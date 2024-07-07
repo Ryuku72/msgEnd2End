@@ -27,7 +27,7 @@ export function action(data: ActionFunctionArgs) {
 type PageBroadcast = Omit<SupabaseBroadcast, 'new' | 'old'> & { new: Page; old: Page };
 
 export default function DashPageId() {
-  const loaderData = useLoaderData<{ page: Page, ownerInfo: BasicProfile, chat: MessageWithUser[] }>();
+  const loaderData = useLoaderData<{ page: Page, ownerInfo: BasicProfile, chat: MessageWithUser[], last_seen_message_id: string }>();
   const { user, supabase } = useOutletContext<DashOutletContext>();
   const navigationState = useNavigation();
   const navigate = useNavigate();
@@ -128,6 +128,7 @@ export default function DashPageId() {
                 ownerInfo={ownerInfo}
                 supabase={supabase}
                 chat={loaderData?.chat}
+                last_seen_message_id={loaderData?.last_seen_message_id}
               />
             </LiveBlocksRoom>
             <div className="w-full flex items-center gap-3 justify-end pt-3">

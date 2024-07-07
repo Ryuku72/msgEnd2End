@@ -48,7 +48,8 @@ export function PageRichTextEditor({
   ownerId,
   ownerInfo,
   supabase,
-  chat
+  chat,
+  last_seen_message_id
 }: {
   namespace: string;
   enableCollab: boolean;
@@ -57,6 +58,7 @@ export function PageRichTextEditor({
   ownerInfo: BasicProfile;
   supabase: SupabaseClient;
   chat: MessageWithUser[];
+  last_seen_message_id: string;
 }) {
   const owner = userData.userId === ownerId;
   const { scrollLock, setScrollLock } = useOutletContext<DashOutletContext>();
@@ -68,8 +70,8 @@ export function PageRichTextEditor({
   const [isSynced, setIsSynced] = useState(false);
   const [init, setInit] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const [showChatNotif, setShowChatNotif] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const submit = useSubmit();
 
@@ -174,6 +176,7 @@ export function PageRichTextEditor({
             namespace={namespace}
             user_id={userData.userId}
             setShowChatNotif={setShowChatNotif}
+            last_seen_message_id={last_seen_message_id}
           />
           <div className="sticky md:bottom-3 bottom-[90px] right-4 self-end m-2 flex gap-2">
             <p

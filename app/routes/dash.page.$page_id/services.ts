@@ -8,15 +8,36 @@ export async function DashPageIdLoader({ request, params }: LoaderFunctionArgs) 
   const { supabaseClient, headers } = await initServer(request);
 
   try {
+    const userDetails = await supabaseClient.auth.getUser();
+    if (userDetails.error) throw userDetails.error;
     const response = await supabaseClient
       .from('pages')
       .select('*, ownerProfile:profiles!owner(id,avatar,username,color)')
       .match({ id: params.page_id as string })
       .single();
     if (response.error) throw response.error;
-    const chatResponse = await supabaseClient.from('chats').select('*,user:profiles!user_id(id,username,color,avatar)').match({ page_id:  params.page_id as string }).order('created_at', { ascending: false });
+    const chatResponse = await supabaseClient
+      .from('chats')
+      .select('*,user:profiles!user_id(id,username,color,avatar)')
+      .match({ page_id: params.page_id as string })
+      .order('created_at', { ascending: false });
+    const last_seen_response = await supabaseClient
+      .from('page_members')
+      .select('*')
+      .match({ page_id: params.page_id, user_id: userDetails.data.user.id })
+      .select()
+      .single();
+    if (last_seen_response.error) throw last_seen_response.error;
     if (chatResponse.error) throw chatResponse.error;
-    return json({ page: response.data, ownerInfo: response.data.ownerProfile, chat: chatResponse.data }, { headers });
+    return json(
+      {
+        page: response.data,
+        ownerInfo: response.data.ownerProfile,
+        chat: chatResponse.data,
+        last_seen_message_id: last_seen_response.data.last_seen_message_id
+      },
+      { headers }
+    );
   } catch (error) {
     console.error(error);
     console.error('process error in dash novel id');

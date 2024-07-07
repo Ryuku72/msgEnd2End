@@ -30,22 +30,20 @@ export default function ChatPanel({
   messages,
   namespace,
   user_id,
-  setLastSeen
+  last_seen_message_id
 }: {
   messages: MessageWithUser[];
   namespace: string;
   user_id: string;
-  setLastSeen: (date: string) => void;
   close: () => void;
   show: boolean;
+  last_seen_message_id: string;
 }): JSX.Element {
   const [fullScreenComments, setFullScreenComments] = useState(false);
   const [editorState, setEditorState] = useState('');
   const [init, setInit] = useState(false);
   const [update, setUpdate] = useState(false);
   const editorRef = useRef<LexicalEditor>(null);
-  const seenRef = useRef<HTMLDivElement | null>(null);
-  const scrollContainer = useRef<HTMLDivElement | null>(null);
   const updateMessage = useRef({ message_id: '', selection: '' });
 
   const initialConfig = InitialConfig({ namespace, editorState: JSON.parse(emptyContent), editable: true });
@@ -54,26 +52,6 @@ export default function ChatPanel({
   useEffect(() => {
     setInit(true);
   }, []);
-
-  useEffect(() => {
-    const options = {
-      root: scrollContainer.current,
-      rootMargin: '0px',
-      threshold: 1.0
-    };
-
-    const callback = (entries: IntersectionObserverEntry[]) => {
-      const [entry] = entries;
-      if (entry.isIntersecting && show) setLastSeen(new Date().toISOString());
-    };
-
-    const observer = new IntersectionObserver(callback, options);
-    if (scrollContainer.current && seenRef.current) observer.observe(seenRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [setLastSeen, show]);
 
   const CreatePortalEl = useMemo(
     () =>
@@ -149,14 +127,18 @@ export default function ChatPanel({
         </div>
         <div
           className="flex flex-col-reverse flex-auto w-full py-1 px-2 gap-2 overflow-auto items-end"
-          ref={scrollContainer}>
-          <div className="w-full flex flex-col flex-auto" ref={seenRef} />
-          {messages.map(message => (
+          id="scroll-container-chat">
+          <div className="w-full flex flex-col flex-auto" />
+          {messages.map((message, index) => (
             <MessageContainer
               key={message.id}
+              last_seen_message_id={last_seen_message_id}
               user_id={user_id}
               message={message}
               setUpdateMessage={handleUpdateRequest}
+              index={index}
+              namespace={namespace}
+              show={show}
             />
           ))}
         </div>

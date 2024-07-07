@@ -16,18 +16,19 @@ export default function ChatPlugin({
   close,
   namespace,
   user_id,
-  setShowChatNotif
+  setShowChatNotif,
+  last_seen_message_id
 }: {
   supabase: SupabaseClient;
   chat: MessageWithUser[];
   openChat: boolean;
   close: () => void;
-  setShowChatNotif: (state:boolean) => void;
+  setShowChatNotif: (state: boolean) => void;
   namespace: string;
   user_id: string;
+  last_seen_message_id: string;
 }) {
   const [messages, setMessages] = useState<MessageWithUser[]>(chat);
-  const [lastSeenMessage, setLastSeenMessage] = useState(chat[0]?.created_at + 'Z');
   const [init, setInit] = useState(false);
 
   useEffect(() => {
@@ -35,14 +36,14 @@ export default function ChatPlugin({
   }, []);
 
   useEffect(() => {
-    if (openChat) {
-      setShowChatNotif(false);
-      return setLastSeenMessage(messages[0]?.created_at + 'Z');
-    } else if (!messages || !lastSeenMessage) return;
-    const lastClientMessage = new Date(messages[0]?.created_at + 'Z');
-    if (new Date(lastSeenMessage) < lastClientMessage) setShowChatNotif(true);
-    else setShowChatNotif(false);
-  }, [setShowChatNotif, lastSeenMessage, messages, openChat]);
+    if (openChat) setShowChatNotif(false);
+    else if (!messages) return;
+    else {
+
+      if (!last_seen_message_id || last_seen_message_id !== messages[0]?.id) setShowChatNotif(true);
+      else setShowChatNotif(false);
+    }
+  }, [last_seen_message_id, messages, openChat, setShowChatNotif]);
 
   useEffect(() => {
     if (!supabase) return;
@@ -98,7 +99,7 @@ export default function ChatPlugin({
   return (
     <div className="relative">
       <CreatePortalEl condition={init}>
-        <ChatPanel messages={messages} show={openChat} close={close} user_id={user_id} namespace={namespace} setLastSeen={setLastSeenMessage} />
+        <ChatPanel messages={messages} show={openChat} close={close} user_id={user_id} namespace={namespace} last_seen_message_id={last_seen_message_id} />
       </CreatePortalEl>
     </div>
   );
