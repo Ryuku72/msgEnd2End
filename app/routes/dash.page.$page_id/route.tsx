@@ -7,7 +7,6 @@ import LOCALES from '~/locales/language_en.json';
 import { BasicProfile, MessageWithUser, Page, SupabaseBroadcast } from '~/types';
 
 import { LiveBlocksRoom } from '~/components/LiveBlocksRoom';
-import TitleInput from '~/components/TitleInput';
 
 import { ArrowIcon, PublishIcon } from '~/svg';
 import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
@@ -40,7 +39,6 @@ export default function DashPageId() {
     'loading' === navigationState.state && navigationState.location.pathname === `/dash/novel/${pageData?.novel_id}`;
 
   const LocalStrings: (typeof LOCALES)['dash']['draft'] = LOCALES.dash.draft;
-  const [titleValue, setTitleValue] = useState(loaderData?.page.reference_title);
 
   const userData = {
     userId: user.id,
@@ -81,7 +79,7 @@ export default function DashPageId() {
     return () => {
       channel.unsubscribe();
     };
-  }, [supabase, navigate, loaderData?.page.id]);
+  }, [supabase, navigate, loaderData?.page.id, navigationState]);
 
   useEffect(() => {
     const channel = supabase
@@ -111,19 +109,11 @@ export default function DashPageId() {
             aria-label="draft-update"
             method="post"
             className="w-full flex flex-col gap-3 text-mono relative bg-white bg-opacity-50 backdrop-blur-sm rounded-b-md rounded-t-md md:px-4 px-2 py-4">
-            <TitleInput
-              title="Page Reference Title"
-              id="page-title"
-              value={titleValue}
-              placeholder={'Enter Page Reference Title'}
-              onChange={setTitleValue}
-              disabled={user.id !== pageData.owner}
-            />
             <LiveBlocksRoom roomId={pageData?.id} authEndpoint="/api/liveblocks">
               <PageRichTextEditor
                 namespace={loaderData?.page.id}
                 userData={userData}
-                enableCollab={pageData.enable_collab}
+                enableCollab={ownerInfo.id === user.id ? loaderData?.page.enable_collab : pageData.enable_collab}
                 ownerId={pageData.owner}
                 ownerInfo={ownerInfo}
                 supabase={supabase}

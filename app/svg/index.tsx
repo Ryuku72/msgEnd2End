@@ -788,3 +788,16 @@ export function PublicIcon({ className = '', svgColor = 'currentColor', uniqueId
     </svg>
   );
 }
+
+export function MembersIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" id={uniqueId} className={className} fill={svgColor} viewBox="0 0 16 16">
+      <path
+        id="Path_131"
+        data-name="Path 131"
+        d="M33,6a2,2,0,1,0-2,2A2,2,0,0,0,33,6ZM31,7a1,1,0,1,1,1-1A1,1,0,0,1,31,7Zm7.5-1H38V3.5A3.5,3.5,0,0,0,34.5,0h-10a.5.5,0,0,0-.5.5V2.045h-.5a.5.5,0,0,0,0,1H24V6h-.5a.5.5,0,0,0,0,1H24v3h-.5a.5.5,0,0,0,0,1H24v3h-.5a.5.5,0,0,0,0,1H24v.5a.5.5,0,0,0,.5.5h10A3.5,3.5,0,0,0,38,12.5V10h.5a.5.5,0,0,0,.5-.5v-3A.5.5,0,0,0,38.5,6ZM38,9H37a1,1,0,0,1,0-2h1Zm-1,3.5A2.5,2.5,0,0,1,34.5,15h-9a.5.5,0,0,0,0-1H25V11h.5a.5.5,0,0,0,0-1H25V7h.5a.5.5,0,0,0,0-1H25V3.045h.545a.5.5,0,0,0,0-1H25V1h9.5A2.5,2.5,0,0,1,37,3.5V6a2,2,0,0,0,0,4ZM31.5,8h-1A3.5,3.5,0,0,0,27,11.5,1.5,1.5,0,0,0,28.5,13h5A1.5,1.5,0,0,0,35,11.5,3.5,3.5,0,0,0,31.5,8Zm2,4h-5a.5.5,0,0,1-.5-.5A2.5,2.5,0,0,1,30.5,9h1A2.5,2.5,0,0,1,34,11.5.5.5,0,0,1,33.5,12Z"
+        transform="translate(-23)"
+      />
+    </svg>
+  );
+}

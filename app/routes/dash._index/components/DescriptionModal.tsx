@@ -12,7 +12,7 @@ import { emptyContent } from '~/components/Lexical/helpers';
 import { ModalHeader } from '~/components/ModalHeader';
 import PasswordInput from '~/components/PasswordInput';
 
-import { ArrowIcon, PenIcon, PrivateIcon, PublicIcon } from '~/svg';
+import { ArrowIcon, MembersIcon, PenIcon, PrivateIcon, PublicIcon, UpdateIcon } from '~/svg';
 import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
 
 import EditorTextPlugin from './EditorTextPlugin';
@@ -74,23 +74,37 @@ export function DescriptionModal({
       <div className="w-full md:max-w-[800px] md:p-4 flex flex-col gap-1 md:self-center self-baseline text-mono m-auto md:m-0">
         <div className="bg-slate-50 bg-opacity-55 backdrop-blur-lg flex flex-col rounded-t-lg rounded-b-md flex-auto md:flex-1">
           <ModalHeader title={selectedNovel?.title || ''} close={close} />
-          <div className="w-full px-8 py-4 bg-white flex flex-col gap-10 flex-auto md:flex-1 mt-0.5">
+          <div className="w-full px-8 py-4 gap-5 bg-white bg-opacity-75 backdrop-blur-sm flex flex-col flex-auto md:flex-1 mt-0.5">
             {selectedNovel && (
               <LexicalComposer initialConfig={initialConfig}>
                 <EditorTextPlugin />
               </LexicalComposer>
             )}
-            <div className="w-full">
-              <p className="text-gray-500 text-sm">
-                <strong>Last Update:</strong>{' '}
-                {selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at + 'Z', true)}
-              </p>
-              <p className="text-gray-500 text-sm">
-                <strong>Members:</strong> {selectedNovel?.members?.length}
-              </p>
-            </div>
           </div>
-          <div className="flex w-full justify-end bg-white rounded-b-md p-2 gap-3 sticky bottom-0">
+          <div className="flex flex-row flex-wrap gap-3 w-full bg-white bg-opacity-75 backdrop-blur-sm justify-end px-2 py-1">
+              <div
+                title={isPrivate ? 'Private' : 'Public'}
+                className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)]">
+                {isPrivate ? (
+                  <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
+                ) : (
+                  <PublicIcon className="w-6 h-auto" uniqueId="public-novel-icon" />
+                )}
+              </div>
+              <div
+                title={`Members: ${selectedNovel?.members?.length}`}
+                data-mobile={selectedNovel?.members?.length}
+                className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)] after:content-[attr(data-mobile)]">
+                <MembersIcon className="w-5 h-auto" uniqueId="members-icons" />
+              </div>
+              <div
+                title={`Update: ${selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at + 'Z')}`}
+                data-mobile={selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at + 'Z')}
+                className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)] after:content-[attr(data-mobile)]">
+                <UpdateIcon className="w-5 h-auto" uniqueId="update-icons" />
+              </div>
+            </div>
+          <div className="flex w-full justify-end bg-white bg-opacity-75 backdrop-blur-sm rounded-b-md p-2 gap-3 sticky bottom-0">
             <Link
               to={`/dash/new?novel_id=${selectedNovel?.id}`}
               data-string="Edit"
@@ -101,18 +115,6 @@ export function DescriptionModal({
               }>
               <PenIcon uniqueId="description-edit" className="w-6 h-auto" />
             </Link>
-            <button
-              name="set_private"
-              value={isPrivate ? 'Private' : 'Public'}
-              disabled={true}
-              title={isPrivate ? 'Private' : 'Public'}
-              className="privateButton md:w-button w-icon font-semibold md:after:content-[attr(value)]">
-              {isPrivate ? (
-                <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
-              ) : (
-                <PublicIcon className="w-6 h-auto" uniqueId="public-novel-icon" />
-              )}
-            </button>
             <button
               className="rounded-lg text-gray-100 font-semibold flex items-center justify-center h-button bg-orange-700 hover:bg-orange-500 md:w-button w-icon gap-2 md:after:content-[attr(data-string)]"
               data-string="Back"

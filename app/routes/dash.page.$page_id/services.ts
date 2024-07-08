@@ -9,7 +9,7 @@ export async function DashPageIdLoader({ request, params }: LoaderFunctionArgs) 
 
   try {
     const userDetails = await supabaseClient.auth.getUser();
-    if (userDetails.error) redirect('/');
+    if (userDetails.error) return redirect('/');
     const response = await supabaseClient
       .from('pages')
       .select('*, ownerProfile:profiles!owner(id,avatar,username,color)')
@@ -50,8 +50,8 @@ export async function DashPageIdLoader({ request, params }: LoaderFunctionArgs) 
 export async function DashPageIdAction({ request, params }: ActionFunctionArgs) {
   const formData = await request.formData();
   const publishedData = formData.get('lexical') as string;
-  const reference_title = formData.get('page-title');
-  const enable_collab = formData.get('enableCollab');
+  const enable_collab = formData.get('enable_collab');
+
   const { supabaseClient, headers } = await initServer(request);
   const userData = await supabaseClient.auth.getUser();
   const user = userData.data?.user;
@@ -61,20 +61,18 @@ export async function DashPageIdAction({ request, params }: ActionFunctionArgs) 
     if (enable_collab) {
       const response = await supabaseClient
         .from('pages')
-        .update({
-          enable_collab
-        })
+        .update({ enable_collab })
         .match({ id: params.page_id })
         .select()
         .single();
+        console.log(response);
       if (response.error) throw response.error;
       return json(response?.data, { headers });
     } else if (publishedData) {
       const response = await supabaseClient
         .from('pages')
         .update({
-          published: JSON.parse(publishedData),
-          reference_title
+          published: JSON.parse(publishedData)
         })
         .match({ id: params.page_id })
         .select()

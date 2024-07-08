@@ -66,7 +66,6 @@ export function PageRichTextEditor({
   const initialConfig = InitialConfig({ namespace, editable: enableCollab || owner });
   const [editorState, setEditorState] = useState('');
   const [textLength, setTextLength] = useState(0);
-  const [toggleCollab, setToggleCollab] = useState(enableCollab);
   const [isSynced, setIsSynced] = useState(false);
   const [init, setInit] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
@@ -92,10 +91,6 @@ export function PageRichTextEditor({
   useEffect(() => {
     setInit(true);
   }, []);
-
-  useEffect(() => {
-    setToggleCollab(enableCollab);
-  }, [enableCollab]);
 
   const createProviderFactory = useCallback(
     (id: string, yjsDocMap: Map<string, Doc>): Provider => {
@@ -165,7 +160,7 @@ export function PageRichTextEditor({
           <HorizontalRulePlugin />
           <SpeechToTextPlugin />
           <ClearEditorPlugin />
-          <ToggleEditState enable_edit={toggleCollab || owner} />
+          <ToggleEditState enable_edit={enableCollab || owner} />
           <MaxLengthPlugin maxLength={maxLength} setTextLength={setTextLength} />
           <CommentPlugin namespace={namespace} userData={userData} providerFactory={createProviderFactory} />
           <ChatPlugin
@@ -189,12 +184,10 @@ export function PageRichTextEditor({
               title={`Owner has ${enableCollab ? 'enabled collabaration' : 'disabled collabaration'}`}
               className={`flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 bg-cyan-500 bg-opacity-25 backdrop-blur-sm  md:after:content-[attr(data-string)] ${owner ? 'pointer-events-auto' : 'pointer-events-none'}`}
               data-string={enableCollab ? 'Collab' : 'Solo'}
-              onClick={e => {
-                e.preventDefault();
+              onClick={() => {
                 const formData = new FormData();
-                formData.append('enable_collab', (!enableCollab).toString());
-                formData.append('page_id', namespace);
-                submit(formData, { method: 'POST', action: '/api/page/enable_collab', navigate: false });
+                formData.append('enable_collab', enableCollab ? 'false' : 'true');
+                submit(formData, { method: 'POST' });
               }}>
               {enableCollab ? (
                 <CollabIcon uniqueId="public-novel-public-icon" className="w-5 h-auto -scale-x-100" />

@@ -51,7 +51,7 @@ export default function DashPageIdEdit() {
       <div className="bg-slate-50 bg-opacity-55 backdrop-blur-lg flex flex-col rounded-t-lg rounded-b-md self-center w-full max-w-[800px]">
         <ModalHeader title="Edit Page Details" close={() => navigate(`/dash/novel/${novel_id}`)} />
         <Form method="POST" onSubmit={handleSubmit}>
-          <div className="w-full flex flex-col py-8 px-4 bg-white text-gray-700 mt-0.5 gap-2">
+          <div className="w-full flex flex-col pt-4 pb-8 px-4 bg-white bg-opacity-75 backdrop-blur-sm text-gray-700 mt-0.5 gap-2">
             <TitleInput
               title="Page Title"
               id="page_title"
@@ -71,8 +71,8 @@ export default function DashPageIdEdit() {
               <p className="text-sm font-medium text-gray-600 w-[100px]">Enable Private</p>
               <button type="button" onClick={() => setIsPrivate(!isPrivate)} className="flex flex-col">
                 <div className="relative inline-flex cursor-pointer items-center">
-                  <input id="switch-3" type="checkbox" className="peer sr-only" checked={isPrivate} />
-                  <div className="peer h-4 w-11 rounded border bg-slate-200 after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-md after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-purple-600 peer-checked:after:translate-x-full peer-focus:ring-green-300" />
+                  <input type="checkbox" className="peer sr-only" readOnly={true} checked={isPrivate} />
+                  <div className="peer h-4 w-11 rounded border bg-purple-200 after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-md after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-purple-500 peer-checked:after:translate-x-full peer-focus:ring-purple-300" />
                 </div>
               </button>
             </div>
@@ -80,14 +80,14 @@ export default function DashPageIdEdit() {
               <p className="text-sm font-medium text-gray-600 w-[100px]">Enable Collab</p>
               <button type="button" onClick={() => setEnableCollab(!enableCollab)} className="flex flex-col">
                 <div className="relative inline-flex cursor-pointer items-center">
-                  <input id="switch-3" type="checkbox" className="peer sr-only" checked={enableCollab} />
-                  <div className="peer h-4 w-11 rounded border bg-slate-200 after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-md after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-cyan-600 peer-checked:after:translate-x-full peer-focus:ring-green-300" />
+                  <input type="checkbox" className="peer sr-only" readOnly={true} checked={enableCollab} />
+                  <div className="peer h-4 w-11 rounded border bg-cyan-100 after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-md after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-cyan-600 peer-checked:after:translate-x-full peer-focus:ring-cyan-300" />
                 </div>
               </button>
             </div>
           </div>
 
-          <div className="flex w-full justify-end bg-white rounded-b-md p-2 gap-3">
+          <div className="flex w-full justify-end bg-white bg-opacity-75 backdrop-blur-sm rounded-b-md p-2 gap-3">
             <button
               type="button"
               onClick={() => setConfirmDelete(true)}

@@ -134,8 +134,8 @@ export default function DashNew() {
               <p className="text-sm font-medium text-gray-600 w-[100px]">Enable Private</p>
               <button type="button" value={novelIsPrivate ? 1 : 0} onClick={() => setNovelIsPrivate(!novelIsPrivate)} className="flex flex-col">
                 <div className="relative inline-flex cursor-pointer items-center">
-                  <input id="switch-3" type="checkbox" className="peer sr-only" checked={Boolean(novelIsPrivate)} />
-                  <div className="peer h-4 w-11 rounded border bg-slate-200 after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-md after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-purple-600 peer-checked:after:translate-x-full peer-focus:ring-green-300" />
+                  <input type="checkbox" className="peer sr-only" readOnly={true} checked={Boolean(novelIsPrivate)} />
+                  <div className="peer h-4 w-11 rounded border bg-purple-200 after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-md after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-purple-500 peer-checked:after:translate-x-full peer-focus:ring-green-300" />
                 </div>
               </button>
             </div>

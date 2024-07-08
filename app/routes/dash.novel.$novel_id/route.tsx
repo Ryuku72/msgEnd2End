@@ -55,7 +55,6 @@ export default function DashNovelId() {
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const lastUpdate = useRef('');
 
-
   useEffect(() => {
     if (navigationState.formMethod === 'PUT') {
       setPagePrivate(false);
@@ -191,7 +190,7 @@ export default function DashNovelId() {
       <div className="grid grid-cols-1 gap-4 w-full max-w-wide">
         {novelPages.map(page => (
           <div
-            className="w-full max-w-wide rounded-lg flex flex-col gap-1 bg-white bg-opacity-35 backdrop-blur-lg p-8 text-gray-700 drop-shadow-lg relative"
+            className="w-full max-w-wide rounded-lg flex flex-col gap-1 bg-white bg-opacity-35 backdrop-blur-md p-8 text-gray-700 drop-shadow-lg relative"
             key={page.id}>
             <div
               className={
@@ -224,14 +223,14 @@ export default function DashNovelId() {
             </div>
             <div className="flex flex-wrap gap-2 items-center">
               <p className="text-current text-sm text-left">Participants:</p>
-              <div className="flex gap-2 text-blue-800 items-center text-sm w-full flex-wrap">
+              <div className="flex gap-2 text-blue-800 items-center w-full flex-wrap">
                 {page.members.map(user => (
                   <div
                     key={user.id}
-                    className={`text-grey-700 text-sm ${user.color} pl-1 pr-2 py-1 rounded flex gap-1 items-center text-gray-700`}>
+                    className={`text-grey-700 font-semibold capitalize ${user.color} pl-1 pr-2 py-1 rounded flex gap-1.5 items-center text-gray-700`}>
                     <img
                       src={user.avatar ? img_url + user.avatar : Default_Avatar}
-                      className="rounded-full w-4 h-4"
+                      className="rounded-full w-7 h-7"
                       alt="user-avatar"
                       onError={e => {
                         e.currentTarget.src = Default_Avatar;
@@ -247,38 +246,35 @@ export default function DashNovelId() {
             <div className="flex flex-col w-full overflow-hidden h-[115px] relative text-sm">
               <DescriptionPreview editorState={page.published} />
             </div>
+            <div className="flex flex-row flex-wrap justify-end gap-3 w-full pt-4 pb-2">
+              <div
+                title={page.private ? 'Private' : 'Public'}
+                className="flex gap-2 w-fit rounded-lg font-semibold text-gray-600 border border-gray-600 flex-grow-0 capitalize px-2 py-1 after:content-[attr(title)]">
+                {page.private ? (
+                  <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
+                ) : (
+                  <PublicIcon className="w-6 h-auto" uniqueId="public-novel-icon" />
+                )}
+              </div>
+              <div
+                title={page.enable_collab ? 'Collab' : 'Solo'}
+                className="flex gap-2 w-fit rounded-lg font-semibold text-gray-600 border border-gray-600 flex-grow-0 capitalize px-2 py-1 after:content-[attr(title)]">
+                {page.enable_collab ? (
+                  <CollabIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
+                ) : (
+                  <SoloIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
+                )}
+              </div>
+            </div>
             <div className="w-full flex gap-3 flex-wrap mt-2 justify-end">
-                <button
-                  name="set_private"
-                  value="Private"
-                  disabled={true}
-                  data-string={page.private ? 'Private' : 'Public'}
-                  title={`Owner has set novel to ${page.private ? 'private' : 'public'} `}
-                  className="privateButton md:w-button w-icon font-semibold md:after:content-[attr(data-string)]">
-                  {page.private ? (
-                    <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
-                  ) : (
-                    <PublicIcon className="w-5 h-auto" uniqueId="public-novel-icon" />
-                  )}
-                </button>
-                <button
-                  name="enable_collab"
-                  value={page.enable_collab ? 'Collab' : 'Solo'}
-                  disabled={true}
-                  title={`Owner has ${page.enable_collab ? 'enabled collabaration' : 'disabled collabaration'} `}
-                  className="collabButton md:w-button w-icon font-semibold md:after:content-[attr(value)]">
-                  {page.enable_collab ? (
-                    <CollabIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
-                  ) : (
-                    <SoloIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
-                  )}
-                </button>
               <button
                 disabled={isLoadingUpdate}
                 onClick={() => navigate(`/dash/novel/${novel.id}/edit/${page.id}`)}
                 data-string="Edit"
                 className={
-                  novel.owner.id === user.id ? 'editButton md:w-button w-icon md:after:content-[attr(data-string)]' : 'hidden'
+                  novel.owner.id === user.id
+                    ? 'editButton md:w-button w-icon md:after:content-[attr(data-string)]'
+                    : 'hidden'
                 }>
                 <PenIcon uniqueId="edit-page" svgColor="#fff" className="w-5 h-auto" />
               </button>
@@ -327,7 +323,7 @@ export default function DashNovelId() {
           method="PUT"
           className={
             user.id === novel.owner.id
-              ? 'w-full max-w-wide rounded-lg bg-white bg-opacity-25 backdrop-blur-lg drop-shadow-lg p-8 flex flex-col gap-3'
+              ? 'w-full max-w-wide rounded-lg bg-white bg-opacity-35 backdrop-blur-md drop-shadow-lg p-8 flex flex-col gap-3'
               : 'hidden'
           }>
           <p className="text-gray-700 text-xl font-semibold w-full">Add New Page</p>
@@ -346,22 +342,17 @@ export default function DashNovelId() {
               value={password}
               onChange={setPassword}
             />
+            <div className="flex gap-3 items-center py-2">
+              <p className="text-sm font-medium text-gray-600 w-[100px]">Enable Private</p>
+              <button type="button" onClick={() => setPagePrivate(!pagePrivate)} className="flex flex-col">
+                <div className="relative inline-flex cursor-pointer items-center">
+                  <input type="checkbox" className="peer sr-only" readOnly={true} checked={pagePrivate} />
+                  <div className="peer h-4 w-11 rounded border bg-purple-200 after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-md after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-purple-500 peer-checked:after:translate-x-full peer-focus:ring-purple-300" />
+                </div>
+              </button>
+            </div>
           </div>
           <div className="w-full flex gap-3 justify-end">
-            <button
-              name="page_private"
-              type="button"
-              value={pagePrivate ? 1 : 0}
-              onClick={() => setPagePrivate(!pagePrivate)}
-              title={pagePrivate ? 'Private Page' : 'Public Page'}
-              data-string={pagePrivate ? 'Private' : 'Public'}
-              className="privateButton md:w-button w-icon font-semibold md:after:content-[attr(data-string)]">
-              {pagePrivate ? (
-                <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
-              ) : (
-                <PublicIcon className="w-5 h-auto" uniqueId="public-novel-icon" />
-              )}
-            </button>
             <button
               type="submit"
               name="add_page"
