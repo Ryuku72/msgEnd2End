@@ -23,6 +23,7 @@ import { userColor } from '~/helpers/UserColor';
 import { BasicProfile, MessageWithUser } from '~/types';
 
 import { InitialConfig } from '~/components/Lexical/config';
+import { initialEditorState } from '~/components/Lexical/helpers';
 import ChatPlugin from '~/components/Lexical/plugins/ChatPlugin';
 import CommentPlugin from '~/components/Lexical/plugins/CommentPlugin';
 import { MaxLengthPlugin } from '~/components/Lexical/plugins/MaxLengthPlugin';
@@ -33,11 +34,10 @@ import ToolbarPlugin from '~/components/Lexical/plugins/ToolbarPlugin';
 import { DashOutletContext } from '~/routes/dash/route';
 
 import Default_Avatar from '~/assets/default_avatar.jpeg';
-import { ChatIcon, ConnectIcon, DisconnectIcon, HelpIcon, PrivateNovelIcon, PublicNovelIcon, SyncIcon } from '~/svg';
+import { ChatIcon, CollabIcon, ConnectIcon, DisconnectIcon, HelpIcon, SoloIcon, SyncIcon } from '~/svg';
 
 import { CornerAlert } from './CornerAlert';
 import TutorialModal from './TutorialModal';
-import { initialEditorState } from '~/components/Lexical/helpers';
 
 export type ActiveUserProfile = Omit<BasicProfile, 'id'> & { userId: string };
 
@@ -180,9 +180,28 @@ export function PageRichTextEditor({
           />
           <div className="sticky md:bottom-3 bottom-[90px] right-4 self-end m-2 flex gap-2">
             <p
-              className={`bg-slate-400 backdrop-blur-sm bg-opacity-50 px-2 flex items-center h-access rounded-lg text-xs self-end cursor-default ${textLength < maxLength ? 'text-blue-800' : 'text-red-400'}`}>
+              className={`bg-orange-500 bg-opacity-25 backdrop-blur-sm px-2 flex items-center h-access rounded text-xs self-end cursor-default ${textLength < maxLength ? 'text-blue-800' : 'text-red-400'}`}>
               {textLength} / {maxLength} length
             </p>
+            <button
+              type="button"
+              disabled={!owner}
+              title={`Owner has ${enableCollab ? 'enabled collabaration' : 'disabled collabaration'}`}
+              className={`flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 bg-cyan-500 bg-opacity-25 backdrop-blur-sm  md:after:content-[attr(data-string)] ${owner ? 'pointer-events-auto' : 'pointer-events-none'}`}
+              data-string={enableCollab ? 'Collab' : 'Solo'}
+              onClick={e => {
+                e.preventDefault();
+                const formData = new FormData();
+                formData.append('enable_collab', (!enableCollab).toString());
+                formData.append('page_id', namespace);
+                submit(formData, { method: 'POST', action: '/api/page/enable_collab', navigate: false });
+              }}>
+              {enableCollab ? (
+                <CollabIcon uniqueId="public-novel-public-icon" className="w-5 h-auto -scale-x-100" />
+              ) : (
+                <SoloIcon uniqueId="public-novel-private-icon" className="w-5 h-auto" />
+              )}
+            </button>
             <button
               type="button"
               title={`Novel YJS ${status}`}
@@ -205,14 +224,6 @@ export function PageRichTextEditor({
             </button>
             <button
               type="button"
-              title="Show Tutorial"
-              data-string="Tutorial"
-              onClick={() => setShowTutorial(true)}
-              className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 bg-yellow-300 hover:text-gray-800 bg-opacity-25 backdrop-blur-sm md:after:content-[attr(data-string)]">
-              <HelpIcon uniqueId="help-icon" className="w-5 h-auto" />
-            </button>
-            <button
-              type="button"
               onClick={() => setScrollLock(scrollLock === 'Chat' ? 'Novel' : 'Chat')}
               data-string="Chat"
               className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 bg-white bg-opacity-25 backdrop-blur-sm  md:after:content-[attr(data-string)] relative">
@@ -226,22 +237,11 @@ export function PageRichTextEditor({
             </button>
             <button
               type="button"
-              disabled={!owner}
-              title={`Owner has ${enableCollab ? 'enabled collabaration' : 'disabled collabaration'}`}
-              className={`flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 hover:text-gray-800 ${!enableCollab ? 'bg-purple-400' : 'bg-orange-500'} bg-opacity-25 backdrop-blur-sm  md:after:content-[attr(data-string)]`}
-              data-string={enableCollab ? 'Collab' : 'Solo'}
-              onClick={e => {
-                e.preventDefault();
-                const formData = new FormData();
-                formData.append('enable_collab', (!enableCollab).toString());
-                formData.append('page_id', namespace);
-                submit(formData, { method: 'POST', action: '/api/page/enable_collab', navigate: false });
-              }}>
-              {enableCollab ? (
-                <PublicNovelIcon uniqueId="public-novel-public-icon" className="w-5 h-auto -scale-x-100" />
-              ) : (
-                <PrivateNovelIcon uniqueId="public-novel-private-icon" className="w-5 h-auto" />
-              )}
+              title="Show Tutorial"
+              data-string="Tutorial"
+              onClick={() => setShowTutorial(true)}
+              className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 bg-yellow-300 hover:text-gray-800 bg-opacity-25 backdrop-blur-sm md:after:content-[attr(data-string)]">
+              <HelpIcon uniqueId="help-icon" className="w-5 h-auto" />
             </button>
           </div>
         </div>

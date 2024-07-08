@@ -3,6 +3,7 @@ import { ActionFunctionArgs, json, redirect } from '@remix-run/node';
 import { isRouteErrorResponse } from '@remix-run/react';
 
 import { initAuthServer } from '~/services/API';
+import { AuthProfileEntry } from '~/types';
 
 export async function CreateAction(request: ActionFunctionArgs['request']) {
   const data = await request.formData();
@@ -20,8 +21,11 @@ export async function CreateAction(request: ActionFunctionArgs['request']) {
       const response = await supabaseClient.auth.signUp({ email, password, options: { data: {
         avatar: filename ? imageFilePath : null,
         username,
-        color
-      } }});
+        color,
+        tutorial_library: false,
+        tutorial_novel: false,
+        tutorial_page: false
+      } satisfies AuthProfileEntry['user_metadata']}} );
 
       if (response.error) {
         console.error('create user');

@@ -10,7 +10,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const message_id = data.get('message_id') as string;
 
    try {
-    const response = await supabaseClient.from('chats').delete().match({ id: message_id });
+    const response = await supabaseClient.from('messages').delete().match({ id: message_id });
     if (response.error) throw response.error;
     return json(response.data, { headers });
    } catch (error) {

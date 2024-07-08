@@ -9,7 +9,7 @@ export async function DashPageIdLoader({ request, params }: LoaderFunctionArgs) 
 
   try {
     const userDetails = await supabaseClient.auth.getUser();
-    if (userDetails.error) throw userDetails.error;
+    if (userDetails.error) redirect('/');
     const response = await supabaseClient
       .from('pages')
       .select('*, ownerProfile:profiles!owner(id,avatar,username,color)')
@@ -17,7 +17,7 @@ export async function DashPageIdLoader({ request, params }: LoaderFunctionArgs) 
       .single();
     if (response.error) throw response.error;
     const chatResponse = await supabaseClient
-      .from('chats')
+      .from('messages')
       .select('*,user:profiles!user_id(id,username,color,avatar)')
       .match({ page_id: params.page_id as string })
       .order('created_at', { ascending: false });

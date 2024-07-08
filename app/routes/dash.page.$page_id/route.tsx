@@ -27,7 +27,7 @@ export function action(data: ActionFunctionArgs) {
 type PageBroadcast = Omit<SupabaseBroadcast, 'new' | 'old'> & { new: Page; old: Page };
 
 export default function DashPageId() {
-  const loaderData = useLoaderData<{ page: Page, ownerInfo: BasicProfile, chat: MessageWithUser[], last_seen_message_id: string }>();
+  const loaderData = useLoaderData() as { page: Page, ownerInfo: BasicProfile, chat: MessageWithUser[], last_seen_message_id: string };
   const { user, supabase } = useOutletContext<DashOutletContext>();
   const navigationState = useNavigation();
   const navigate = useNavigate();

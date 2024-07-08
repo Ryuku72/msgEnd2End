@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Form, Link, useLoaderData, useNavigation, useOutletContext, useSubmit } from '@remix-run/react';
+import { Form, Link, Outlet, useLoaderData, useNavigate, useNavigation, useOutletContext } from '@remix-run/react';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -15,11 +15,11 @@ import {
   SupabaseBroadcast
 } from '~/types';
 
-import DialogWrapper from '~/components/DialogWrapper';
+import PasswordInput from '~/components/PasswordInput';
+import TitleInput from '~/components/TitleInput';
 
 import Default_Avatar from '~/assets/default_avatar.jpeg';
-import { ArrowIcon, PenIcon, PrivateNovelIcon, PublicNovelIcon, TrashIcon } from '~/svg';
-import CloseIcon from '~/svg/CloseIcon/CloseIcon';
+import { ArrowIcon, CollabIcon, PenIcon, PrivateIcon, PublicIcon, SoloIcon } from '~/svg';
 import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
 import PlusIcon from '~/svg/PlusIcon/PlusIcon';
 
@@ -42,17 +42,27 @@ export default function DashNovelId() {
   const { novel, pages } = useLoaderData() as { pages: PageWithUsers[]; novel: NovelWithUsers };
   const { user, img_url, supabase } = useOutletContext<DashOutletContext>();
   const navigationState = useNavigation();
+  const navigate = useNavigate();
   const isLoadingUpdate = 'submitting' === navigationState.state;
-  const finishedDelete = 'loading' === navigationState.state && navigationState.formMethod === 'DELETE';
   const isLoadingDash = 'loading' === navigationState.state && navigationState.location.pathname === '/dash';
-  const submit = useSubmit();
 
   const [novelPages, setNovelPages] = useState(pages);
   const [onlinePages, setOnlinePages] = useState<string[]>([]);
   const [debouncedOnlinePages, setDebouncedOnlinePages] = useState<string[]>([]);
-  const [selectedPage, setSelectedPage] = useState<PageWithUsers | null>(null);
+  const [password, setPassword] = useState('');
+  const [pagePrivate, setPagePrivate] = useState(false);
+  const [pageTitle, setPageTitle] = useState('');
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const lastUpdate = useRef('');
+
+
+  useEffect(() => {
+    if (navigationState.formMethod === 'PUT') {
+      setPagePrivate(false);
+      setPageTitle('');
+      setPassword('');
+    }
+  }, [navigationState.formMethod]);
 
   useEffect(() => {
     if (!supabase) return;
@@ -173,10 +183,6 @@ export default function DashNovelId() {
     };
   }, [debouncedOnlinePages]);
 
-  useEffect(() => {
-    if (finishedDelete) setSelectedPage(null);
-  }, [finishedDelete]);
-
   return (
     <div className="flex flex-col flex-auto md:flex-1 items-center w-full md:px-10 px-3 md:pt-12 pt-4 md:pb-12 pb-[120px] gap-6">
       <h1 className="text-red-700 text-4xl underline underline-offset-8 [text-shadow:_5px_3px_2px_rgb(225_225_225_/_50%)] font-miltonian">
@@ -212,7 +218,7 @@ export default function DashNovelId() {
               <p className="text-current text-sm text-left">
                 Last updated:{' '}
                 <span className="text-current transition-all duration-500 ease-linear font-semibold tracking-wide">
-                  {CreateDate(novel.updated_at + 'Z')}{' '}
+                  {CreateDate(novel.updated_at + 'Z')}
                 </span>
               </p>
             </div>
@@ -242,35 +248,40 @@ export default function DashNovelId() {
               <DescriptionPreview editorState={page.published} />
             </div>
             <div className="w-full flex gap-3 flex-wrap mt-2 justify-end">
-              <button
-                disabled={isLoadingUpdate}
-                onClick={() => setSelectedPage(page)}
-                className={
-                  novel.owner.id === user.id ? 'deleteButton md:w-button w-icon md:after:content-["Delete"]' : 'hidden'
-                }>
-                <TrashIcon uniqueId="delete-page" svgColor="#fff" className="w-5 h-auto" />
-              </button>
-              <Form
-                onSubmit={e => {
-                  e.preventDefault();
-                  const formData = new FormData();
-                  formData.append('enable_collab', (!page.enable_collab).toString());
-                  formData.append('page_id', page.id);
-                  submit(formData, { method: 'POST', action: '/api/page/enable_collab', navigate: false });
-                }}>
+                <button
+                  name="set_private"
+                  value="Private"
+                  disabled={true}
+                  data-string={page.private ? 'Private' : 'Public'}
+                  title={`Owner has set novel to ${page.private ? 'private' : 'public'} `}
+                  className="privateButton md:w-button w-icon font-semibold md:after:content-[attr(data-string)]">
+                  {page.private ? (
+                    <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
+                  ) : (
+                    <PublicIcon className="w-5 h-auto" uniqueId="public-novel-icon" />
+                  )}
+                </button>
                 <button
                   name="enable_collab"
                   value={page.enable_collab ? 'Collab' : 'Solo'}
-                  disabled={page.owner.id !== user.id}
+                  disabled={true}
                   title={`Owner has ${page.enable_collab ? 'enabled collabaration' : 'disabled collabaration'} `}
-                  className="altButton md:w-button w-icon font-semibold md:after:content-[attr(value)]">
+                  className="collabButton md:w-button w-icon font-semibold md:after:content-[attr(value)]">
                   {page.enable_collab ? (
-                    <PublicNovelIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
+                    <CollabIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
                   ) : (
-                    <PrivateNovelIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
+                    <SoloIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
                   )}
                 </button>
-              </Form>
+              <button
+                disabled={isLoadingUpdate}
+                onClick={() => navigate(`/dash/novel/${novel.id}/edit/${page.id}`)}
+                data-string="Edit"
+                className={
+                  novel.owner.id === user.id ? 'editButton md:w-button w-icon md:after:content-[attr(data-string)]' : 'hidden'
+                }>
+                <PenIcon uniqueId="edit-page" svgColor="#fff" className="w-5 h-auto" />
+              </button>
               <Form method="POST" className={!page.members.some(member => member.id === user.id) ? 'flex' : 'hidden'}>
                 <button
                   value={page.id}
@@ -281,12 +292,12 @@ export default function DashNovelId() {
                       ? ''
                       : 'Participate?'
                   }
-                  className="confirmButton font-semibold md:w-wide-button w-icon md:after:content-[attr(data-string)]">
+                  className="confirmButton font-semibold md:w-wide-button w-icon md:before:content-[attr(data-string)]">
                   {navigationState.state === 'loading' &&
                   navigationState.location.pathname === `/dash/page/${page.id}` ? (
                     <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="page-spinner" />
                   ) : (
-                    <PenIcon uniqueId="public-novel-icon" className="w-5 h-auto" />
+                    <ArrowIcon uniqueId="public-novel-icon" className="w-5 h-auto" />
                   )}
                 </button>
               </Form>
@@ -295,7 +306,7 @@ export default function DashNovelId() {
                 data-string={
                   navigationState.state === 'loading' && navigationState.location.pathname === `/dash/page/${page.id}`
                     ? ''
-                    : 'Continue'
+                    : 'Next'
                 }
                 className={
                   page.members.some(member => member.id === user.id)
@@ -306,34 +317,63 @@ export default function DashNovelId() {
                 navigationState.location.pathname === `/dash/page/${page.id}` ? (
                   <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="page-spinner" />
                 ) : (
-                  <PenIcon uniqueId="public-novel-icon" className="w-5 h-auto" />
+                  <ArrowIcon uniqueId="public-novel-icon" className="w-5 h-auto" />
                 )}
               </Link>
             </div>
           </div>
         ))}
         <Form
-          onSubmit={e => {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append('page_index', (pages?.length + 1).toString() || '0');
-            formData.append('novel_owner', novel.owner.id);
-            formData.append('updated_at', new Date().toISOString());
-            submit(formData, { method: 'put' });
-          }}>
-          <button
-            type="submit"
-            name="add_page"
-            className={
-              user.id === novel.owner.id
-                ? 'w-full max-w-wide h-[180px] rounded-lg bg-slate-400 bg-opacity-25 backdrop-blur-lg items-center drop-shadow-lg'
-                : 'hidden'
-            }>
-            <div className="truncate max-w-full p-8 overflow-hidden flex flex-wrap gap-3 text-gray-700">
-              <PlusIcon uniqueId="add_another_page" svgColor="currentColor" className="w-5 h-auto " />{' '}
-              <p className="text-xl font-semibold">Add Another Page</p>
-            </div>
-          </button>
+          method="PUT"
+          className={
+            user.id === novel.owner.id
+              ? 'w-full max-w-wide rounded-lg bg-white bg-opacity-25 backdrop-blur-lg drop-shadow-lg p-8 flex flex-col gap-3'
+              : 'hidden'
+          }>
+          <p className="text-gray-700 text-xl font-semibold w-full">Add New Page</p>
+          <div className="w-full flex flex-col max-w-[850px] gap-3">
+            <TitleInput
+              title="Page Title"
+              id="page_title"
+              value={pageTitle}
+              placeholder="Enter Page Title"
+              onChange={setPageTitle}
+            />
+            <PasswordInput
+              title="Page Password when Private"
+              id="page_password"
+              placeholder="Enter Page Password"
+              value={password}
+              onChange={setPassword}
+            />
+          </div>
+          <div className="w-full flex gap-3 justify-end">
+            <button
+              name="page_private"
+              type="button"
+              value={pagePrivate ? 1 : 0}
+              onClick={() => setPagePrivate(!pagePrivate)}
+              title={pagePrivate ? 'Private Page' : 'Public Page'}
+              data-string={pagePrivate ? 'Private' : 'Public'}
+              className="privateButton md:w-button w-icon font-semibold md:after:content-[attr(data-string)]">
+              {pagePrivate ? (
+                <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
+              ) : (
+                <PublicIcon className="w-5 h-auto" uniqueId="public-novel-icon" />
+              )}
+            </button>
+            <button
+              type="submit"
+              name="add_page"
+              data-string={navigationState.formMethod === 'PUT' ? '' : 'Add New Page'}
+              className="confirmButton font-semibold md:w-wide-button w-icon md:after:content-[attr(data-string)]">
+              {navigationState.formMethod === 'PUT' ? (
+                <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="page-spinner" />
+              ) : (
+                <PlusIcon uniqueId="add_another_page" svgColor="currentColor" className="w-4 h-auto" />
+              )}
+            </button>
+          </div>
         </Form>
       </div>
       <div className="flex w-full max-w-wide justify-center sticky md:bottom-4 bottom-[100px]">
@@ -349,45 +389,7 @@ export default function DashNovelId() {
           )}
         </Link>
       </div>
-      <DialogWrapper open={Boolean(selectedPage)}>
-        <div className="bg-slate-50 bg-opacity-55 backdrop-blur-lg flex flex-col rounded-t-lg rounded-b-md self-center w-full max-w-card-l">
-          <div className="w-full pt-4 px-6 pb-2 flex rounded-t-[inherit] justify-between items-center bg-white">
-            <h3 className="font-medium text-xl text-gray-600 underline underline-offset-4 capitalize">
-              &#8197;Confirm Delete&nbsp;&nbsp;&nbsp;
-            </h3>
-            <button className="crossButton" type="button" onClick={() => setSelectedPage(null)}>
-              <CloseIcon className="w-3 h-3" uniqueId="dash-close" svgColor="currentColor" />
-            </button>
-          </div>
-          <div className="w-full flex flex-col py-8 px-4 bg-white text-gray-700 mt-0.5 gap-2">
-            <p>Are you sure you would like to delete the following page?</p>
-            <strong className="capitalize">{'"' + selectedPage?.reference_title + '"'}</strong>
-          </div>
-          <div className="flex w-full justify-end bg-white rounded-b-md p-2 gap-3">
-            <Form method="delete">
-              <button
-                title="delete page"
-                value={selectedPage?.id}
-                name="page_id_delete"
-                data-string={isLoadingUpdate ? '' : 'Delete'}
-                className="deleteButton md:after:content-[attr(data-string)] md:w-button w-icon">
-                {isLoadingUpdate ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
-                ) : (
-                  <TrashIcon uniqueId="delete-page" svgColor="#fff" className="w-5 h-auto" />
-                )}
-              </button>
-            </Form>
-            <button
-              type="button"
-              onClick={() => setSelectedPage(null)}
-              data-string="Novel Select"
-              className="confirmButton md:after:content-[attr(data-string)] md:w-button w-icon">
-              <ArrowIcon uniqueId="settings-delete-back" className="w-6 h-auto rotate-180" />
-            </button>
-          </div>
-        </div>
-      </DialogWrapper>
+      <Outlet />
     </div>
   );
 }

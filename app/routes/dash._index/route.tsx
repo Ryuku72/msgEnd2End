@@ -1,6 +1,7 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import {
   Link,
+  useActionData,
   useLoaderData,
   useLocation,
   useNavigate,
@@ -14,7 +15,7 @@ import { CreateDate } from '~/helpers/DateHelper';
 import LOCALES from '~/locales/language_en.json';
 import { Novel, NovelWithMemberIds, Novel_Member, OnlineUser, SupabaseBroadcast } from '~/types';
 
-import { ArrowIcon } from '~/svg';
+import { ArrowIcon, PrivateIcon, PublicIcon } from '~/svg';
 import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
 import PlusIcon from '~/svg/PlusIcon/PlusIcon';
 
@@ -35,6 +36,7 @@ type NovelMemberBroadcast = Omit<SupabaseBroadcast, 'new' | 'old'> & { new: Nove
 
 export default function DashIndex() {
   const library = (useLoaderData() as NovelWithMemberIds[]) || [];
+  const actionData = useActionData() as { error: string } | undefined;
   const { user, supabase } = useOutletContext<DashOutletContext>();
   const navigationState = useNavigation();
   const { state } = useLocation();
@@ -76,6 +78,16 @@ export default function DashIndex() {
       channel.unsubscribe();
     };
   }, [supabase, user.id]);
+
+  useEffect(() => {
+    if (actionData?.error) {
+      const alert = new CustomEvent('alertFromError', {
+        detail: actionData?.error
+      });
+      setSelectedNovel(null);
+      window.dispatchEvent(alert);
+    }
+  }, [actionData?.error]);
 
   useEffect(() => {
     if (!supabase) return;
@@ -189,7 +201,8 @@ export default function DashIndex() {
               className={`absolute top-[-80px] right-[-80px] w-[100px] h-[100px] rounded-full transition-all duration-500 ease-linear group-[:nth-child(10n+1)]:bg-pastel-red group-[:nth-child(10n+2)]:bg-pastel-brown group-[:nth-child(10n+3)]:bg-pastel-orange group-[:nth-child(10n+4)]:bg-pastel-yellow group-[:nth-child(10n+5)]:bg-pastel-indigo group-[:nth-child(10n+6)]:bg-pastel-blue group-[:nth-child(10n+7)]:bg-pastel-green group-[:nth-child(10n+8)]:bg-pastel-emerald group-[:nth-child(10n+9)]:bg-pastel-purple group-[:nth-child(10n+0)]:bg-pastel-black ${selectedNovel && selectedNovel?.id === novel?.id ? 'scale-[16]' : 'group-hover:scale-[16] scale-[16] md:scale-0'}`}
             />
             <h3 className="text-current text-left text-2xl font-semibold tracking-wide mb-1 relative z-10 truncate max-w-full overflow-hidden capitalize">
-              {novel.title}
+              <div className="inline-flex flex-col">
+             {novel.private ? <PrivateIcon className="w-6 h-auto translate-y-1" uniqueId="private-novel-icon" /> : <PublicIcon className="w-auto h-7 translate-y-1" uniqueId="public-novel-icon" />}</div> {novel.title}
             </h3>
             <h4 className="text-current text-left text-lg md:mb-2 relative z-10 truncate max-w-full overflow-hidden">
               Author:{' '}
@@ -210,7 +223,7 @@ export default function DashIndex() {
                 Last updated:{' '}
                 <span
                   className={`${selectedNovel && selectedNovel?.id === novel?.id ? 'text-current' : ' md:text-yellow-400 group-hover:text-gray-700 text-current'} transition-all duration-500 ease-linear font-semibold tracking-wide`}>
-                  {CreateDate(novel.updated_at + 'Z')}{' '}
+                  {CreateDate(novel.updated_at + 'Z')}
                 </span>
               </p>
             </div>
@@ -251,6 +264,7 @@ export default function DashIndex() {
         ownerId={selectedNovel?.owner.id || ''}
         members={selectedNovel?.members || []}
         userId={user.id}
+        isPrivate={selectedNovel?.private || false}
       />
     </div>
   );

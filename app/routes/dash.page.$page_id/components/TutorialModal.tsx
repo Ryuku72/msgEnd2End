@@ -1,4 +1,5 @@
 import DialogWrapper from '~/components/DialogWrapper';
+import { ModalHeader } from '~/components/ModalHeader';
 
 import {
   ChatIcon,
@@ -6,12 +7,11 @@ import {
   ConnectIcon,
   DisconnectIcon,
   MicIcon,
-  PrivateNovelIcon,
-  PublicNovelIcon,
+  SoloIcon,
+  CollabIcon,
   StickyIcon,
   SyncIcon
 } from '~/svg';
-import CloseIcon from '~/svg/CloseIcon/CloseIcon';
 
 export type TutorialModalProps = {
   showTutorial: boolean;
@@ -23,18 +23,11 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
     <DialogWrapper open={showTutorial}>
       <div className="w-full md:max-w-[800px] flex gap-1 text-mono">
         <div className="w-full flex flex-col gap-1 bg-white bg-opacity-50 rounded-lg overflow-auto">
-          <div className="flex justify-between items-center pt-4 px-6 pb-2 bg-black bg-opacity-75 backdrop-blur-sm text-white rounded-t-lg">
-            <h3 className="font-medium text-xl underline underline-offset-4 capitalize flex items-center gap-2">
-              &nbsp;Tutorial&nbsp;&nbsp;&nbsp;
-            </h3>
-            <button className="crossButton text-white" type="button" onClick={() => setShowTutorial(false)}>
-              <CloseIcon className="w-3 h-3" uniqueId="dash-close" svgColor="currentColor" />
-            </button>
-          </div>
+          <ModalHeader title="Page Tutorial" close={() => setShowTutorial(false)} invert={true} />
           <div className="w-full py-4 px-6 bg-black bg-opacity-75 backdrop-blur-sm text-white rounded-b-lg flex flex-col gap-3">
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-orange-500 flex-shrink-0 flexCenter">
-                <PublicNovelIcon uniqueId="public-novel-tutorial-public-icon" className="w-5 h-auto -scale-x-100" />
+                <CollabIcon uniqueId="public-novel-tutorial-public-icon" className="w-5 h-auto -scale-x-100" />
               </div>
               <p>
                 <em>This is the Public Icon.</em> When enabled, all participants can actively contribute to the novel
@@ -43,7 +36,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-purple-400 flex-shrink-0 flexCenter">
-                <PrivateNovelIcon uniqueId="public-novel-tutorial-private-icon" className="w-5 h-auto" />
+                <SoloIcon uniqueId="public-novel-tutorial-private-icon" className="w-5 h-auto" />
               </div>
               <p>
                 <em>This is the Private Icon.</em> When enabled, only the owner can contribute to the novel writing

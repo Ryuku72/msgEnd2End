@@ -1,9 +1,8 @@
-import { InitialEditorStateType } from '@lexical/react/LexicalComposer';
+import { EditorState } from 'lexical';
 import { User } from '@supabase/supabase-js';
 
 export type ProfileEntry = {
   id: string;
-  email: string;
   username: string;
   color: string;
   avatar: string | null;
@@ -19,9 +18,16 @@ export type Novel = {
   updated_at: string;
   owner: string;
   title: string;
-  description: InitialEditorStateType;
-  pages: string[];
+  description: string | EditorState;
+  example: boolean;
+  private: boolean;
 };
+
+export type NovelPrivateDetails = {
+  novel_id: string;
+  owner_id: string;
+  password: string | null;
+}
 
 export type NovelWithUsers = Omit<Novel, 'owner'> & { owner: BasicProfile; members: BasicProfile[] };
 export type NovelWithMemberIds = Omit<NovelWithUsers, 'members'> & { members: { user_id: string }[] };
@@ -32,26 +38,33 @@ export type Page = {
   novel_id: string;
   owner: string;
   reference_title: string;
-  index: number;
-  published: InitialEditorStateType;
-  collab: number[];
-  comments: number[];
-  chat: number[];
+  published: string | EditorState;
+  private: boolean;
   enable_collab: boolean;
+  example: boolean;
 };
+
+export type PagePrivateDetails = {
+  page_id: string;
+  owner_id: string;
+  password: string | null;
+}
 
 export type PageWithUsers = Omit<Page, 'owner'> & { owner: BasicProfile; members: BasicProfile[] };
 export type PageWithOwner = Omit<Page, 'owner'> & { owner: BasicProfile };
 
 export type AuthProfileEntry = User & {
   user_metadata: {
-    avatar?: string;
+    avatar?: string | null;
     color: string;
     username: string;
+    tutorial_library: boolean;
+    tutorial_novel: boolean;
+    tutorial_page: boolean;
   };
 };
 
-export type UserDataEntry = Omit<ProfileEntry, 'created_at' | 'updated_at' | 'email'>;
+export type UserDataEntry = AuthProfileEntry['user_metadata'];
 
 export type Message = {
   id: string;
@@ -59,10 +72,37 @@ export type Message = {
   updated_at: string;
   page_id: string;
   user_id: string;
-  message: string;
+  message: string | EditorState;
 }
 
 export type MessageWithUser = Message & { user: BasicProfile };
+
+// update - new and old
+// delete - old
+// insert - new?
+export type SupabaseBroadcast = {
+  commit_timestamp: string;
+  errors: null | Error;
+  eventType: 'UPDATE' | 'DELETE' | 'INSERT';
+  new: unknown;
+  old: unknown;
+  schema: 'Public';
+  table: string;
+};
+
+export type Page_Member = {
+  page_id: string;
+  user_id: string;
+  last_seen_message_id: string;
+};
+
+export type Novel_Member = {
+  novel_id: string;
+  user_id: string;
+  last_visit: string;
+};
+
+export type OnlineUser = { novel_id: string; page_id: string; room: string; user_id: string };
 
 export type SVG_Stoke_Component_props = {
   className: string;
@@ -91,31 +131,6 @@ export type Unit =
   | 'vh'
   | 'vmin'
   | 'vmax';
-
-// update - new and old
-// delete - old
-// insert - new?
-export type SupabaseBroadcast = {
-  commit_timestamp: string;
-  errors: null | Error;
-  eventType: 'UPDATE' | 'DELETE' | 'INSERT';
-  new: unknown;
-  old: unknown;
-  schema: 'Public';
-  table: string;
-};
-
-export type Page_Member = {
-  page_id: string;
-  user_id: string;
-};
-
-export type Novel_Member = {
-  novel_id: string;
-  user_id: string;
-};
-
-export type OnlineUser = { novel_id: string; page_id: string; room: string; user_id: string };
 
 // Used for tailwind extension
 export type Escape = (className: string) => string;

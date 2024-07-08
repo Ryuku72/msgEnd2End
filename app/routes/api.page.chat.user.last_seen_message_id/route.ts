@@ -6,13 +6,11 @@ import { initAuthServer } from '~/services/API';
 
 export async function action({ request }: ActionFunctionArgs) {
   const { supabaseClient, headers } = await initAuthServer(request);
-  console.log('hello');
   const data = await request.formData();
   const user_id = data.get('user_id');
   const last_seen_message_id = data.get('last_seen_message_id');
   const page_id = data.get('page_id');
 
-  console.log(last_seen_message_id);
   try {
     const response = await supabaseClient
       .from('page_members')

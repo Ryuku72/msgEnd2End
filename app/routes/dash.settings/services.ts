@@ -69,7 +69,10 @@ export async function SettingsAction(request: ActionFunctionArgs['request']) {
         avatar: env.SUPABASE_IMG_STORAGE + 'public/avatars/' + user?.user_metadata?.avatar,
         id: user?.id || '',
         username: user?.user_metadata.username || 'Not Found',
-        color: user?.user_metadata.color || '#aeaeae'
+        color: user?.user_metadata.color || '#aeaeae',
+        tutorial_library:user?.user_metadata.tutorial_library || false,
+        tutorial_novel: user?.user_metadata.tutorial_novel || false,
+        tutorial_page: user?.user_metadata.tutorial_page || false
       };
 
       return json(userData, { headers });

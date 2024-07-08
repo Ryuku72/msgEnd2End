@@ -52,21 +52,17 @@ export async function DashNovelIdAction({ request, params }: ActionFunctionArgs)
   const { supabaseClient, headers } = await initServer(request);
   const data = await request.formData();
   const page_id = data.get('selected_page');
-  const delete_page_id = data.get('page_id_delete');
-  const page_index = data.get('page_index');
-  const novel_owner = data.get('novel_owner');
-  const updated_at = data.get('updated_at');
+  const page_title = data.get('page_title');
+  const page_password = data.get('page_password');
+  const isPrivate = data.get('page_private');
+
   const response = await supabaseClient.auth.getUser();
   const user = response.data?.user;
   const novel_id = params.novel_id;
 
   if (!user) return redirect('/', { headers });
   try {
-    if (request.method === 'DELETE' && delete_page_id) {
-      const update = await supabaseClient.from('pages').delete().match({ id: delete_page_id }).select();
-      if (update.error) throw update.error;
-      return json(update.data, { headers });
-    } else if (request.method === 'POST' && page_id) {
+    if (request.method === 'POST' && page_id) {
       const update = await supabaseClient
         .from('page_members')
         .insert({
@@ -77,29 +73,24 @@ export async function DashNovelIdAction({ request, params }: ActionFunctionArgs)
         .single();
       if (update.error) throw update.error;
       return redirect('/dash/page/' + page_id, { headers });
-    } else if (request.method === 'PUT') {
-      const page_insert = await supabaseClient.from('pages').insert({
-        novel_id,
-        owner: novel_owner,
-        reference_title: 'Page ' + page_index,
-        updated_at
-      })
-      .select()
-      .single();
-
-      if (page_insert.error) throw page_insert.error;
-      if (novel_owner !== user.id) {
-        const update = await supabaseClient
-        .from('page_members')
+    } else if (request.method === 'PUT' && page_title) {
+      const page_insert = await supabaseClient
+        .from('pages')
         .insert({
-          user_id: user.id,
-          page_id: page_insert.data.id
+          novel_id,
+          owner: user.id,
+          reference_title: page_title,
+          private: Boolean(isPrivate)
         })
         .select()
         .single();
-      if (update.error) throw update.error;
-      
-      } 
+      if (page_insert.error) throw page_insert.error;
+      const privateDetails = await supabaseClient
+        .from('page_private_details')
+        .insert({ page_id: page_insert.data.id, owner_id: user.id, password: page_password })
+        .select()
+        .single();
+      if (privateDetails.error) throw privateDetails.error;
       return json(page_insert, { headers });
     } else return json(null, { headers });
   } catch (error) {

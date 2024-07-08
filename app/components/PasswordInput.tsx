@@ -8,6 +8,7 @@ export type PasswordInputProps = {
   value: string;
   labelColor?: string;
   placeholder: string;
+  required?: boolean;
   onChange: (value: string) => void;
 };
 
@@ -16,6 +17,7 @@ export default function PasswordInput({
   id,
   value,
   placeholder,
+  required = true,
   labelColor = 'text-gray-600',
   onChange
 }: PasswordInputProps) {
@@ -34,7 +36,7 @@ export default function PasswordInput({
         minLength={6}
         maxLength={32}
         name={id}
-        required={true}
+        required={required}
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}

@@ -37,7 +37,7 @@ export default function ChatPlugin({
 
   useEffect(() => {
     if (openChat) setShowChatNotif(false);
-    else if (!messages) return;
+    else if (!messages || !messages?.length) return;
     else {
 
       if (!last_seen_message_id || last_seen_message_id !== messages[0]?.id) setShowChatNotif(true);
@@ -62,7 +62,7 @@ export default function ChatPlugin({
           switch (payload.eventType) {
             case 'INSERT': {
               const insert = await supabase
-                .from('chats')
+                .from('messages')
                 .select('*, user:profiles!user_id(color, username, avatar, id)')
                 .match({ id: payload.new.id })
                 .single();

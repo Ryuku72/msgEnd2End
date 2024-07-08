@@ -479,7 +479,7 @@ export function ConnectIcon({ className = '', svgColor = 'currentColor', uniqueI
   );
 }
 
-export function PrivateNovelIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+export function SoloIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
   return (
     <svg
       className={className}
@@ -497,7 +497,7 @@ export function PrivateNovelIcon({ className = '', svgColor = 'currentColor', un
   );
 }
 
-export function PublicNovelIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+export function CollabIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
   return (
     <svg
       className={className}
@@ -734,6 +734,56 @@ export function UpdateIcon({ className = '', svgColor = 'currentColor', uniqueId
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function PrivateIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" id={uniqueId} className={className} viewBox="0 0 24 24" fill="none">
+      <path
+        d="M9 16C9 16.5523 8.55228 17 8 17C7.44772 17 7 16.5523 7 16C7 15.4477 7.44772 15 8 15C8.55228 15 9 15.4477 9 16Z"
+        fill={svgColor}
+      />
+      <path
+        d="M13 16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16C11 15.4477 11.4477 15 12 15C12.5523 15 13 15.4477 13 16Z"
+        fill={svgColor}
+      />
+      <path
+        d="M17 16C17 16.5523 16.5523 17 16 17C15.4477 17 15 16.5523 15 16C15 15.4477 15.4477 15 16 15C16.5523 15 17 15.4477 17 16Z"
+        fill={svgColor}
+      />
+      <path
+        d="M6 10V8C6 7.65929 6.0284 7.32521 6.08296 7M18 10V8C18 4.68629 15.3137 2 12 2C10.208 2 8.59942 2.78563 7.5 4.03126"
+        stroke={svgColor}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M11 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H15"
+        stroke={svgColor}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function PublicIcon({ className = '', svgColor = 'currentColor', uniqueId }: SVG_Component_props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" id={uniqueId} className={className} viewBox="0 0 24 24" fill="none">
+      <path
+        d="M18 6.00002V6.75002H18.75V6.00002H18ZM15.7172 2.32614L15.6111 1.58368L15.7172 2.32614ZM4.91959 3.86865L4.81353 3.12619H4.81353L4.91959 3.86865ZM5.07107 6.75002H18V5.25002H5.07107V6.75002ZM18.75 6.00002V4.30604H17.25V6.00002H18.75ZM15.6111 1.58368L4.81353 3.12619L5.02566 4.61111L15.8232 3.0686L15.6111 1.58368ZM4.81353 3.12619C3.91638 3.25435 3.25 4.0227 3.25 4.92895H4.75C4.75 4.76917 4.86749 4.63371 5.02566 4.61111L4.81353 3.12619ZM18.75 4.30604C18.75 2.63253 17.2678 1.34701 15.6111 1.58368L15.8232 3.0686C16.5763 2.96103 17.25 3.54535 17.25 4.30604H18.75ZM5.07107 5.25002C4.89375 5.25002 4.75 5.10627 4.75 4.92895H3.25C3.25 5.9347 4.06532 6.75002 5.07107 6.75002V5.25002Z"
+        fill={svgColor}
+      />
+      <path d="M8 12H16" stroke={svgColor} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M8 15.5H13.5" stroke={svgColor} strokeWidth="1.5" strokeLinecap="round" />
+      <path
+        d="M4 6V19C4 20.6569 5.34315 22 7 22H17C18.6569 22 20 20.6569 20 19V14M4 6V5M4 6H17C18.6569 6 20 7.34315 20 9V10"
+        stroke={svgColor}
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
     </svg>
   );

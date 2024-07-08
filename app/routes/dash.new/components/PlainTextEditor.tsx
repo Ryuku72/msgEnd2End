@@ -55,7 +55,7 @@ export default function PlainTextEditor({
           <div data-id="CommentPlugin_CommentInputBox_EditorContainer" className="relative flex flex-auto">
             <PlainTextPlugin
               contentEditable={
-                <ContentEditable className="w-full text-base font-normal p-3 h-[400px] overflow-y-auto text-gray-500" />
+                <ContentEditable className="w-full text-base font-normal p-3 h-[300px] overflow-y-auto text-gray-500" />
               }
               placeholder={
                 <div className="absolute top-3 left-1 z-0 px-2 pointer-events-none text-gray-400">{placeholder}</div>

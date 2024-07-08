@@ -15,7 +15,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const message_id = data.get('message_id');
 
   try {
-    const response = await supabaseClient.from('chats').update({ message, user_id, page_id }).match({ id: message_id }).select().single();
+    const response = await supabaseClient.from('messages').update({ message, user_id, page_id }).match({ id: message_id }).select().single();
     if (response.error) throw response.error;
     return json(response.data, { headers });
   } catch (error) {

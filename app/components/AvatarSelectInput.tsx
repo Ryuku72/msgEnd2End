@@ -7,9 +7,10 @@ import { canvasPreview } from '~/helpers/canvasPreview';
 import DialogWrapper from '~/components/DialogWrapper';
 
 import Default_Avatar from '~/assets/default_avatar.jpeg';
-import CloseIcon from '~/svg/CloseIcon/CloseIcon';
-import LoadingClock from '~/svg/LoadingClock/LoadingClock';
 import { SubmitIcon } from '~/svg';
+import LoadingClock from '~/svg/LoadingClock/LoadingClock';
+
+import { ModalHeader } from './ModalHeader';
 
 export type AvatarInputProps = {
   title: string;
@@ -156,7 +157,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
           className="w-32 h-32 rounded-full object-cover bg-gradient-to-b from-slate-500 to-fuchsia-600"
           ref={imageElRef}
           src={imageSrc || Default_Avatar}
-          onError={event => event.currentTarget.src = Default_Avatar}
+          onError={event => (event.currentTarget.src = Default_Avatar)}
         />
         {title}
         <input
@@ -172,17 +173,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
       </label>
       <DialogWrapper open={showDialog}>
         <div className="w-full max-w-card-l bg-slate-300 bg-opacity-75 backdrop-blur-sm rounded-b-md rounded-t-lg flex flex-col gap-1 self-center text-mono">
-          <div className="w-full pt-4 px-6 pb-2 flex flex-wrap rounded-t-[inherit] justify-between items-center bg-white bg-opacity-75 backdrop-blur-sm">
-            <h3 className="font-medium text-xl text-gray-600 underline underline-offset-4">
-              &#8197;New Novel Details&nbsp;&nbsp;&nbsp;
-            </h3>
-            <button
-              className="crossButton"
-              type="button"
-              onClick={() => handleClose()}>
-              <CloseIcon className="w-3 h-3" uniqueId="dash-close" svgColor="currentColor" />
-            </button>
-          </div>
+          <ModalHeader title="New Novel Details" close={() => handleClose()} />
           <div className={hasImage ? 'hidden' : 'w-full aspect-square flex items-center justify-center'}>
             <LoadingClock className="w-24 h-24" svgColor="#fff" uniqueId="image-cropper-svg" />
           </div>
@@ -196,13 +187,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
             className={hasImage ? 'flex w-full max-w-full max-h-full' : '!hidden'}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             onComplete={c => setCompletedCrop(c)}>
-            <img
-              alt="Crop me"
-              className="w-full object-cover"
-              ref={imgRef}
-              src={imgSrc}
-              onLoad={onImageLoad}
-            />
+            <img alt="Crop me" className="w-full object-cover" ref={imgRef} src={imgSrc} onLoad={onImageLoad} />
           </Component>
           <div className="hidden">
             <canvas
@@ -215,11 +200,8 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
             />
           </div>
           <div className="w-full flex gap-3 flex-wrap px-6 py-2 rounded-b-md bg-white bg-opacity-75">
-            <button
-              type="button"
-              className="confirmButton after:content-['Submit'] w-button"
-              onClick={() => onSave()}>
-             <SubmitIcon uniqueId="submit-picture" className="w-6 h-auto" />
+            <button type="button" className="confirmButton after:content-['Submit'] w-button" onClick={() => onSave()}>
+              <SubmitIcon uniqueId="submit-picture" className="w-6 h-auto" />
             </button>
           </div>
         </div>

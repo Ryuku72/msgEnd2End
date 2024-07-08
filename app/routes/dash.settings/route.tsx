@@ -20,11 +20,11 @@ import DialogWrapper from '~/components/DialogWrapper';
 import TitleInput from '~/components/TitleInput';
 
 import { ArrowIcon, TrashIcon, UpdateIcon } from '~/svg';
-import CloseIcon from '~/svg/CloseIcon/CloseIcon';
 import LoadingSpinner from '~/svg/LoadingSpinner/LoadingSpinner';
 
 import { DashOutletContext } from '../dash/route';
 import { SettingsAction } from './services';
+import { ModalHeader } from '~/components/ModalHeader';
 
 export const meta: MetaFunction = () => {
   return [{ title: LOCALES.meta.title }, { name: 'description', content: LOCALES.meta.description }];
@@ -156,14 +156,7 @@ export default function DashSettings() {
           className="w-full max-w-card-l md:p-4 p-0 flex flex-col gap-1 md:self-center self-baseline text-mono m-auto md:m-0">
           <fieldset disabled={formDisabled}>
             <div className="bg-slate-50 bg-opacity-55 backdrop-blur-lg flex flex-col gap-0.5 rounded-t-lg rounded-b-md flex-auto md:flex-1">
-              <div className="w-full pt-4 px-6 pb-2 flex rounded-t-[inherit] justify-between items-center bg-white">
-                <h3 className="font-medium text-xl text-gray-600 underline underline-offset-4 capitalize">
-                  &#8197;Delete User Account&nbsp;&nbsp;&nbsp;
-                </h3>
-                <button className="crossButton" type="button" onClick={() => setShowDelModal(false)}>
-                  <CloseIcon className="w-3 h-3" uniqueId="dash-close" svgColor="currentColor" />
-                </button>
-              </div>
+              <ModalHeader title="Delete User Account" close={() => setShowDelModal(false)} />
               <div className="w-full py-4 px-4 bg-white rounded-b-md flex flex-col gap-6">
                 <p className="text-base text-gray-700 whitespace-pre-wrap">
                   {

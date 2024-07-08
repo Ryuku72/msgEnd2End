@@ -51,7 +51,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
             <NavLink
               end={true}
               className={({ isActive, isPending, isTransitioning }) =>
-                `w-navicon ${isActive || isPending || isTransitioning ? 'confirmButton' : 'altButton'}`
+                `w-navicon ${isActive || isPending || isTransitioning ? 'confirmButton' : 'editButton'}`
               }
               type="button"
               state={params}
@@ -72,7 +72,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
             <NavLink
               state={params}
               className={({ isActive, isPending, isTransitioning }) =>
-                `w-navicon ${isActive || isPending || isTransitioning ? 'confirmButton' : 'altButton'}`
+                `w-navicon ${isActive || isPending || isTransitioning ? 'confirmButton' : 'editButton'}`
               }
               type="button"
               to="/dash/new">
@@ -88,7 +88,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
             <NavLink
               state={params}
               className={({ isActive, isPending, isTransitioning }) =>
-                `w-navicon ${isActive || isPending || isTransitioning ? 'confirmButton' : 'altButton'}`
+                `w-navicon ${isActive || isPending || isTransitioning ? 'confirmButton' : 'editButton'}`
               }
               type="button"
               to="/dash/users">
