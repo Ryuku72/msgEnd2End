@@ -8,6 +8,7 @@
 
 ### Released
 > 8th July 2024
+- [e18eed4](https://github.com/Ryuku72/MessageNovel/commit/e18eed4) Added in Private modes for pages and novels. Clean up modal headers, clean up button classnames
 
 > 6th July 2024
 - [c8616f6](https://github.com/Ryuku72/MessageNovel/commit/c8616f6) Bug fix with Chatinput, bug fix with Floating Text Editor, Updates to review.md
