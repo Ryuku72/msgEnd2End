@@ -1,3 +1,4 @@
+* 076ee68 Additional Cleanup to Private and Collab labels
 * e18eed4 Added in Private modes for pages and novels. Clean up modal headers, clean up button classnames
 * c8616f6 Bug fix with Chatinput, bug fix with Floating Text Editor, Updates to review.md
 * 97ce1b3 Added the ability to update and delete messages within 3 min window

@@ -8,6 +8,7 @@
 
 ### Released
 > 8th July 2024
+- [076ee68](https://github.com/Ryuku72/MessageNovel/commit/076ee68) Additional Cleanup to Private and Collab labels
 - [e18eed4](https://github.com/Ryuku72/MessageNovel/commit/e18eed4) Added in Private modes for pages and novels. Clean up modal headers, clean up button classnames
 
 > 6th July 2024
