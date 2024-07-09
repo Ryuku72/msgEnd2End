@@ -188,7 +188,7 @@ export default function DashNew() {
       <DialogWrapper open={openConfirm}>
         <div className="bg-slate-50 bg-opacity-55 backdrop-blur-lg flex flex-col rounded-t-lg rounded-b-md self-center w-full max-w-card-l">
           <ModalHeader title="Confirm Delete" close={() => setOpenConfirm(false)} />
-          <div className="w-full py-8 px-4 bg-white text-gray-700 mt-0.5">
+          <div className="w-full flex flex-col gap-2 py-8 px-4 bg-white text-gray-700 mt-0.5">
             Are you sure you would like to delete the novel{' '}
             <strong className="capitalize">{'"' + library?.novel.title + '" ?'}</strong>
           </div>

@@ -42,6 +42,8 @@ export function DescriptionModal({
   const isLoadingUpdate = 'submitting' === navigationState.state && navigationState.formMethod === 'POST';
   const isLoadingPage =
     'loading' === navigationState.state && navigationState.location.pathname === `/dash/novel/${selectedNovel?.id}`;
+  const isLoadingEdit =
+    'loading' === navigationState.state && navigationState.location.search === `?novel_id=${selectedNovel?.id}`;
   const member = members.some(user => user.user_id === userId);
   const isOwner = userId === ownerId;
 
@@ -82,38 +84,42 @@ export function DescriptionModal({
             )}
           </div>
           <div className="flex flex-row flex-wrap gap-3 w-full bg-white bg-opacity-75 backdrop-blur-sm justify-end px-2 py-1">
-              <div
-                title={isPrivate ? 'Private' : 'Public'}
-                className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)]">
-                {isPrivate ? (
-                  <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
-                ) : (
-                  <PublicIcon className="w-6 h-auto" uniqueId="public-novel-icon" />
-                )}
-              </div>
-              <div
-                title={`Members: ${selectedNovel?.members?.length}`}
-                data-mobile={selectedNovel?.members?.length}
-                className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)] after:content-[attr(data-mobile)]">
-                <MembersIcon className="w-5 h-auto" uniqueId="members-icons" />
-              </div>
-              <div
-                title={`Update: ${selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at)}`}
-                data-mobile={selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at)}
-                className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)] after:content-[attr(data-mobile)]">
-                <UpdateIcon className="w-5 h-auto" uniqueId="update-icons" />
-              </div>
+            <div
+              title={isPrivate ? 'Private' : 'Public'}
+              className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)]">
+              {isPrivate ? (
+                <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
+              ) : (
+                <PublicIcon className="w-6 h-auto" uniqueId="public-novel-icon" />
+              )}
             </div>
+            <div
+              title={`Members: ${selectedNovel?.members?.length}`}
+              data-mobile={selectedNovel?.members?.length}
+              className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)] after:content-[attr(data-mobile)]">
+              <MembersIcon className="w-5 h-auto" uniqueId="members-icons" />
+            </div>
+            <div
+              title={`Update: ${selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at)}`}
+              data-mobile={selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at)}
+              className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)] after:content-[attr(data-mobile)]">
+              <UpdateIcon className="w-5 h-auto" uniqueId="update-icons" />
+            </div>
+          </div>
           <div className="flex w-full justify-end bg-white bg-opacity-75 backdrop-blur-sm rounded-b-md p-2 gap-3 sticky bottom-0">
             <Link
               to={`/dash/new?novel_id=${selectedNovel?.id}`}
-              data-string="Edit"
+              data-string={isLoadingEdit ? '' : 'Edit'}
               className={
                 isOwner
                   ? 'rounded-lg text-gray-100 font-semibold flex items-center justify-center h-button bg-slate-700 hover:bg-slate-500 md:w-button w-icon gap-2 md:after:content-[attr(data-string)]'
                   : 'hidden'
               }>
-              <PenIcon uniqueId="description-edit" className="w-6 h-auto" />
+              {isLoadingEdit ? (
+                <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-page-spinner" />
+              ) : (
+                <PenIcon uniqueId="description-edit" className="w-6 h-auto" />
+              )}
             </Link>
             <button
               className="rounded-lg text-gray-100 font-semibold flex items-center justify-center h-button bg-orange-700 hover:bg-orange-500 md:w-button w-icon gap-2 md:after:content-[attr(data-string)]"

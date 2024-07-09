@@ -22,7 +22,7 @@ export async function DashNewAction(data: ActionFunctionArgs) {
     if (request.method === 'DELETE' && novel_id) {
       const update = await supabaseClient.from('novels').delete().match({ id: novel_id }).select();
       if (update.error) throw update.error;
-      return json(update, { headers });
+      return redirect('/dash', { headers });
     } else if (title && description) {
       const userData = user.data.user;
       if (novel_id) {
