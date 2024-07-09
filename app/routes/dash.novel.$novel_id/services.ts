@@ -4,8 +4,6 @@ import { isRouteErrorResponse } from '@remix-run/react';
 
 import { initServer } from '~/services/API';
 
-import { ProfileEntry } from '~/types';
-
 export async function DashNovelIdLoader(data: LoaderFunctionArgs) {
   const { request, params } = data;
   const { supabaseClient, headers } = await initServer(request);
@@ -14,16 +12,10 @@ export async function DashNovelIdLoader(data: LoaderFunctionArgs) {
   try {
     const novel = await supabaseClient
       .from('novels')
-      .select(
-        '*, owner:profiles!owner(color, username, avatar, id), members:novel_members(profiles!novel_members_user_id_fkey(color, username, avatar, id))'
-      )
+      .select('*, owner:profiles!owner(color, username, avatar, id), members:novel_members!id(*))')
       .match({ id: novel_id })
       .single();
     if (novel.error) throw novel.error;
-    const novelData = {
-      ...novel.data,
-      members: novel.data.members.map((member: { profiles: ProfileEntry }) => member.profiles) // Flatten the profiles data
-    };
 
     const pages = await supabaseClient
       .from('pages')
@@ -34,11 +26,7 @@ export async function DashNovelIdLoader(data: LoaderFunctionArgs) {
       .order('created_at', { ascending: true });
     if (pages.error) throw pages.error;
 
-    const pagesData = pages.data.map(page => ({
-      ...page,
-      members: page.members.map((member: { profiles: ProfileEntry }) => member.profiles) // Flatten the profiles data
-    }));
-    return json({ novel: novelData, pages: pagesData }, { headers });
+    return json({ novel: novel.data, pages: pages.data }, { headers });
   } catch (error) {
     console.error(error);
     console.error('process error in novel id services');

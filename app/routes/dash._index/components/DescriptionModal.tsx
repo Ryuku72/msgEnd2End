@@ -98,8 +98,8 @@ export function DescriptionModal({
                 <MembersIcon className="w-5 h-auto" uniqueId="members-icons" />
               </div>
               <div
-                title={`Update: ${selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at + 'Z')}`}
-                data-mobile={selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at + 'Z')}
+                title={`Update: ${selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at)}`}
+                data-mobile={selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at)}
                 className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)] after:content-[attr(data-mobile)]">
                 <UpdateIcon className="w-5 h-auto" uniqueId="update-icons" />
               </div>
@@ -134,7 +134,7 @@ export function DescriptionModal({
                 <ArrowIcon uniqueId="description-next" className="w-6 h-auto" />
               )}
             </Link>
-            <Form method="post" className={!member && !selectedNovel?.private ? 'flex' : 'hidden'}>
+            <Form method="PUT" className={!member && !isPrivate ? 'flex' : 'hidden'}>
               <fieldset disabled={isLoadingUpdate}>
                 <button
                   name="selected_novel"
@@ -150,7 +150,7 @@ export function DescriptionModal({
               onClick={() => setShowPrivatePassword(true)}
               data-string="Participate"
               className={
-                !member && selectedNovel?.private
+                !member && isPrivate
                   ? 'confirmButton md:w-wide-button w-icon md:before:content-[attr(data-string)]'
                   : 'hidden'
               }>

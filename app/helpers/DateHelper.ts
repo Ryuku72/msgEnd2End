@@ -4,7 +4,7 @@ export function CreateDate(date: string, time?: boolean) {
   const newDate = new Date(date);
   const year = new Intl.DateTimeFormat('en-au', { day: '2-digit', month: '2-digit', year:'numeric', timeZone }).format(newDate);
   const hours = new Intl.DateTimeFormat('en-au', { minute: '2-digit', hour: '2-digit', timeZone }).format(newDate);
-  if (time) return `${year} at ${hours} `;
+  if (time) return `${year} at ${hours}`;
   return `${year}`;
 }
 

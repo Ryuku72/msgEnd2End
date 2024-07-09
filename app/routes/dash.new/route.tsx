@@ -128,6 +128,7 @@ export default function DashNew() {
               id="novel-password"
               placeholder="Enter Novel Password"
               value={password}
+              required={false}
               onChange={setPassword}
             />
              <div className="flex gap-3 items-center">

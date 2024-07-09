@@ -1,12 +1,12 @@
 ### UnReleased
-> Last Update: 6th July 2024
-- Add private mode to both pages and novels (short term: password, long term: email)
+> Last Update: 9th July 2024
 - Add a donation feild to About Page
 - Add AI Avatar Generation and AI text via Vercel AI
 - Clean up code
 - Clean up locale
 
 ### Released
+> 9th July 2024
 > 8th July 2024
 - [076ee68](https://github.com/Ryuku72/MessageNovel/commit/076ee68) Additional Cleanup to Private and Collab labels
 - [e18eed4](https://github.com/Ryuku72/MessageNovel/commit/e18eed4) Added in Private modes for pages and novels. Clean up modal headers, clean up button classnames

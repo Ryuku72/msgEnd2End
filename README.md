@@ -19,24 +19,28 @@ As a developer, Message novel is:
 - Expression of love for Lexical JS
 - Deploy with Vercel CI/CD 
 
-## Limitations of Remix
+## Why Remix
 
-Remix is a create library alternative to Next.JS especially in terms of Routing through ```<Outlet />```
-However, ```loader``` and ```action``` pose some serious limits. The fact that you will need to call a new instance of Supabase within each route leads to unnecessary API calls and worse duplicate data.
+Remix is a JS library Framework alternative to Next.JS especially in terms of Routing through ```<Outlet />```
+
+The access to all of Remix hooks and use of Routing Systems makes the concept of SSR much more streamlined. Its very easy to structure folders and know what Form APi point I need to hit. The use of Outlet with useOutletContext hook is very useful and the HMR is very fast.
+
+There are issues,  ```loader``` and ```action``` required to call a new instance of Supabase within each route leads to unnecessary API calls and worse duplicate data.
 
 Whilst this can be broken down in places, in others its unavoidable.
 
-## Limitations of Tailwind CSS
+## Tailwind CSS
 
-There is none... its purely a skill issue... Look at Tailwind.css file. That is an illustration of places that I could not get to work. Lexical requires all elements only have 1 className and thus I had to make special conditons to overcome this issue
+Amazing library that requires only a few unique configs. For example, Lexical requires all elements only have 1 className and thus I had to make special conditons to overcome this issue
 
-## Issues with Lexical
+## Lexical
 
-Collobration Plugin references documnent and so we have to use a mount hook to avoid it rendering on server. Furthermore, trying to find out a way to convert editorState to yjs update was very painful.
+Why this app exists. I love Lexical and building modules around it. For every textarea area or even input I just use lexical. Storing data as a JSON file just makes a lot of sense.
 
-## Limitations with Supabase and Lexical
+There are issuses, eg. Lexical Collobration Plugin references documnent and so we have to use a mount hook to avoid it rendering on server. Furthermore, trying to find out a way to convert editorState to yjs update was very painful.
 
-Currently there is no offical provider for Lexical and Supabase. Whilst I did try to use ```https://github.com/AlexDunmow/y-supabase``` this was very limiting and buggy. In the end I ported all the collobration elements (pages) to Liveblocks.
+## Supabase, Lexical and Liveblocks
+Currently there is no offical provider for Lexical and Supabase. Whilst I did try to use ```https://github.com/AlexDunmow/y-supabase``` this was very limiting and buggy. In the end I ported all the collobration elements (pages) to Liveblocks. So far has been really great and the YJS runs smoothly but all things require to be done manually unfortunately unlike Supabases Website.
 
 <br>
 <br>
@@ -68,12 +72,11 @@ DROP TABLE IF EXISTS public.profiles cascade;
 CREATE TABLE
   public.profiles (
     id uuid NOT NULL REFERENCES auth.users (id) ON DELETE CASCADE,
-    email text,
-    username text,
-    color text,
+    username text NOT NULL DEFAULT 'unknown',
+    color text NOT NULL DEFAULT 'bg-pastel-black',
     avatar text,
-    created_at timestamp DEFAULT timezone('UTC', now()),
-    updated_at timestamp DEFAULT timezone('UTC', now()),
+    created_at timestamptz DEFAULT now(),
+    updated_at timestamptz DEFAULT now(),
     PRIMARY KEY (id)
   );
 
@@ -94,7 +97,7 @@ CREATE POLICY "Can only delete own user data." ON public.profiles FOR DELETE USI
 CREATE OR REPLACE FUNCTION handle_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.updated_at = timezone('UTC', now());
+  NEW.updated_at = now();
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -105,11 +108,10 @@ FOR EACH ROW
 EXECUTE FUNCTION handle_updated_at();
 
 CREATE
-OR REPLACE FUNCTION public.create_user () RETURNS TRIGGER AS $$ BEGIN INSERT INTO public.profiles (id, email, username, color, avatar) 
+OR REPLACE FUNCTION public.create_user () RETURNS TRIGGER AS $$ BEGIN INSERT INTO public.profiles (id, username, color, avatar) 
 VALUES 
   (
     NEW.id,
-    NEW.email,
     NEW.raw_user_meta_data ->> 'username', 
     NEW.raw_user_meta_data ->> 'color',
     NEW.raw_user_meta_data ->> 'avatar'
@@ -168,12 +170,13 @@ drop table if exists public.novels cascade;
 create table
   public.novels (
     id uuid NOT NULL DEFAULT uuid_generate_v4 () unique,
-    created_at timestamp default timezone('UTC', now()),
-    updated_at timestamp default timezone('UTC', now()),
+    created_at timestamptz default now(),
+    updated_at timestamptz default now(),
     owner uuid REFERENCES public.profiles (id) ON DELETE CASCADE,
     title text,
     description jsonb,
     example boolean default false,
+    private boolean DEFAULT false,
     primary key (id)
   );
 
@@ -198,7 +201,7 @@ create policy "Can only delete if owner" on public.novels for delete using (auth
 CREATE OR REPLACE FUNCTION handle_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.updated_at = timezone('UTC', now());
+  NEW.updated_at = now();
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -239,6 +242,8 @@ CREATE TABLE
   public.novel_members (
     user_id uuid REFERENCES public.profiles (id) ON DELETE CASCADE,
     novel_id uuid REFERENCES public.novels (id) ON DELETE CASCADE,
+    last_seen_at timestamptz,
+    previous_seen_at timestamptz,
     PRIMARY KEY (novel_id, user_id)
   );
 
@@ -291,12 +296,13 @@ drop table if exists public.pages cascade;
 create table
   public.pages (
     id uuid NOT NULL default uuid_generate_v4 () unique,
-    created_at timestamp default timezone('UTC', now()),
-    updated_at timestamp default timezone('UTC', now()),
+    created_at timestamptz default now(),
+    updated_at timestamptz default now(),
     novel_id uuid references public.novels (id) on delete cascade,
     owner uuid references public.profiles (id) on delete cascade,
     reference_title text,
     published jsonb,
+    private boolean DEFAULT false,
     enable_collab boolean default true,
     example boolean default false,
     primary key (id)
@@ -326,7 +332,7 @@ CREATE POLICY "Owner can delete pages" ON public.pages FOR DELETE USING (auth.ui
 CREATE OR REPLACE FUNCTION handle_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.updated_at = timezone('UTC', now());
+  NEW.updated_at = now();
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -388,7 +394,6 @@ execute function supabase_functions.http_request(
   '{}',
   '1000'
 );
-
 ```
 
 ### Public Page Members
@@ -400,6 +405,7 @@ CREATE TABLE
   public.page_members (
     user_id uuid REFERENCES public.profiles (id) ON DELETE CASCADE,
     page_id uuid REFERENCES public.pages (id) ON DELETE CASCADE,
+    last_seen_message_id text,
     PRIMARY KEY (page_id, user_id)
   );
 
@@ -458,49 +464,156 @@ FOR UPDATE
   );
 ```
 
-### Chats
+### Messages
 
 ```sh
-drop table if exists public.chats cascade;
+drop table if exists public.messages cascade;
 
 create table
-  public.chats (
+  public.messages (
     id uuid primary key default uuid_generate_v4 () unique,
-    created_at timestamp default timezone('UTC', now()),
-    updated_at timestamp default timezone('UTC', now()),
+    created_at timestamptz default now(),
+    updated_at timestamptz default now(),
     page_id uuid references public.pages (id) on delete cascade,
     user_id uuid references public.profiles (id) on delete cascade,
     message jsonb not null
   );
 
-alter table public.chats enable row level security;
+alter table public.messages enable row level security;
 
 alter publication supabase_realtime
-add table public.chats;
+add table public.messages;
 
-create policy "Allow select if authenticated" on public.chats for
+create policy "Allow select if authenticated" on public.messages for
 select
   to authenticated using (true);
 
-create policy "Can only insert if authenticated." on public.chats for insert to authenticated
+create policy "Can only insert if authenticated." on public.messages for insert to authenticated
 with
   check (true);
 
-create policy "Can only update if owner." on public.chats
+create policy "Can only update if owner." on public.messages
 for update
   using (
     auth.role () = 'authenticated'
     and user_id = auth.uid ()
   );
 
-create policy "Owner can delete chat" on public.chats for delete using (user_id = auth.uid());
+create policy "Owner can delete chat" on public.messages for delete using (user_id = auth.uid());
 
 create
-or replace function handle_updated_at () returns trigger as $$ BEGIN NEW.updated_at = timezone('UTC', now()); RETURN NEW; END; $$ language plpgsql;
+or replace function handle_updated_at () returns trigger as $$ BEGIN NEW.updated_at = now(); RETURN NEW; END; $$ language plpgsql;
 
 create trigger set_updated_at before
-update on public.chats for each row
+update on public.messages for each row
 execute function handle_updated_at ();
+
+```
+
+### Novel Private Details 
+
+```sh 
+DROP TABLE IF EXISTS public.novel_private_details cascade;
+
+CREATE TABLE
+  public.novel_private_details (
+    novel_id uuid REFERENCES public.novels (id) ON DELETE CASCADE,
+    owner_id uuid REFERENCES public.profiles (id) on DELETE CASCADE,
+    password text,
+    PRIMARY KEY (novel_id, owner_id)
+  );
+
+ALTER TABLE public.novel_private_details ENABLE ROW LEVEL SECURITY;
+alter publication supabase_realtime
+add table public.novel_private_details;
+
+create policy "Can only select if authenticated." on public.novel_private_details for
+select
+  using (true);
+
+create policy "Can only insert if authenticated." on public.novel_private_details for insert to authenticated
+with
+  check (true);
+
+create policy "Can only delete if owner" on public.novel_private_details for DELETE to authenticated using (owner_id = auth.uid());
+
+create policy "Can only update if owner" on public.novel_private_details
+for update
+  to authenticated using (owner_id = auth.uid());
+
+create
+or replace function public.create_first_novel_details () returns trigger as $$
+begin
+insert into public.novel_private_details (novel_id, owner_id) 
+VALUES 
+  (
+    new.id,
+    new.owner
+  );
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE
+OR REPLACE TRIGGER create_user_novel_details_trigger
+AFTER INSERT ON public.novels FOR EACH ROW WHEN (
+  new.id IS NOT NULL
+  and new.owner is not null
+)
+EXECUTE FUNCTION public.create_first_novel_details ();
+```
+
+### Page Private Details
+
+```sh
+DROP TABLE IF EXISTS public.page_private_details cascade;
+
+CREATE TABLE
+  public.page_private_details (
+    page_id uuid REFERENCES public.pages (id) ON DELETE CASCADE,
+    owner_id uuid REFERENCES public.profiles (id) on DELETE CASCADE,
+    password text,
+    PRIMARY KEY (page_id, owner_id)
+  );
+
+ALTER TABLE public.page_private_details ENABLE ROW LEVEL SECURITY;
+alter publication supabase_realtime
+add table public.page_private_details;
+
+create policy "Can only select if authenticated." on public.page_private_details for
+select
+  using (true);
+
+create policy "Can only insert if authenticated." on public.page_private_details for insert to authenticated
+with
+  check (true);
+
+create policy "Can only delete if owner" on public.page_private_details for DELETE to authenticated using (owner_id = auth.uid());
+
+create policy "Can only update if owner" on public.page_private_details
+for update
+  to authenticated using (owner_id = auth.uid());
+
+create
+or replace function public.create_first_page_details () returns trigger as $$
+begin
+insert into public.page_private_details (page_id, owner_id) 
+VALUES 
+  (
+    new.id,
+    new.owner
+  );
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE
+OR REPLACE TRIGGER create_user_page_details_trigger
+AFTER INSERT ON public.pages FOR EACH ROW WHEN (
+  new.id IS NOT NULL
+  and new.owner is not null
+)
+EXECUTE FUNCTION public.create_first_page_details ();
 
 ```
 

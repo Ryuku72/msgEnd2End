@@ -29,7 +29,15 @@ export type NovelPrivateDetails = {
   password: string | null;
 }
 
-export type NovelWithUsers = Omit<Novel, 'owner'> & { owner: BasicProfile; members: BasicProfile[] };
+export type Novel_Member = {
+  novel_id: string;
+  user_id: string;
+  last_seen_at: string;
+  previous_seen_at: string;
+};
+
+
+export type NovelWithUsers = Omit<Novel, 'owner'> & { owner: BasicProfile; members: Novel_Member[] };
 export type NovelWithMemberIds = Omit<NovelWithUsers, 'members'> & { members: { user_id: string }[] };
 export type Page = {
   id: string;
@@ -50,7 +58,13 @@ export type PagePrivateDetails = {
   password: string | null;
 }
 
-export type PageWithUsers = Omit<Page, 'owner'> & { owner: BasicProfile; members: BasicProfile[] };
+export type Page_Member = {
+  page_id: string;
+  user_id: string;
+  last_seen_message_id: string;
+};
+
+export type PageWithUsers = Omit<Page, 'owner'> & { owner: BasicProfile; members: { profiles: BasicProfile }[] };
 export type PageWithOwner = Omit<Page, 'owner'> & { owner: BasicProfile };
 
 export type AuthProfileEntry = User & {
@@ -61,10 +75,11 @@ export type AuthProfileEntry = User & {
     tutorial_library: boolean;
     tutorial_novel: boolean;
     tutorial_page: boolean;
+    last_logout: string;
   };
 };
 
-export type UserDataEntry = AuthProfileEntry['user_metadata'];
+export type UserDataEntry = AuthProfileEntry['user_metadata'] & { id: string };
 
 export type Message = {
   id: string;
@@ -88,18 +103,6 @@ export type SupabaseBroadcast = {
   old: unknown;
   schema: 'Public';
   table: string;
-};
-
-export type Page_Member = {
-  page_id: string;
-  user_id: string;
-  last_seen_message_id: string;
-};
-
-export type Novel_Member = {
-  novel_id: string;
-  user_id: string;
-  last_visit: string;
 };
 
 export type OnlineUser = { novel_id: string; page_id: string; room: string; user_id: string };

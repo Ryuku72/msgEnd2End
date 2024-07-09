@@ -181,28 +181,46 @@ export default function DashIndex() {
       <div className="grid wide:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 w-full max-w-wide">
         {LibraryNovels.map(novel => (
           <button
+            data-date={novel.created_at}
+            data-member={novel.members.some(member => member.user_id === user.id)}
             type="button"
             key={novel.id}
             className={`flex text-left bg-gray-400 bg-opacity-50 backdrop-blur-xl p-9 overflow-hidden relative rounded-[25px] font-mono flex-col gap-1 group transition-all duration-500 ease-linear ${selectedNovel && selectedNovel?.id === novel?.id ? 'text-gray-700' : 'md:text-white hover:text-gray-700 text-gray-700'}`}
             onClick={() => setSelectedNovel(novel)}>
-            <div
-              className={
-                onlineNovels.some(novel_id => novel_id === novel.id)
-                  ? 'absolute top-3 right-4 flex gap-2 items-center z-50'
-                  : 'hidden'
-              }>
-              <p className="text-current text-sm">Active</p>
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-              </span>
+            <div className="absolute top-3 right-4 flex gap-2 z-50">
+              <div className={onlineNovels.some(novel_id => novel_id === novel.id) ? 'flex items-center gap-2' : 'hidden'}>
+                <p className="text-current text-sm">Active</p>
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+              </div>
+              <div
+                className={
+                  (!user.last_logout || new Date(user.last_logout) < new Date(novel.updated_at || novel.created_at)) &&
+                  novel.owner.id !== user.id && !novel.members.some(member => member.user_id === user.id)
+                    ? 'flex items-center gap-2'
+                    : 'hidden'
+                }>
+                <p className="text-current text-sm">New</p>
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                </span>
+              </div>
             </div>
             <div
               className={`absolute top-[-80px] right-[-80px] w-[100px] h-[100px] rounded-full transition-all duration-500 ease-linear group-[:nth-child(10n+1)]:bg-pastel-red group-[:nth-child(10n+2)]:bg-pastel-brown group-[:nth-child(10n+3)]:bg-pastel-orange group-[:nth-child(10n+4)]:bg-pastel-yellow group-[:nth-child(10n+5)]:bg-pastel-indigo group-[:nth-child(10n+6)]:bg-pastel-blue group-[:nth-child(10n+7)]:bg-pastel-green group-[:nth-child(10n+8)]:bg-pastel-emerald group-[:nth-child(10n+9)]:bg-pastel-purple group-[:nth-child(10n+0)]:bg-pastel-black ${selectedNovel && selectedNovel?.id === novel?.id ? 'scale-[16]' : 'group-hover:scale-[16] scale-[16] md:scale-0'}`}
             />
             <h3 className="text-current text-left text-2xl font-semibold tracking-wide mb-1 relative z-10 truncate max-w-full overflow-hidden capitalize">
               <div className="inline-flex flex-col">
-             {novel.private ? <PrivateIcon className="w-6 h-auto translate-y-1" uniqueId="private-novel-icon" /> : <PublicIcon className="w-auto h-7 translate-y-1" uniqueId="public-novel-icon" />}</div> {novel.title}
+                {novel.private ? (
+                  <PrivateIcon className="w-6 h-auto translate-y-1" uniqueId="private-novel-icon" />
+                ) : (
+                  <PublicIcon className="w-auto h-7 translate-y-1" uniqueId="public-novel-icon" />
+                )}
+              </div>{' '}
+              {novel.title}
             </h3>
             <h4 className="text-current text-left text-lg md:mb-2 relative z-10 truncate max-w-full overflow-hidden">
               Author:{' '}
@@ -216,14 +234,14 @@ export default function DashIndex() {
                 Created:{' '}
                 <span
                   className={`${selectedNovel && selectedNovel?.id === novel?.id ? 'text-current' : ' md:text-yellow-400 group-hover:text-gray-700 text-current'} transition-all duration-500 ease-linear font-semibold tracking-wide`}>
-                  {CreateDate(novel.created_at + 'Z')}
+                  {CreateDate(novel.created_at)}
                 </span>
               </p>
               <p className="text-current text-xs relative z-10 text-left">
                 Last updated:{' '}
                 <span
                   className={`${selectedNovel && selectedNovel?.id === novel?.id ? 'text-current' : ' md:text-yellow-400 group-hover:text-gray-700 text-current'} transition-all duration-500 ease-linear font-semibold tracking-wide`}>
-                  {CreateDate(novel.updated_at + 'Z')}
+                  {CreateDate(novel.updated_at)}
                 </span>
               </p>
             </div>
@@ -231,16 +249,12 @@ export default function DashIndex() {
         ))}
       </div>
       <div className="w-full max-w-[1850px] p-2 gap-2 flex md:sticky md:bottom-0 pb-[120px] md:pb-2">
-      <button
+        <button
           type="button"
           onClick={() => {
-            state && (state?.novel_id ||  state?.page_id) ? navigate(-1) : navigate('/dash');
+            state && (state?.novel_id || state?.page_id) ? navigate(-1) : navigate('/dash');
           }}
-          className={
-            state && (state?.novel_id ||  state?.page_id)
-              ? 'cancelButton w-icon'
-              : 'hidden'
-          }>
+          className={state && (state?.novel_id || state?.page_id) ? 'cancelButton w-icon' : 'hidden'}>
           {isLoadingPage ? (
             <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="dash-back-spinner" />
           ) : (

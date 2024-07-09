@@ -43,8 +43,8 @@ export default function MessageContainer({
   const seenRef = useRef<HTMLDivElement | null>(null);
 
   const todaysDate = CreateDate(new Date().toISOString());
-  const today = todaysDate === CreateDate(message.created_at + 'Z');
-  const created_at = today ? 'at ' + CreateTimeOnly(message.created_at) : 'on ' + CreateDate(message.created_at + 'Z');
+  const today = todaysDate === CreateDate(message.created_at);
+  const created_at = today ? 'at ' + CreateTimeOnly(message.created_at) : 'on ' + CreateDate(message.created_at);
 
   const getTimeThreeMinutesAgo = () => {
     const now = new Date();
@@ -113,7 +113,7 @@ export default function MessageContainer({
       </div>
       <div
         className={
-          message.user.id === user_id && new Date(message.created_at + 'Z') > getTimeThreeMinutesAgo()
+          message.user.id === user_id && new Date(message.created_at) > getTimeThreeMinutesAgo()
             ? 'flex self-start gap-0.5'
             : 'hidden'
         }>

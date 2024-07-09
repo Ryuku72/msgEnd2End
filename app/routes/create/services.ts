@@ -24,7 +24,8 @@ export async function CreateAction(request: ActionFunctionArgs['request']) {
         color,
         tutorial_library: false,
         tutorial_novel: false,
-        tutorial_page: false
+        tutorial_page: false,
+        last_logout: ''
       } satisfies AuthProfileEntry['user_metadata']}} );
 
       if (response.error) {

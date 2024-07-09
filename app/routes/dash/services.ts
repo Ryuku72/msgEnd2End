@@ -22,7 +22,8 @@ export async function DashLoader(request: LoaderFunctionArgs['request']) {
       color: user?.user_metadata.color || '#aeaeae',
       tutorial_library:user?.user_metadata.tutorial_library || false,
       tutorial_novel: user?.user_metadata.tutorial_novel || false,
-      tutorial_page: user?.user_metadata.tutorial_page || false
+      tutorial_page: user?.user_metadata.tutorial_page || false,
+      last_logout: user?.user_metadata.last_logout || ''
     };
 
     return json({ user: userData, env: { SUPABASE_URL: env.SUPABASE_URL,

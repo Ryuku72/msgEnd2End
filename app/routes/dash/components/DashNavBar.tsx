@@ -18,7 +18,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
   const navigationState = useNavigation();
   const params = useParams();
 
-  const isAuthLoading = ['submitting'].includes(navigationState.state) && navigationState.formAction === '/auth';
+  const isAuthLoading = ['submitting'].includes(navigationState.state) && navigationState.formAction === '/api/logout';
   const isDashLoading = navigationState.state ==='loading' && navigationState.location.pathname === '/dash';
   const isNetworkLoading = navigationState.state ==='loading' && navigationState.location.pathname === '/dash/users';
   const LocalStrings = LOCALES.dash;
@@ -105,8 +105,8 @@ export default function DashNavBar({ user }: DashNavBarProps) {
             </div>
           </div>
         </div>
-        <Form method="get" action="/auth" className="has-tooltip cursor-pointer relative">
-          <button className="logOutButton" type="submit" name="intent" value="signout">
+        <Form method="PUT" action="/api/logout" className="has-tooltip cursor-pointer relative">
+          <button className="logOutButton" type="submit" value={new Date().toISOString()} name="last_logout">
             {isAuthLoading ? (
               <LoadingSpinner className="w-8 h-8" svgColor="#fff" uniqueId="index-spinner" />
             ) : (

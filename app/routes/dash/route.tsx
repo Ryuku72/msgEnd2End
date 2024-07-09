@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
+import { Outlet, useLoaderData, useOutletContext, useSubmit } from '@remix-run/react';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { createBrowserClient } from '@supabase/ssr';
 import { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
@@ -25,7 +25,7 @@ export type DashOutletContext = {
   supabase: SupabaseClient;
   channel: RealtimeChannel;
   img_url: string;
-  scrollLock: string; 
+  scrollLock: string;
   setScrollLock: (state: string) => void;
 };
 
@@ -35,9 +35,27 @@ export default function Dash() {
     env: { SUPABASE_URL: string; SUPABASE_ANON_KEY: string; SUPABASE_IMG_STORAGE: string };
   }>();
   const { sceneReady } = useOutletContext<{ sceneReady: boolean }>();
-  const [scrollLock, setScrollLock] = useState<'Chat' | 'Comments' | 'Novel'>('Novel');
-
+  const submit = useSubmit();
   const supabase = createBrowserClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
+
+  const [scrollLock, setScrollLock] = useState<'Chat' | 'Comments' | 'Novel'>('Novel');
+  const mounted = useRef(false);
+
+
+  const handlelogout = useCallback(() => {
+    const formData = new FormData();
+    formData.append('last_logout', new Date().toISOString());
+    submit(formData, { method: 'POST', action: '/api/last_logout', navigate: false });
+  }, [submit]);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      if (mounted.current) handlelogout();
+      mounted.current = false;
+    };
+  }, [handlelogout]);
+
 
   useEffect(() => {
     if (!sceneReady) return;
@@ -52,7 +70,9 @@ export default function Dash() {
       className={`w-full flex flex-auto flex-row relative ${scrollLock !== 'Novel' ? 'md:overflow-visible overflow-hidden' : 'overflow-visible'}`}
       id="dash-default">
       <DashNavBar user={user} />
-      <Outlet context={{ user, supabase, img_url: env.SUPABASE_IMG_STORAGE + 'public/avatars/', scrollLock, setScrollLock }} />
+      <Outlet
+        context={{ user, supabase, img_url: env.SUPABASE_IMG_STORAGE + 'public/avatars/', scrollLock, setScrollLock }}
+      />
     </div>
   );
 }

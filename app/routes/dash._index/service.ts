@@ -41,7 +41,7 @@ export async function DashIndexAction(request: ActionFunctionArgs['request']) {
   try {
     const novel_private = await supabaseClient.from('novel_private_details').select('*').match({ novel_id }).single();
     if (novel_private.error) throw novel_private.error;
-    if (novel_private.data.password === password) {
+    if (novel_private.data.password === password && request.method === 'POST') {
       const update = await supabaseClient
         .from('novel_members')
         .insert({
@@ -57,7 +57,23 @@ export async function DashIndexAction(request: ActionFunctionArgs['request']) {
       }
 
       return redirect('/dash/novel/' + novel_id, { headers });
-    } else return json({ error: 'Incorrect Password' }, { headers });
+    } else if (request.method === 'PUT') {
+      const update = await supabaseClient
+      .from('novel_members')
+      .insert({
+        user_id: user.id,
+        novel_id
+      })
+      .select()
+      .single();
+    if (update.error) {
+      console.error(update.error);
+      console.error('process error in add member');
+      return json(null, { headers });
+    } else return redirect('/dash/novel/' + novel_id, { headers });
+    } 
+    
+    return json({ error: 'Incorrect Password' }, { headers });
   } catch (error) {
     console.error(error);
     console.error('process error in dash');

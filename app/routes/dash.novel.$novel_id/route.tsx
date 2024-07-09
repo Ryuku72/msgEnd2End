@@ -1,7 +1,16 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Form, Link, Outlet, useLoaderData, useNavigate, useNavigation, useOutletContext } from '@remix-run/react';
+import {
+  Form,
+  Link,
+  Outlet,
+  useLoaderData,
+  useNavigate,
+  useNavigation,
+  useOutletContext,
+  useSubmit
+} from '@remix-run/react';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { CreateDate } from '~/helpers/DateHelper';
 import {
@@ -11,7 +20,6 @@ import {
   Page,
   PageWithUsers,
   Page_Member,
-  ProfileEntry,
   SupabaseBroadcast
 } from '~/types';
 
@@ -43,8 +51,7 @@ export default function DashNovelId() {
   const { user, img_url, supabase } = useOutletContext<DashOutletContext>();
   const navigationState = useNavigation();
   const navigate = useNavigate();
-  const isLoadingUpdate = 'submitting' === navigationState.state;
-  const isLoadingDash = 'loading' === navigationState.state && navigationState.location.pathname === '/dash';
+  const submit = useSubmit();
 
   const [novelPages, setNovelPages] = useState(pages);
   const [onlinePages, setOnlinePages] = useState<string[]>([]);
@@ -54,6 +61,26 @@ export default function DashNovelId() {
   const [pageTitle, setPageTitle] = useState('');
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const lastUpdate = useRef('');
+  const hasUpdated = useRef(false);
+
+  const isLoadingUpdate = 'submitting' === navigationState.state;
+  const isLoadingDash = 'loading' === navigationState.state && navigationState.location.pathname === '/dash';
+  const thisNovelUser = novel.members.find(member => member.user_id === user.id);
+
+  const handleVisit = useCallback(() => {
+    const formData = new FormData();
+    formData.append('novel_id', novel.id);
+    formData.append('last_seen_at', new Date().toISOString());
+    if (thisNovelUser?.last_seen_at) formData.append('previous_seen_at', thisNovelUser?.last_seen_at);
+    hasUpdated.current = true;
+    submit(formData, { method: 'POST', action: '/api/novel/last_seen_at', navigate: false });
+  }, [novel.id, submit, thisNovelUser?.last_seen_at]);
+
+  useEffect(() => {
+    if (!hasUpdated.current) {
+      handleVisit();
+    }
+  }, [handleVisit]);
 
   useEffect(() => {
     if (navigationState.formMethod === 'PUT') {
@@ -86,11 +113,7 @@ export default function DashNovelId() {
                 .match({ id: payload.new.id })
                 .single();
               if (insert.error) return;
-              const pagesData = {
-                ...insert.data,
-                members: insert.data.members.map((member: { profiles: ProfileEntry }) => member.profiles)
-              } as PageWithUsers;
-              return setNovelPages(pages => [...pages, pagesData]);
+              return setNovelPages(pages => [...pages, insert.data]);
             }
             case 'UPDATE':
               return setNovelPages(pages =>
@@ -133,7 +156,8 @@ export default function DashNovelId() {
           };
           return setNovelPages(p =>
             p.map(page => {
-              if (page.id === info.new.page_id) return { ...page, members: page.members.concat(thisUser) };
+              if (page.id === info.new.page_id)
+                return { ...page, members: page.members.concat({ profiles: thisUser }) };
               else return page;
             })
           );
@@ -192,18 +216,28 @@ export default function DashNovelId() {
           <div
             className="w-full max-w-wide rounded-lg flex flex-col gap-1 bg-white bg-opacity-35 backdrop-blur-md p-8 text-gray-700 drop-shadow-lg relative"
             key={page.id}>
-            <div
-              className={
-                onlinePages.some(page_id => page_id === page.id)
-                  ? 'absolute top-3 right-4 flex gap-2 items-center z-50'
-                  : 'hidden'
-              }>
-              <p className="text-current text-sm font-semibold">Active</p>
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-              </span>
+            <div className="absolute top-3 right-4 flex gap-2 z-50">
+              <div className={onlinePages.some(page_id => page_id === page.id) ? 'flex items-center gap-2' : 'hidden'}>
+                <p className="text-current text-sm">Active</p>
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+              </div>
+              <div
+                className={
+                  (!thisNovelUser?.previous_seen_at || new Date(thisNovelUser?.previous_seen_at) < new Date(page.updated_at)) && !page.members.some(member => member.profiles.id === user.id)
+                    ? 'flex items-center gap-2'
+                    : 'hidden'
+                }>
+                <p className="text-current text-sm">New</p>
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                </span>
+              </div>
             </div>
+
             <p className="text-current text-left text-xl font-semibold truncate max-w-full overflow-hidden">
               {page.reference_title}
             </p>
@@ -211,13 +245,13 @@ export default function DashNovelId() {
               <p className="text-current text-sm text-left">
                 Created:{' '}
                 <span className="text-current transition-all duration-500 ease-linear font-semibold tracking-wide">
-                  {CreateDate(page.created_at + 'Z')}
+                  {CreateDate(page.created_at)}
                 </span>
               </p>
               <p className="text-current text-sm text-left">
                 Last updated:{' '}
                 <span className="text-current transition-all duration-500 ease-linear font-semibold tracking-wide">
-                  {CreateDate(novel.updated_at + 'Z')}
+                  {CreateDate(novel.updated_at)}
                 </span>
               </p>
             </div>
@@ -226,10 +260,10 @@ export default function DashNovelId() {
               <div className="flex gap-2 text-blue-800 items-center w-full flex-wrap">
                 {page.members.map(user => (
                   <div
-                    key={user.id}
-                    className={`text-grey-700 font-semibold capitalize ${user.color} pl-1 pr-2 py-1 rounded flex gap-1.5 items-center text-gray-700`}>
+                    key={user.profiles.id}
+                    className={`text-grey-700 font-semibold capitalize ${user.profiles.color} pl-1 pr-2 py-1 rounded flex gap-1.5 items-center text-gray-700`}>
                     <img
-                      src={user.avatar ? img_url + user.avatar : Default_Avatar}
+                      src={user.profiles.avatar ? img_url + user.profiles.avatar : Default_Avatar}
                       className="rounded-full w-7 h-7"
                       alt="user-avatar"
                       onError={e => {
@@ -238,7 +272,7 @@ export default function DashNovelId() {
                         return e;
                       }}
                     />
-                    {user.username}
+                    {user.profiles.username}
                   </div>
                 ))}
               </div>
@@ -278,7 +312,9 @@ export default function DashNovelId() {
                 }>
                 <PenIcon uniqueId="edit-page" svgColor="#fff" className="w-5 h-auto" />
               </button>
-              <Form method="POST" className={!page.members.some(member => member.id === user.id) ? 'flex' : 'hidden'}>
+              <Form
+                method="POST"
+                className={!page.members.some(member => member.profiles.id === user.id) ? 'flex' : 'hidden'}>
                 <button
                   value={page.id}
                   name="selected_page"
@@ -305,7 +341,7 @@ export default function DashNovelId() {
                     : 'Next'
                 }
                 className={
-                  page.members.some(member => member.id === user.id)
+                  page.members.some(member => member.profiles.id === user.id)
                     ? 'confirmButton font-semibold md:w-button w-icon md:after:content-[attr(data-string)]'
                     : 'hidden'
                 }>
@@ -340,6 +376,7 @@ export default function DashNovelId() {
               id="page_password"
               placeholder="Enter Page Password"
               value={password}
+              required={pagePrivate}
               onChange={setPassword}
             />
             <div className="flex gap-3 items-center py-2">

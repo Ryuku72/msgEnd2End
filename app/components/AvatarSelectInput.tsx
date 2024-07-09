@@ -184,10 +184,10 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
             crop={crop}
             aspect={1}
             circularCrop={false}
-            className={hasImage ? 'flex w-full max-w-full max-h-full' : '!hidden'}
+            className={hasImage ? 'flex w-full max-w-full !max-h-[80vh]' : '!hidden'}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             onComplete={c => setCompletedCrop(c)}>
-            <img alt="Crop me" className="w-full object-cover" ref={imgRef} src={imgSrc} onLoad={onImageLoad} />
+            <img alt="Crop me" className="w-full object-contain" ref={imgRef} src={imgSrc} onLoad={onImageLoad} />
           </Component>
           <div className="hidden">
             <canvas
