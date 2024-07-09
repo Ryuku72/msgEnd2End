@@ -7,6 +7,7 @@
 
 ### Released
 > 9th July 2024
+- [f672230](https://github.com/Ryuku72/MessageNovel/commit/f672230) Added a New Field to Pages and Novels to reflect when something new exists. Updated and Added New Api calls and updated the database. Updated Readme for Api calls section and the general sections
 > 8th July 2024
 - [076ee68](https://github.com/Ryuku72/MessageNovel/commit/076ee68) Additional Cleanup to Private and Collab labels
 - [e18eed4](https://github.com/Ryuku72/MessageNovel/commit/e18eed4) Added in Private modes for pages and novels. Clean up modal headers, clean up button classnames

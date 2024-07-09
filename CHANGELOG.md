@@ -1,3 +1,4 @@
+* f672230 Added a New Field to Pages and Novels to reflect when something new exists. Updated and Added New Api calls and updated the database. Updated Readme for Api calls section and the general sections
 * 076ee68 Additional Cleanup to Private and Collab labels
 * e18eed4 Added in Private modes for pages and novels. Clean up modal headers, clean up button classnames
 * c8616f6 Bug fix with Chatinput, bug fix with Floating Text Editor, Updates to review.md
