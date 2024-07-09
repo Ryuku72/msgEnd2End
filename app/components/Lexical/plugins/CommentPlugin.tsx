@@ -311,7 +311,7 @@ export default function CommentPlugin({
           deleteCommentOrThread={deleteCommentOrThread}
           activeIDs={activeIDs}
           markNodeMap={markNodeMap}
-          close={() => setScrollLock('novel')}
+          close={() => setScrollLock('Novel')}
           authorDetails={authorDetails}
           show={scrollLock === 'Comments'}
         />

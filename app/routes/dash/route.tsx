@@ -65,6 +65,8 @@ export default function Dash() {
     window.dispatchEvent(sceneEvent);
   }, [sceneReady]);
 
+  console.log(scrollLock);
+
   return (
     <div
       className={`w-full flex flex-auto flex-row relative ${scrollLock !== 'Novel' ? 'md:overflow-visible overflow-hidden' : 'overflow-visible'}`}
