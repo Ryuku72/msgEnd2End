@@ -178,7 +178,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
         <input
           id={id}
           name={id}
-          accept="image/jpeg, image/jpeg, image/png, image/webp, image/gif"
+          accept="image/*"
           className="hidden"
           type="file"
           onChange={onSelectFile}
