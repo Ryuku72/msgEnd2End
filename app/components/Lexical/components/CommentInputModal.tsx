@@ -171,7 +171,7 @@ export default function CommentInputModal({
             data-id="CommentPlugin_CommentInputBox_Button"
             data-string="Cancel"
             className="cancelButton w-button !h-[35px] font-normal rounded after:content-[attr(data-string)]">
-            <ArrowIcon uniqueId="lexical-comment-cancel-icon" className="w-5 h-auto rotate-180" />
+            <ArrowIcon id="lexical-comment-cancel-icon" className="w-5 h-auto rotate-180" />
           </button>
           <button
             type="button"
@@ -180,7 +180,7 @@ export default function CommentInputModal({
             data-string="Comment"
             className="confirmButton w-button !h-[35px] disabled:bg-gray-100 disabled:text-gray-300 font-normal rounded after:content-[attr(data-string)]"
             data-id="CommentPlugin_CommentInputBox_Button">
-            <StickyIcon svgColor="currentColor" uniqueId="lexical-comment-input-icon" className="w-5 h-auto" /> 
+            <StickyIcon svgColor="currentColor" id="lexical-comment-input-icon" className="w-5 h-auto" /> 
           </button>
         </div>
       </div>

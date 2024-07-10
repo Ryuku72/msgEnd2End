@@ -204,7 +204,7 @@ export default function FloatingChatToolbar(): JSX.Element {
           (isBold ? 'border bg-gray-200 hover:bg-gray-300 text-gray-600' : 'text-gray-500 hover:bg-gray-100')
         }
         aria-label="Format Bold">
-        <TypeBoldIcon uniqueId="lexical-bold" className="w-5 h-auto" />
+        <TypeBoldIcon id="lexical-bold" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -217,7 +217,7 @@ export default function FloatingChatToolbar(): JSX.Element {
           (isItalic ? 'border bg-gray-200 hover:bg-gray-300 text-gray-600' : 'text-gray-500 hover:bg-gray-100')
         }
         aria-label="Format Italics">
-        <TypeItalicIcon uniqueId="lexical-italic" className="w-5 h-auto" />
+        <TypeItalicIcon id="lexical-italic" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -230,7 +230,7 @@ export default function FloatingChatToolbar(): JSX.Element {
           (isUnderline ? 'border bg-gray-200 hover:bg-gray-300 text-gray-600' : 'text-gray-500 hover:bg-gray-100')
         }
         aria-label="Format Underline">
-        <TypeUnderlineIcon uniqueId="lexical-underline" className="w-5 h-auto" />
+        <TypeUnderlineIcon id="lexical-underline" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -243,7 +243,7 @@ export default function FloatingChatToolbar(): JSX.Element {
           (isStrikethrough ? 'border bg-gray-200 hover:bg-gray-300 text-gray-600' : 'text-gray-500 hover:bg-gray-100')
         }
         aria-label="Format Strikethrough">
-        <TypeStrikeThroughIcon uniqueId="lexical-strikethrough" className="w-5 h-auto" />
+        <TypeStrikeThroughIcon id="lexical-strikethrough" className="w-5 h-auto" />
       </button>
     </div>
   );

@@ -90,7 +90,7 @@ export default function Login() {
                 to="/"
                 className="cancelButton after:content-[attr(data-string)] w-button"
                 data-string={LocalStrings.primary_button}>
-                <ArrowIcon uniqueId="login-back" className="w-6 h-auto rotate-180" />
+                <ArrowIcon id="login-back" className="w-6 h-auto rotate-180" />
               </Link>
               <button
                 className="confirmButton after:content-[attr(data-string)] w-button"
@@ -98,9 +98,9 @@ export default function Login() {
                 disabled={false}
                 data-string={isLoading ? '' : LocalStrings.secondary_button}>
                 {isLoading ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+                  <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
                 ) : (
-                  <LoginIcon uniqueId="login-next" className="w-6 h-auto" />
+                  <LoginIcon id="login-next" className="w-6 h-auto" />
                 )}
               </button>
             </div>

@@ -15,7 +15,7 @@ export function LiveBlocksRoom({ children, roomId, authEndpoint }: { children: R
         <ClientSideSuspense
           fallback={
             <div className="w-full h-full flexCenter flex-col">
-              <LoadingSpinner uniqueId="room-loader" className="w-20 h-20" svgColor="#ff9000" />
+              <LoadingSpinner id="room-loader" className="w-20 h-20" svgColor="#ff9000" />
             </div>
           }>
           {() => children}

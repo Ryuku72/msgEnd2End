@@ -65,7 +65,7 @@ export default function CommentsComposer({
         data-id="CommentPlugin_CommentsPanel_SendButton"
         onClick={onClick}
         disabled={!canSubmit}>
-        <SendIcon className="w-[20px] h-auto translate-y-0.5 rotate-3" uniqueId="editor-send" svgColor="currentColor" />
+        <SendIcon className="w-[20px] h-auto translate-y-0.5 rotate-3" id="editor-send" svgColor="currentColor" />
       </button>
     </div>
   );

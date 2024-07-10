@@ -88,22 +88,22 @@ export function DescriptionModal({
               title={isPrivate ? 'Private' : 'Public'}
               className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)]">
               {isPrivate ? (
-                <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
+                <PrivateIcon className="w-5 h-auto" id="private-novel-icon" />
               ) : (
-                <PublicIcon className="w-6 h-auto" uniqueId="public-novel-icon" />
+                <PublicIcon className="w-6 h-auto" id="public-novel-icon" />
               )}
             </div>
             <div
               title={`Members: ${selectedNovel?.members?.length}`}
               data-mobile={selectedNovel?.members?.length}
               className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)] after:content-[attr(data-mobile)]">
-              <MembersIcon className="w-5 h-auto" uniqueId="members-icons" />
+              <MembersIcon className="w-5 h-auto" id="members-icons" />
             </div>
             <div
               title={`Update: ${selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at)}`}
               data-mobile={selectedNovel?.updated_at && CreateDate(selectedNovel?.updated_at)}
               className="flex gap-2 w-fit rounded-lg font-semibold text-gray-800 border border-gray-500 flex-grow-0 bg-white capitalize px-2 py-1 md:after:content-[attr(title)] after:content-[attr(data-mobile)]">
-              <UpdateIcon className="w-5 h-auto" uniqueId="update-icons" />
+              <UpdateIcon className="w-5 h-auto" id="update-icons" />
             </div>
           </div>
           <div className="flex w-full justify-end bg-white bg-opacity-75 backdrop-blur-sm rounded-b-md p-2 gap-3 sticky bottom-0">
@@ -116,9 +116,9 @@ export function DescriptionModal({
                   : 'hidden'
               }>
               {isLoadingEdit ? (
-                <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-page-spinner" />
+                <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-page-spinner" />
               ) : (
-                <PenIcon uniqueId="description-edit" className="w-6 h-auto" />
+                <PenIcon id="description-edit" className="w-6 h-auto" />
               )}
             </Link>
             <button
@@ -126,7 +126,7 @@ export function DescriptionModal({
               data-string="Back"
               type="button"
               onClick={close}>
-              <ArrowIcon uniqueId="description-back" className="w-6 h-auto rotate-180" />
+              <ArrowIcon id="description-back" className="w-6 h-auto rotate-180" />
             </button>
             <Link
               to={`/dash/novel/${selectedNovel?.id}`}
@@ -135,9 +135,9 @@ export function DescriptionModal({
                 member ? 'confirmButton md:w-button w-icon gap-2 md:before:content-[attr(data-string)]' : 'hidden'
               }>
               {isLoadingPage ? (
-                <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-page-spinner" />
+                <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-page-spinner" />
               ) : (
-                <ArrowIcon uniqueId="description-next" className="w-6 h-auto" />
+                <ArrowIcon id="description-next" className="w-6 h-auto" />
               )}
             </Link>
             <Form method="PUT" className={!member && !isPrivate ? 'flex' : 'hidden'}>
@@ -147,7 +147,7 @@ export function DescriptionModal({
                   value={selectedNovel?.id}
                   data-string="Participate"
                   className="confirmButton md:w-wide-button w-icon md:before:content-[attr(data-string)]">
-                  <ArrowIcon uniqueId="description-back" className="w-6 h-auto" />
+                  <ArrowIcon id="description-back" className="w-6 h-auto" />
                 </button>
               </fieldset>
             </Form>
@@ -160,7 +160,7 @@ export function DescriptionModal({
                   ? 'confirmButton md:w-wide-button w-icon md:before:content-[attr(data-string)]'
                   : 'hidden'
               }>
-              <ArrowIcon uniqueId="description-back" className="w-6 h-auto" />
+              <ArrowIcon id="description-back" className="w-6 h-auto" />
             </button>
           </div>
         </div>
@@ -184,14 +184,14 @@ export function DescriptionModal({
                     onClick={() => setShowPrivatePassword(false)}
                     data-string="Cancel"
                     className="cancelButton md:after:content-[attr(data-string)] md:w-button w-icon">
-                    <ArrowIcon uniqueId="description-back" className="w-6 h-auto rotate-180" />
+                    <ArrowIcon id="description-back" className="w-6 h-auto rotate-180" />
                   </button>
                   <button
                     data-string="Submit"
                     name="selected_novel"
                     value={selectedNovel?.id}
                     className="confirmButton md:w-button w-icon md:before:content-[attr(data-string)]">
-                    <ArrowIcon uniqueId="description-back" className="w-6 h-auto" />
+                    <ArrowIcon id="description-back" className="w-6 h-auto" />
                   </button>
                 </div>
               </fieldset>

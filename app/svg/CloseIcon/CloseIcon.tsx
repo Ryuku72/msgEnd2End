@@ -1,10 +1,10 @@
 import { SVG_Component_props } from '~/types';
 
-export default function CloseIcon({ className = '', svgColor = '#ffffffe0', uniqueId }: SVG_Component_props) {
+export default function CloseIcon({ className = '', svgColor = '#ffffffe0', id }: SVG_Component_props) {
   return (
     <svg
       className={className}
-      id={uniqueId}
+      id={id}
       width="8"
       height="8"
       viewBox="0 0 8 8"

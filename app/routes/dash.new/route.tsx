@@ -150,9 +150,9 @@ export default function DashNew() {
                 data-string={isDashLoading ? '' : 'Back'}
                 className="cancelButton md:after:content-[attr(data-string)] md:w-button w-icon">
                 {isDashLoading ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="dash-back-spinner" />
+                  <LoadingSpinner className="w-full h-10" svgColor="#fff" id="dash-back-spinner" />
                 ) : (
-                  <ArrowIcon uniqueId="dash-new-back" className="w-6 h-auto rotate-180" />
+                  <ArrowIcon id="dash-new-back" className="w-6 h-auto rotate-180" />
                 )}
               </button>
               <button
@@ -164,7 +164,7 @@ export default function DashNew() {
                     ? 'deleteButton md:w-button w-icon md:after:content-[attr(data-string)]'
                     : 'hidden'
                 }>
-                <TrashIcon className="w-5 h-auto" uniqueId="descript-delete" />
+                <TrashIcon className="w-5 h-auto" id="descript-delete" />
               </button>
               <button
                 className="confirmButton md:after:content-[attr(data-string)] md:w-button w-icon !gap-2.5"
@@ -176,9 +176,9 @@ export default function DashNew() {
                       : LocalStrings.primary_button
                 }>
                 {navigationState.formMethod === 'POST' ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+                  <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
                 ) : (
-                  <TypeWriterIcon uniqueId="new-dash-save" className="w-5 h-auto" />
+                  <TypeWriterIcon id="new-dash-save" className="w-5 h-auto" />
                 )}
               </button>
             </div>
@@ -199,9 +199,9 @@ export default function DashNew() {
                 data-string={navigationState.formMethod === 'DELETE' ? '' : 'Delete'}
                 className="deleteButton md:after:content-[attr(data-string)] md:w-button w-icon">
                 {navigationState.formMethod === 'DELETE' ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+                  <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
                 ) : (
-                  <TrashIcon uniqueId="delete-novel-confirm" svgColor="#fff" className="w-5 h-auto" />
+                  <TrashIcon id="delete-novel-confirm" svgColor="#fff" className="w-5 h-auto" />
                 )}
               </button>
             </Form>
@@ -210,7 +210,7 @@ export default function DashNew() {
               onClick={() => setOpenConfirm(false)}
               data-string="Cancel"
               className="confirmButton md:after:content-[attr(data-string)] md:w-button w-icon">
-              <ArrowIcon uniqueId="description-back" className="w-6 h-auto rotate-180" />
+              <ArrowIcon id="description-back" className="w-6 h-auto rotate-180" />
             </button>
           </div>
         </div>

@@ -105,19 +105,19 @@ export default function CommentsPanel({
               {fullScreenComments ? (
                 <ShrinkIcon
                   className="w-5 h-5 scale-125 group-hover:scale-90 transition-transform"
-                  uniqueId="shrink-comments-icon"
+                  id="shrink-comments-icon"
                   svgColor="currentColor"
                 />
               ) : (
                 <ExpandIcon
                   className="w-5 h-5 group-hover:scale-150 transition-transform"
-                  uniqueId="expand-comments-icon"
+                  id="expand-comments-icon"
                   svgColor="currentColor"
                 />
               )}
             </button>
             <button className="crossButton" type="button" onClick={close}>
-              <CloseIcon className="w-3 h-3" uniqueId="close-comments-icon" svgColor="currentColor" />
+              <CloseIcon className="w-3 h-3" id="close-comments-icon" svgColor="currentColor" />
             </button>
           </div>
         </div>

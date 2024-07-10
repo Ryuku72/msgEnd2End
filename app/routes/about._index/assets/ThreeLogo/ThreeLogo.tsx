@@ -4,7 +4,7 @@ export default function ThreeLogo({
   className = '',
   svgColor = '#ffffffbf',
   svgStroke = 'currentColor',
-  uniqueId
+  id
 }: SVG_Stoke_Component_props) {
   return (
     <svg
@@ -12,7 +12,7 @@ export default function ThreeLogo({
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       version="1.1"
-      id={uniqueId}
+      id={id}
       viewBox="0 0 640 640"
       xmlSpace="preserve">
       <polyline className="st0" fill={svgColor} points="171.7,621.7 20,18.4 620,186.9 " />

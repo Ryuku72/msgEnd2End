@@ -95,9 +95,9 @@ export default function DashPageIdEdit() {
               data-string={navigationState.formMethod === 'DELETE' ? '' : 'Delete'}
               className="deleteButton md:after:content-[attr(data-string)] md:w-button w-icon">
               {navigationState.formMethod === 'DELETE' ? (
-                <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+                <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
               ) : (
-                <TrashIcon uniqueId="delete-page" svgColor="#fff" className="w-5 h-auto" />
+                <TrashIcon id="delete-page" svgColor="#fff" className="w-5 h-auto" />
               )}
             </button>
             <button
@@ -105,16 +105,16 @@ export default function DashPageIdEdit() {
               onClick={() => navigate(`/dash/novel/${novel_id}`)}
               data-string="Cancel"
               className="cancelButton md:after:content-[attr(data-string)] md:w-button w-icon">
-              <ArrowIcon uniqueId="settings-delete-back" className="w-6 h-auto rotate-180" />
+              <ArrowIcon id="settings-delete-back" className="w-6 h-auto rotate-180" />
             </button>
             <button
               type="submit"
               data-string={navigationState.formMethod === 'POST' ? '' : 'Update'}
               className="confirmButton md:after:content-[attr(data-string)] md:w-button w-icon">
               {navigationState.formMethod === 'POST' ? (
-                <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+                <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
               ) : (
-                <UpdateIcon uniqueId="settings-delete-back" className="w-6 h-auto rotate-180" />
+                <UpdateIcon id="settings-delete-back" className="w-6 h-auto rotate-180" />
               )}
             </button>
           </div>
@@ -134,9 +134,9 @@ export default function DashPageIdEdit() {
                 data-string={navigationState.formMethod === 'DELETE' ? '' : 'Delete'}
                 className="deleteButton md:after:content-[attr(data-string)] md:w-button w-icon">
                 {navigationState.formMethod === 'DELETE' ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+                  <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
                 ) : (
-                  <TrashIcon uniqueId="delete-page" svgColor="#fff" className="w-5 h-auto" />
+                  <TrashIcon id="delete-page" svgColor="#fff" className="w-5 h-auto" />
                 )}
               </button>
             </Form>
@@ -145,7 +145,7 @@ export default function DashPageIdEdit() {
               onClick={() => setConfirmDelete(false)}
               data-string="Cancel"
               className="confirmButton md:after:content-[attr(data-string)] md:w-button w-icon">
-              <ArrowIcon uniqueId="settings-delete-back" className="w-6 h-auto rotate-180" />
+              <ArrowIcon id="settings-delete-back" className="w-6 h-auto rotate-180" />
             </button>
           </div>
         </div>

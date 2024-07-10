@@ -82,6 +82,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
 
   async function onSave() {
     if (!completedCrop) return;
+    const canvas = document?.createElement('canvas');
     const image = imgRef.current;
     const previewCanvas = previewCanvasRef.current;
     if (!image || !previewCanvas || !completedCrop) {
@@ -93,34 +94,32 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
     // are looking at on screen, remove scaleX + scaleY
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
+    canvas.width = completedCrop.width * scaleX;
+    canvas.height = completedCrop.height * scaleY;
 
-    const offscreen = new OffscreenCanvas(completedCrop.width * scaleX, completedCrop.height * scaleY);
-    const ctx = offscreen.getContext('2d');
+    const ctx = canvas.getContext('2d');
     if (!ctx) {
       throw new Error('No 2d context');
     }
 
-    ctx.drawImage(
-      previewCanvas,
-      0,
-      0,
-      previewCanvas.width,
-      previewCanvas.height,
-      0,
-      0,
-      offscreen.width,
-      offscreen.height
-    );
+    ctx.drawImage(previewCanvas, 0, 0, previewCanvas.width, previewCanvas.height, 0, 0, canvas.width, canvas.height);
     // You might want { type: "image/jpeg", quality: <0 to 1> } to
     // reduce image size
-    const blob = await offscreen.convertToBlob({
-      type: 'image/png'
-    });
-    blobUrlRef.current = URL.createObjectURL(blob);
-    const file = new File([blob], 'avatar.png');
-    if (imageElRef.current) imageElRef.current.src = blobUrlRef.current;
-    setImage(file);
-    handleClose();
+      canvas.toBlob(blob => {
+        if (!blob) {
+          throw (new Error('Error processing img'));
+        }
+
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          const file = new File([blob], 'avatar.png');
+          blobUrlRef.current = URL.createObjectURL(blob);
+          if (imageElRef.current) imageElRef.current.src = blobUrlRef.current;
+          setImage(file);
+          handleClose();
+        };
+      });
   }
 
   useEffect(() => {
@@ -175,7 +174,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
         <div className="w-full max-w-card-l bg-slate-300 bg-opacity-75 backdrop-blur-sm rounded-b-md rounded-t-lg flex flex-col gap-1 self-center text-mono">
           <ModalHeader title="New Novel Details" close={() => handleClose()} />
           <div className={hasImage ? 'hidden' : 'w-full aspect-square flex items-center justify-center'}>
-            <LoadingClock className="w-24 h-24" svgColor="#fff" uniqueId="image-cropper-svg" />
+            <LoadingClock className="w-24 h-24" svgColor="#fff" id="image-cropper-svg" />
           </div>
           {/** Due to crop cricle shadow this needs to be a ternary **/}
           <Component
@@ -201,7 +200,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
           </div>
           <div className="w-full flex gap-3 flex-wrap px-6 py-2 rounded-b-md bg-white bg-opacity-75">
             <button type="button" className="confirmButton after:content-['Submit'] w-button" onClick={() => onSave()}>
-              <SubmitIcon uniqueId="submit-picture" className="w-6 h-auto" />
+              <SubmitIcon id="submit-picture" className="w-6 h-auto" />
             </button>
           </div>
         </div>

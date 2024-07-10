@@ -215,9 +215,9 @@ export default function DashIndex() {
             <h3 className="text-current text-left text-2xl font-semibold tracking-wide mb-1 relative z-10 truncate max-w-full overflow-hidden capitalize">
               <div className="inline-flex flex-col">
                 {novel.private ? (
-                  <PrivateIcon className="w-6 h-auto translate-y-1" uniqueId="private-novel-icon" />
+                  <PrivateIcon className="w-6 h-auto translate-y-1" id="private-novel-icon" />
                 ) : (
-                  <PublicIcon className="w-auto h-7 translate-y-1" uniqueId="public-novel-icon" />
+                  <PublicIcon className="w-auto h-7 translate-y-1" id="public-novel-icon" />
                 )}
               </div>{' '}
               {novel.title}
@@ -256,17 +256,17 @@ export default function DashIndex() {
           }}
           className={state && (state?.novel_id || state?.page_id) ? 'cancelButton w-icon' : 'hidden'}>
           {isLoadingPage ? (
-            <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="dash-back-spinner" />
+            <LoadingSpinner className="w-full h-10" svgColor="#fff" id="dash-back-spinner" />
           ) : (
-            <ArrowIcon uniqueId="dash-new-back" className="w-6 h-auto rotate-180" />
+            <ArrowIcon id="dash-new-back" className="w-6 h-auto rotate-180" />
           )}
         </button>
         <Link to="/dash/new" className="confirmButton px-5">
           {isLoading ? (
-            <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+            <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
           ) : (
             <Fragment>
-              <PlusIcon uniqueId="dash_plus" svgColor="#fff" className="w-4 h-auto" />
+              <PlusIcon id="dash_plus" svgColor="#fff" className="w-4 h-auto" />
               Write a New Novel
             </Fragment>
           )}

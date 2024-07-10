@@ -1,11 +1,11 @@
 import { SVG_Component_props } from '~/types';
 
-export default function LoadingClock({ className = '', svgColor = '#fff', uniqueId }: SVG_Component_props) {
+export default function LoadingClock({ className = '', svgColor = '#fff', id }: SVG_Component_props) {
   return (
     <svg
       version="1.1"
       className={className}
-      id={uniqueId}
+      id={id}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       x="0px"

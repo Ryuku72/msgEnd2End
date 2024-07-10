@@ -242,7 +242,7 @@ export default function ToolbarPlugin() {
         }}
         className="flex rounded cursor-pointer w-access h-access items-center justify-center text-gray-500 disabled:text-gray-300"
         aria-label="Undo">
-        <ArrowCounterClockwiseIcon uniqueId="lexical-undo" className="w-5 h-auto" />
+        <ArrowCounterClockwiseIcon id="lexical-undo" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -253,7 +253,7 @@ export default function ToolbarPlugin() {
         }}
         className="flex rounded cursor-pointer w-access h-access items-center justify-center text-gray-500 disabled:text-gray-300"
         aria-label="Redo">
-        <ArrowClockwiseIcon uniqueId="lexical-redo" className="w-5 h-auto" />
+        <ArrowClockwiseIcon id="lexical-redo" className="w-5 h-auto" />
       </button>
       <Divider />
       <button
@@ -265,7 +265,7 @@ export default function ToolbarPlugin() {
           (blockType === 'h1' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Format Heading size 1">
-        <TextH1Icon uniqueId="lexical-bold" className="w-5 h-auto" />
+        <TextH1Icon id="lexical-bold" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -276,7 +276,7 @@ export default function ToolbarPlugin() {
           (blockType === 'h2' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Format Heading size 2">
-        <TextH2Icon uniqueId="lexical-bold" className="w-5 h-auto" />
+        <TextH2Icon id="lexical-bold" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -287,7 +287,7 @@ export default function ToolbarPlugin() {
           (blockType === 'h3' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Format Heading size 3">
-        <TextH3Icon uniqueId="lexical-bold" className="w-5 h-auto" />
+        <TextH3Icon id="lexical-bold" className="w-5 h-auto" />
       </button>
       <Divider />
       <button
@@ -301,7 +301,7 @@ export default function ToolbarPlugin() {
           (isBold ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Format Bold">
-        <TypeBoldIcon uniqueId="lexical-bold" className="w-5 h-auto" />
+        <TypeBoldIcon id="lexical-bold" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -314,7 +314,7 @@ export default function ToolbarPlugin() {
           (isItalic ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Format Italics">
-        <TypeItalicIcon uniqueId="lexical-italic" className="w-5 h-auto" />
+        <TypeItalicIcon id="lexical-italic" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -327,7 +327,7 @@ export default function ToolbarPlugin() {
           (isUnderline ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Format Underline">
-        <TypeUnderlineIcon uniqueId="lexical-underline" className="w-5 h-auto" />
+        <TypeUnderlineIcon id="lexical-underline" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -340,7 +340,7 @@ export default function ToolbarPlugin() {
           (isStrikethrough ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Format Strikethrough">
-        <TypeStrikeThroughIcon uniqueId="lexical-strikethrough" className="w-5 h-auto" />
+        <TypeStrikeThroughIcon id="lexical-strikethrough" className="w-5 h-auto" />
       </button>
       <Divider />
       <button
@@ -352,7 +352,7 @@ export default function ToolbarPlugin() {
           (blockType === 'paragraph' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Format Paragraph">
-        <TextParagraphIcon uniqueId="lexical-paragraph" className="w-5 h-auto" />
+        <TextParagraphIcon id="lexical-paragraph" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -363,7 +363,7 @@ export default function ToolbarPlugin() {
           (blockType === 'number' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Order List Align">
-        <ListOLIcon uniqueId="lexical-justify" className="w-5 h-auto text-gray-500" />
+        <ListOLIcon id="lexical-justify" className="w-5 h-auto text-gray-500" />
       </button>
       <button
         type="button"
@@ -374,7 +374,7 @@ export default function ToolbarPlugin() {
           (blockType === 'bullet' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Unorder List Align">
-        <ListULIcon uniqueId="lexical-justify" className="w-5 h-auto text-gray-500" />
+        <ListULIcon id="lexical-justify" className="w-5 h-auto text-gray-500" />
       </button>
       <button
         type="button"
@@ -385,7 +385,7 @@ export default function ToolbarPlugin() {
           (blockType === 'check' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Checklist">
-        <CheckListIcon uniqueId="lexical-justify" className="w-5 h-auto text-gray-500" />
+        <CheckListIcon id="lexical-justify" className="w-5 h-auto text-gray-500" />
       </button>
       <button
         type="button"
@@ -396,7 +396,7 @@ export default function ToolbarPlugin() {
           (blockType === 'quote' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Quote Align">
-        <QuoteIcon uniqueId="lexical-justify" className="w-5 h-auto text-gray-500" />
+        <QuoteIcon id="lexical-justify" className="w-5 h-auto text-gray-500" />
       </button>
       <Divider />
       <button
@@ -410,7 +410,7 @@ export default function ToolbarPlugin() {
           (elementFormat === 'left' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Left Align">
-        <TextLeftIcon uniqueId="lexical-left-align" className="w-5 h-auto" />
+        <TextLeftIcon id="lexical-left-align" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -423,7 +423,7 @@ export default function ToolbarPlugin() {
           (elementFormat === 'center' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Center Align">
-        <TextCenterIcon uniqueId="lexical-center-align" className="w-5 h-auto" />
+        <TextCenterIcon id="lexical-center-align" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -436,7 +436,7 @@ export default function ToolbarPlugin() {
           (elementFormat === 'right' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Right Align">
-        <TextRightIcon uniqueId="lexical-right-align" className="w-5 h-auto" />
+        <TextRightIcon id="lexical-right-align" className="w-5 h-auto" />
       </button>
       <button
         type="button"
@@ -449,7 +449,7 @@ export default function ToolbarPlugin() {
           (elementFormat === 'justify' ? 'border bg-gray-200 text-gray-600' : 'text-gray-500')
         }
         aria-label="Justify Align">
-        <JustifyIcon uniqueId="lexical-justify" className="w-5 h-auto text-gray-500" />
+        <JustifyIcon id="lexical-justify" className="w-5 h-auto text-gray-500" />
       </button>
       <Divider />
       <button
@@ -460,7 +460,7 @@ export default function ToolbarPlugin() {
         }}
         className="flex rounded cursor-pointer w-access h-access items-center justify-center text-gray-500"
         aria-label="Horizonital Rule Insert">
-        <HorizontalRuleIcon uniqueId="lexical-justify" className="w-5 h-auto" />
+        <HorizontalRuleIcon id="lexical-justify" className="w-5 h-auto" />
       </button>
       {enableSpeech && (
         <Fragment>
@@ -479,7 +479,7 @@ export default function ToolbarPlugin() {
             }
             title="Speech To Text"
             aria-label={`${isSpeechToText ? 'Enable' : 'Disable'} speech to text`}>
-            <MicIcon uniqueId="lexical-mic" className="w-5 h-auto" />
+            <MicIcon id="lexical-mic" className="w-5 h-auto" />
           </button>
         </Fragment>
       )}
@@ -490,7 +490,7 @@ export default function ToolbarPlugin() {
         data-id="CommentPlugin_ShowCommentsButton"
         onClick={() => setScrollLock(scrollLock === 'Comments' ? 'Novel' : 'Comments')}
         title={scrollLock === 'Comments' ? 'Hide Comments' : 'Show Comments'}>
-        <CommentsIcon uniqueId="commentPlugin-icon" className="w-5 h-auto -scale-x-100" />
+        <CommentsIcon id="commentPlugin-icon" className="w-5 h-auto -scale-x-100" />
       </button>
     </div>
   );

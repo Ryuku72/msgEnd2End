@@ -110,7 +110,7 @@ export default function Create() {
                 to="/"
                 className="cancelButton after:content-[attr(data-string)] w-button"
                 data-string={LocalStrings.primary_button}>
-                <ArrowIcon uniqueId="create-back" className="w-6 h-auto rotate-180" />
+                <ArrowIcon id="create-back" className="w-6 h-auto rotate-180" />
               </Link>
               <button
                 className="confirmButton after:content-[attr(data-string)] w-button"
@@ -118,9 +118,9 @@ export default function Create() {
                 disabled={false}
                 data-string={isLoading ? '' : LocalStrings.secondary_button}>
                 {isLoading ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+                  <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
                 ) : (
-                  <SubmitIcon uniqueId="create-next" className="w-6 h-auto" />
+                  <SubmitIcon id="create-next" className="w-6 h-auto" />
                 )}
               </button>
             </div>

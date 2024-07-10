@@ -110,7 +110,7 @@ export type OnlineUser = { novel_id: string; page_id: string; room: string; user
 export type SVG_Stoke_Component_props = {
   className: string;
   svgColor?: string;
-  uniqueId: string;
+  id: string;
   svgStroke?: string;
 };
 

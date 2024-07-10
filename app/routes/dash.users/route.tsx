@@ -150,9 +150,9 @@ export default function DashUsers() {
         }}
         className="cancelButton md:w-wide-button md:after:content-[attr(data-string)] w-icon">
         {loadingDash ? (
-          <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="dash-spinner" />
+          <LoadingSpinner className="w-full h-10" svgColor="#fff" id="dash-spinner" />
         ) : (
-          <ArrowIcon uniqueId="settings-back" className="w-6 h-auto rotate-180" />
+          <ArrowIcon id="settings-back" className="w-6 h-auto rotate-180" />
         )}
       </button>
     </div>

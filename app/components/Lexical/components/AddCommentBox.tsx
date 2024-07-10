@@ -130,7 +130,7 @@ export default function AddCommentBox({
       className="h-button pl-0 pr-3 flexCenter absolute rounded-xl hover:bg-yellow-100 z-10 shadow-l font-semibold cursor-pointer bg-white text-gray-500 text-md after:content-[attr(data-string)]"
       onClick={onAddComment}
       ref={boxRef}>
-      <StickyIcon svgColor="currentColor" uniqueId="lexical-comment" className="w-access h-auto p-2" />
+      <StickyIcon svgColor="currentColor" id="lexical-comment" className="w-access h-auto p-2" />
     </button>
   );
 }

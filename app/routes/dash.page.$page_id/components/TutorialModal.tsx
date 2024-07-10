@@ -27,7 +27,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
           <div className="w-full py-4 px-6 bg-black bg-opacity-75 backdrop-blur-sm text-white rounded-b-lg flex flex-col gap-3">
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-orange-500 flex-shrink-0 flexCenter">
-                <CollabIcon uniqueId="public-novel-tutorial-public-icon" className="w-5 h-auto -scale-x-100" />
+                <CollabIcon id="public-novel-tutorial-public-icon" className="w-5 h-auto -scale-x-100" />
               </div>
               <p>
                 <em>This is the Public Icon.</em> When enabled, all participants can actively contribute to the novel
@@ -36,7 +36,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-purple-400 flex-shrink-0 flexCenter">
-                <SoloIcon uniqueId="public-novel-tutorial-private-icon" className="w-5 h-auto" />
+                <SoloIcon id="public-novel-tutorial-private-icon" className="w-5 h-auto" />
               </div>
               <p>
                 <em>This is the Private Icon.</em> When enabled, only the owner can contribute to the novel writing
@@ -45,7 +45,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-gray-400 flex-shrink-0 flexCenter">
-                <MicIcon uniqueId="public-novel-tutorial-mic-icon" className="w-5 h-auto" />
+                <MicIcon id="public-novel-tutorial-mic-icon" className="w-5 h-auto" />
               </div>
               <p>
                 <em>This is Speach to Text Icon.</em> When this is turned on, you will be able to contribute using your
@@ -54,7 +54,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-pink-400 flex-shrink-0 flexCenter">
-                <CommentsIcon uniqueId="public-novel-chat-sync-icon" className="w-5 h-auto -scale-x-100" />
+                <CommentsIcon id="public-novel-chat-sync-icon" className="w-5 h-auto -scale-x-100" />
               </div>
               <p>
                 <em>This is the Comment Tab Icon.</em> By clicking here, you will be able to see all comments related to
@@ -63,7 +63,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-white flex-shrink-0 flexCenter">
-                <ChatIcon uniqueId="public-novel-chat-icon" className="w-5 h-auto text-gray-700" />
+                <ChatIcon id="public-novel-chat-icon" className="w-5 h-auto text-gray-700" />
               </div>
               <p>
                 <em>This is the Chat Tab Icon.</em> By clicking here you will be able to chat to other memebers of this
@@ -72,7 +72,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-yellow-400 flex-shrink-0 flexCenter">
-                <StickyIcon uniqueId="public-novel-tutorial-comment-icon" className="w-5 h-auto" />
+                <StickyIcon id="public-novel-tutorial-comment-icon" className="w-5 h-auto" />
               </div>
               <p>
                 <em>This is the Add Comment Icon.</em> When you highlight text, you will see the Add Comment icon. By
@@ -81,7 +81,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-green-400 flex-shrink-0 flexCenter">
-                <ConnectIcon uniqueId="public-novel-tutorial-connect-icon" className="w-5 h-auto" />
+                <ConnectIcon id="public-novel-tutorial-connect-icon" className="w-5 h-auto" />
               </div>
               <p>
                 <em>This is the Connected Icon.</em> This indicates that the page has connected to the database and is
@@ -90,7 +90,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-red-400 flex-shrink-0 flexCenter">
-                <DisconnectIcon uniqueId="public-novel-tutorial-disconnect-icon" className="w-5 h-auto" />
+                <DisconnectIcon id="public-novel-tutorial-disconnect-icon" className="w-5 h-auto" />
               </div>
               <p>
                 <em>This is the Disconnected Icon.</em> This indicates that the page is not connected to the database
@@ -99,7 +99,7 @@ export default function TutorialModal({ showTutorial, setShowTutorial }: Tutoria
             </div>
             <div className="w-full border-b-2 border-white pt-2 pb-4 flex gap-3 items-center">
               <div className="w-access h-access rounded bg-blue-400 flex-shrink-0 flexCenter">
-                <SyncIcon uniqueId="public-novel-tutorial-sync-icon" className="w-5 h-auto" />
+                <SyncIcon id="public-novel-tutorial-sync-icon" className="w-5 h-auto" />
               </div>
               <p>
                 <em>This is the Syncing Icon.</em> This indicates that the page is attempting to connect to the database

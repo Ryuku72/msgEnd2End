@@ -60,29 +60,29 @@ export default function About() {
           </h2>
           <div className="w-full flex flex-wrap justify-center items-center gap-6 text-current">
             <div className="flex max-w-full h-16 p-2 items-center">
-              <ReactLogo svgColor="#00d8ff" uniqueId="credit-React" className="w-auto h-full" />
+              <ReactLogo svgColor="#00d8ff" id="credit-React" className="w-auto h-full" />
               <p className="text-[2.75rem] ml-2 text-current font-semibold tracking-wide font-mono">React</p>
             </div>
-            <RemixLogo uniqueId="credit-remix" svgColor="none" className="w-auto max-w-full h-16 p-2" />
-            <SupabaseLogo uniqueId="credit-supabase" className="w-auto max-w-full h-16 p-2" />
-            <LexicalLogo uniqueId="lexical-logo" className="w-auto max-w-full h-16 p-2" />
-            <TailwindLogo uniqueId="credit-twcss" className="w-auto max-w-full h-16 p-2" />
+            <RemixLogo id="credit-remix" svgColor="none" className="w-auto max-w-full h-16 p-2" />
+            <SupabaseLogo id="credit-supabase" className="w-auto max-w-full h-16 p-2" />
+            <LexicalLogo id="lexical-logo" className="w-auto max-w-full h-16 p-2" />
+            <TailwindLogo id="credit-twcss" className="w-auto max-w-full h-16 p-2" />
             <div className="flex max-w-full h-16 p-2 items-center">
-              <ViteLogo uniqueId="credit-Vite" className="w-auto h-full" />
+              <ViteLogo id="credit-Vite" className="w-auto h-full" />
               <p className="text-current text-[2.75rem] ml-2 font-bold tracking-wide">Vite</p>
             </div>
             <img src={YjsLogo} alt="Yjs Logo" className="w-16 h-16 p-2 object-fill" />
-            <LiveblocksLogo uniqueId="liveblocks-logo" className="w-auto max-w-full h-16 p-2" />
+            <LiveblocksLogo id="liveblocks-logo" className="w-auto max-w-full h-16 p-2" />
             <div className="flex max-w-full h-16 p-2 items-center">
-              <BunLogo uniqueId="credit-bun" svgColor="text-gray-600" className="w-auto h-full" />
-              <BunTextLogo uniqueId="credit-bun-text" className="w-auto h-full" />
+              <BunLogo id="credit-bun" svgColor="text-gray-600" className="w-auto h-full" />
+              <BunTextLogo id="credit-bun-text" className="w-auto h-full" />
             </div>
             <div className="flex max-w-full h-16 p-2 items-end">
-              <ThreeLogo uniqueId="credit-ThreeJs" svgColor="none" className="w-auto h-full" />
+              <ThreeLogo id="credit-ThreeJs" svgColor="none" className="w-auto h-full" />
               <p className="text-current text-4xl pl-1 tracking-wide font-mono">three.js</p>
             </div>
-            <GsapLogo uniqueId="credit-gsap" className="w-auto max-w-full h-16 p-2" />
-            <VercelLogo uniqueId="credit-vercel" className="w-auto max-w-full h-16 p-2" />
+            <GsapLogo id="credit-gsap" className="w-auto max-w-full h-16 p-2" />
+            <VercelLogo id="credit-vercel" className="w-auto max-w-full h-16 p-2" />
           </div>
         </div>
         <div className="flex flex-col gap-2 bg-black bg-opacity-50 backdrop-blur-sm py-6 md:px-10 px-6 rounded-xl shadow-sm text-white leading-10 w-full">
@@ -111,7 +111,7 @@ export default function About() {
           to="/"
           className="cancelButton after:content-[attr(data-string)] w-button sticky bottom-6"
           data-string={LocalStrings.primary_button}>
-          <ArrowIcon uniqueId="about-back" className="w-6 h-auto rotate-180" />
+          <ArrowIcon id="about-back" className="w-6 h-auto rotate-180" />
         </Link>
       </div>
     </PublicLayout>

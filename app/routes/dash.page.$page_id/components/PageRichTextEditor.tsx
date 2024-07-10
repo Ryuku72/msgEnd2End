@@ -190,9 +190,9 @@ export function PageRichTextEditor({
                 submit(formData, { method: 'POST' });
               }}>
               {enableCollab ? (
-                <CollabIcon uniqueId="public-novel-public-icon" className="w-5 h-auto -scale-x-100" />
+                <CollabIcon id="public-novel-public-icon" className="w-5 h-auto -scale-x-100" />
               ) : (
-                <SoloIcon uniqueId="public-novel-private-icon" className="w-5 h-auto" />
+                <SoloIcon id="public-novel-private-icon" className="w-5 h-auto" />
               )}
             </button>
             <button
@@ -208,11 +208,11 @@ export function PageRichTextEditor({
               }
               onClick={() => (status === 'connected' ? room.disconnect() : room.reconnect())}>
               {!isSynced && status === 'connecting' ? (
-                <SyncIcon uniqueId="lexical-sync" className="w-5 h-auto animate-spin" />
+                <SyncIcon id="lexical-sync" className="w-5 h-auto animate-spin" />
               ) : status === 'disconnected' || status === 'initial' ? (
-                <DisconnectIcon uniqueId="lexical-disconnect" className="w-5 h-auto" />
+                <DisconnectIcon id="lexical-disconnect" className="w-5 h-auto" />
               ) : (
-                <ConnectIcon uniqueId="lexical-connect" className="w-5 h-auto" />
+                <ConnectIcon id="lexical-connect" className="w-5 h-auto" />
               )}
             </button>
             <button
@@ -226,7 +226,7 @@ export function PageRichTextEditor({
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
               </div>
-              <ChatIcon uniqueId="public-novel-chat-icon" className="w-5 h-auto translate-x-0.5" />
+              <ChatIcon id="public-novel-chat-icon" className="w-5 h-auto translate-x-0.5" />
             </button>
             <button
               type="button"
@@ -234,7 +234,7 @@ export function PageRichTextEditor({
               data-string="Tutorial"
               onClick={() => setShowTutorial(true)}
               className="flex gap-2 rounded cursor-pointer h-access items-center justify-center pl-2 pr-3 capitalize text-gray-500 bg-yellow-300 hover:text-gray-800 bg-opacity-25 backdrop-blur-sm md:after:content-[attr(data-string)]">
-              <HelpIcon uniqueId="help-icon" className="w-5 h-auto" />
+              <HelpIcon id="help-icon" className="w-5 h-auto" />
             </button>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import { SVG_Component_props } from '~/types';
 
-export default function ReactLogo({ className = '', svgColor = '#212121', uniqueId }: SVG_Component_props) {
+export default function ReactLogo({ className = '', svgColor = '#212121', id }: SVG_Component_props) {
   return (
-    <svg className={className} id={uniqueId} viewBox="0 0 3618.6 3618.6" xmlns="http://www.w3.org/2000/svg">
+    <svg className={className} id={id} viewBox="0 0 3618.6 3618.6" xmlns="http://www.w3.org/2000/svg">
       <path fill="none" d="M0 0h3618.6v3618.6H0z" />
       <circle fill={svgColor} cx="1806.5" cy="1807.1" r="310" />
       <path

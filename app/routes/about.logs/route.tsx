@@ -66,7 +66,7 @@ export default function Logs() {
           to="/about"
           className="cancelButton sticky bottom-6 after:content-[attr(data-string)] w-button"
           data-string="Back">
-          <ArrowIcon uniqueId="about-back" className="w-6 h-auto rotate-180" />
+          <ArrowIcon id="about-back" className="w-6 h-auto rotate-180" />
         </Link>
       </div>
     </PublicLayout>

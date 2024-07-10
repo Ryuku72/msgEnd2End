@@ -127,9 +127,9 @@ export default function DashPageId() {
                 className="cancelButton w-button after:content-[attr(data-string)]"
                 data-string={loadingPagesDash ? '' : 'Pages'}>
                 {loadingPagesDash ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-pages-spinner" />
+                  <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-pages-spinner" />
                 ) : (
-                  <ArrowIcon uniqueId="settings-back" className="w-6 h-auto rotate-180" />
+                  <ArrowIcon id="settings-back" className="w-6 h-auto rotate-180" />
                 )}
               </NavLink>
               <button
@@ -140,9 +140,9 @@ export default function DashPageId() {
                 data-string={isLoading ? '' : 'Publish'}
                 disabled={false}>
                 {isLoading ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+                  <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
                 ) : (
-                  <PublishIcon className="w-5 h-auto" uniqueId="publish-pageid" />
+                  <PublishIcon className="w-5 h-auto" id="publish-pageid" />
                 )}
               </button>
             </div>

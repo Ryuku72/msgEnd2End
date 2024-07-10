@@ -1,11 +1,11 @@
 import { SVG_Component_props } from '~/types';
 
-export default function PlusIcon({ className = '', svgColor = '#FFF', uniqueId }: SVG_Component_props) {
+export default function PlusIcon({ className = '', svgColor = '#FFF', id }: SVG_Component_props) {
   return (
     <svg
       className={className}
       xmlns="http://www.w3.org/2000/svg"
-      id={uniqueId}
+      id={id}
       viewBox="0 0 14.16 14.161"
       width="14.16"
       height="14.161"

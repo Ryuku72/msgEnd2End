@@ -57,9 +57,9 @@ export default function DashNavBar({ user }: DashNavBarProps) {
               state={params}
               to="/dash">
               {isDashLoading ? (
-                <LoadingSpinner className="w-8 h-8" svgColor="#fff" uniqueId="index-spinner" />
+                <LoadingSpinner className="w-8 h-8" svgColor="#fff" id="index-spinner" />
               ) : (
-                <DashIcon uniqueId="dash_icon" svgColor="#fff" className="w-5 h-auto" />
+                <DashIcon id="dash_icon" svgColor="#fff" className="w-5 h-auto" />
               )}
             </NavLink>
             <div
@@ -76,7 +76,7 @@ export default function DashNavBar({ user }: DashNavBarProps) {
               }
               type="button"
               to="/dash/new">
-              <PlusIcon uniqueId="dash_plus" svgColor="#fff" className="w-5 h-auto" />
+              <PlusIcon id="dash_plus" svgColor="#fff" className="w-5 h-auto" />
             </NavLink>
             <div
               role="tooltip"
@@ -93,9 +93,9 @@ export default function DashNavBar({ user }: DashNavBarProps) {
               type="button"
               to="/dash/users">
                  {isNetworkLoading ? (
-                <LoadingSpinner className="w-8 h-8" svgColor="#fff" uniqueId="index-spinner" />
+                <LoadingSpinner className="w-8 h-8" svgColor="#fff" id="index-spinner" />
               ) : (
-                <NetworkIcon uniqueId="dash_plus" svgColor="#fff" className="w-7 h-auto" />
+                <NetworkIcon id="dash_plus" svgColor="#fff" className="w-7 h-auto" />
               )}
             </NavLink>
             <div
@@ -108,9 +108,9 @@ export default function DashNavBar({ user }: DashNavBarProps) {
         <Form method="PUT" action="/api/logout" className="has-tooltip cursor-pointer relative">
           <button className="logOutButton" type="submit" value={new Date().toISOString()} name="last_logout">
             {isAuthLoading ? (
-              <LoadingSpinner className="w-8 h-8" svgColor="#fff" uniqueId="index-spinner" />
+              <LoadingSpinner className="w-8 h-8" svgColor="#fff" id="index-spinner" />
             ) : (
-              <LogOutIcon svgColor="#fff" uniqueId="dash-logout" className="w-auto h-8 translate-x-0.5" />
+              <LogOutIcon svgColor="#fff" id="dash-logout" className="w-auto h-8 translate-x-0.5" />
             )}
           </button>
           <div

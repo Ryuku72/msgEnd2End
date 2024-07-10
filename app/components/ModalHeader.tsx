@@ -15,7 +15,7 @@ export function ModalHeader({ title, close, invert = false, bgOpacity = 'bg-opac
         &nbsp;{title}&nbsp;&nbsp;&nbsp;
       </h3>
       <button className="crossButton text-current" type="button" onClick={close}>
-        <CloseIcon className="w-3 h-3" uniqueId="dash-close" svgColor="currentColor" />
+        <CloseIcon className="w-3 h-3" id="dash-close" svgColor="currentColor" />
       </button>
     </div>
   );

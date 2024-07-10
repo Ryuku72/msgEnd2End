@@ -125,9 +125,9 @@ export default function DashSettings() {
               }}
               className="cancelButton md:w-wide-button md:after:content-[attr(data-string)] w-icon">
               {loadingDash ? (
-                <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="dash-spinner" />
+                <LoadingSpinner className="w-full h-10" svgColor="#fff" id="dash-spinner" />
               ) : (
-                <ArrowIcon uniqueId="settings-back" className="w-6 h-auto rotate-180" />
+                <ArrowIcon id="settings-back" className="w-6 h-auto rotate-180" />
               )}
             </button>
             <button
@@ -136,9 +136,9 @@ export default function DashSettings() {
               data-string={isLoading ? '' : 'Update'}
               disabled={disabled}>
               {isLoading ? (
-                <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="index-spinner" />
+                <LoadingSpinner className="w-full h-10" svgColor="#fff" id="index-spinner" />
               ) : (
-                <UpdateIcon uniqueId="settings-save" className="w-7 h-auto" />
+                <UpdateIcon id="settings-save" className="w-7 h-auto" />
               )}
             </button>
           </div>
@@ -148,7 +148,7 @@ export default function DashSettings() {
         type="button"
         onClick={() => setShowDelModal(true)}
         className="absolute top-3 right-3 floatingDeleteButton">
-        <TrashIcon uniqueId="deleteaccount" svgColor="currentColor" className="w-4 h-auto" />
+        <TrashIcon id="deleteaccount" svgColor="currentColor" className="w-4 h-auto" />
       </button>
       <DialogWrapper open={showDelModal}>
         <Form
@@ -165,13 +165,13 @@ export default function DashSettings() {
                 </p>
                 <div className="flex w-full justify-end bg-white rounded-b-md gap-3">
                   <button className="deleteButton md:after:content-['Delete'] md:w-button w-icon">
-                    <TrashIcon uniqueId="delete-page" svgColor="#fff" className="w-5 h-auto" />
+                    <TrashIcon id="delete-page" svgColor="#fff" className="w-5 h-auto" />
                   </button>
                   <button
                     type="button"
                     className="confirmButton py-2.5 md:after:content-['Back'] md:w-button w-icon"
                     onClick={() => setShowDelModal(false)}>
-                    <ArrowIcon uniqueId="settings-delete-back" className="w-6 h-auto rotate-180" />
+                    <ArrowIcon id="settings-delete-back" className="w-6 h-auto rotate-180" />
                   </button>
                 </div>
               </div>

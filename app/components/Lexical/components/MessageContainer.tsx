@@ -120,13 +120,13 @@ export default function MessageContainer({
         <button
           className="w-access h-access text-blue-400 hover:text-blue-800 flexCenter"
           onClick={() => setUpdateMessage({ selection: JSON.stringify(messageContext), message_id: message.id })}>
-          <UpdateIcon uniqueId="message-update" className="w-5 h-auto" />
+          <UpdateIcon id="message-update" className="w-5 h-auto" />
         </button>
         <button
           type="button"
           onClick={() => handleDelete()}
           className="w-access h-access text-red-600 hover:text-red-800 flex justify-start items-center">
-          <TrashIcon uniqueId="message-delete" className="w-4 h-auto" />
+          <TrashIcon id="message-delete" className="w-4 h-auto" />
         </button>
       </div>
     </div>

@@ -285,18 +285,18 @@ export default function DashNovelId() {
                 title={page.private ? 'Private' : 'Public'}
                 className="flex gap-2 w-fit rounded-lg font-semibold text-gray-600 border border-gray-600 flex-grow-0 capitalize px-2 py-1 after:content-[attr(title)]">
                 {page.private ? (
-                  <PrivateIcon className="w-5 h-auto" uniqueId="private-novel-icon" />
+                  <PrivateIcon className="w-5 h-auto" id="private-novel-icon" />
                 ) : (
-                  <PublicIcon className="w-6 h-auto" uniqueId="public-novel-icon" />
+                  <PublicIcon className="w-6 h-auto" id="public-novel-icon" />
                 )}
               </div>
               <div
                 title={page.enable_collab ? 'Collab' : 'Solo'}
                 className="flex gap-2 w-fit rounded-lg font-semibold text-gray-600 border border-gray-600 flex-grow-0 capitalize px-2 py-1 after:content-[attr(title)]">
                 {page.enable_collab ? (
-                  <CollabIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
+                  <CollabIcon id="public-novel-icon" className="w-5 h-auto -scale-x-100" />
                 ) : (
-                  <SoloIcon uniqueId="public-novel-icon" className="w-5 h-auto -scale-x-100" />
+                  <SoloIcon id="public-novel-icon" className="w-5 h-auto -scale-x-100" />
                 )}
               </div>
             </div>
@@ -310,7 +310,7 @@ export default function DashNovelId() {
                     ? 'editButton md:w-button w-icon md:after:content-[attr(data-string)]'
                     : 'hidden'
                 }>
-                <PenIcon uniqueId="edit-page" svgColor="#fff" className="w-5 h-auto" />
+                <PenIcon id="edit-page" svgColor="#fff" className="w-5 h-auto" />
               </button>
               <Form
                 method="POST"
@@ -327,9 +327,9 @@ export default function DashNovelId() {
                   className="confirmButton font-semibold md:w-wide-button w-icon md:before:content-[attr(data-string)]">
                   {navigationState.state === 'loading' &&
                   navigationState.location.pathname === `/dash/page/${page.id}` ? (
-                    <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="page-spinner" />
+                    <LoadingSpinner className="w-full h-10" svgColor="#fff" id="page-spinner" />
                   ) : (
-                    <ArrowIcon uniqueId="public-novel-icon" className="w-5 h-auto" />
+                    <ArrowIcon id="public-novel-icon" className="w-5 h-auto" />
                   )}
                 </button>
               </Form>
@@ -347,9 +347,9 @@ export default function DashNovelId() {
                 }>
                 {navigationState.state === 'loading' &&
                 navigationState.location.pathname === `/dash/page/${page.id}` ? (
-                  <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="page-spinner" />
+                  <LoadingSpinner className="w-full h-10" svgColor="#fff" id="page-spinner" />
                 ) : (
-                  <ArrowIcon uniqueId="public-novel-icon" className="w-5 h-auto" />
+                  <ArrowIcon id="public-novel-icon" className="w-5 h-auto" />
                 )}
               </Link>
             </div>
@@ -396,9 +396,9 @@ export default function DashNovelId() {
               data-string={navigationState.formMethod === 'PUT' ? '' : 'Add New Page'}
               className="confirmButton font-semibold md:w-wide-button w-icon md:after:content-[attr(data-string)]">
               {navigationState.formMethod === 'PUT' ? (
-                <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="page-spinner" />
+                <LoadingSpinner className="w-full h-10" svgColor="#fff" id="page-spinner" />
               ) : (
-                <PlusIcon uniqueId="add_another_page" svgColor="currentColor" className="w-4 h-auto" />
+                <PlusIcon id="add_another_page" svgColor="currentColor" className="w-4 h-auto" />
               )}
             </button>
           </div>
@@ -411,9 +411,9 @@ export default function DashNovelId() {
           className="cancelButton after:content-[attr(data-string)] w-button"
           type="button">
           {isLoadingDash ? (
-            <LoadingSpinner className="w-full h-10" svgColor="#fff" uniqueId="back-dash-spinner" />
+            <LoadingSpinner className="w-full h-10" svgColor="#fff" id="back-dash-spinner" />
           ) : (
-            <ArrowIcon uniqueId="settings-back" className="w-6 h-auto rotate-180" />
+            <ArrowIcon id="settings-back" className="w-6 h-auto rotate-180" />
           )}
         </Link>
       </div>

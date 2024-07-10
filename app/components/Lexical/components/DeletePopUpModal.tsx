@@ -40,7 +40,7 @@ export function DeletePopupModal({
                   deleteCommentOrThread(commentOrThread, thread);
                   close();
                 }}>
-                <TrashIcon uniqueId="delete-comment-icon" svgColor="#fff" className="w-5 h-auto" />
+                <TrashIcon id="delete-comment-icon" svgColor="#fff" className="w-5 h-auto" />
               </button>
               <button
                 type="button"
@@ -49,7 +49,7 @@ export function DeletePopupModal({
                 onClick={() => {
                   close();
                 }}>
-                <ArrowIcon uniqueId="settings-delete-back" className="w-6 h-auto rotate-180" />
+                <ArrowIcon id="settings-delete-back" className="w-6 h-auto rotate-180" />
               </button>
             </div>
           </div>

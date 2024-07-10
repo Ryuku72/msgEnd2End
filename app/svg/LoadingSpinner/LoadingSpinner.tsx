@@ -1,9 +1,9 @@
 import { SVG_Component_props } from '~/types';
 
-export default function LoadingSpinner({ className = '', svgColor = '#FFF', uniqueId }: SVG_Component_props) {
+export default function LoadingSpinner({ className = '', svgColor = '#FFF', id }: SVG_Component_props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className={className}>
-      <radialGradient id={uniqueId} cx=".66" fx=".66" cy=".3125" fy=".3125" gradientTransform="scale(1.5)">
+      <radialGradient id={id} cx=".66" fx=".66" cy=".3125" fy=".3125" gradientTransform="scale(1.5)">
         <stop offset="0" stopColor={svgColor} stopOpacity="0"></stop>
         <stop offset=".25" stopColor={svgColor} stopOpacity=".25"></stop>
         <stop offset=".5" stopColor={svgColor} stopOpacity=".5"></stop>
@@ -14,7 +14,7 @@ export default function LoadingSpinner({ className = '', svgColor = '#FFF', uniq
         // eslint-disable-next-line react/no-unknown-property
         transform-origin="center"
         fill="none"
-        stroke={`url(#${uniqueId})`}
+        stroke={`url(#${id})`}
         strokeWidth="15"
         strokeLinecap="round"
         strokeDasharray="200 1000"
