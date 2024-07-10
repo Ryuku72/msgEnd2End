@@ -108,11 +108,11 @@ export default function AvatarInput({ title, id, imageSrc = '', setImage }: Avat
     // You might want { type: "image/jpeg", quality: <0 to 1> } to
     // reduce image size
     const blob = await offscreen.convertToBlob({
-      type: 'image/png'
+      type: 'image/jpeg'
     });
     if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
     blobUrlRef.current = URL.createObjectURL(blob);
-    const file = new File([blob], 'avatar.png');
+    const file = new File([blob], 'avatar.png', { type: 'image/jpeg' });
     setImageURL(blobUrlRef.current);
     setImage(file);
     handleClose();
