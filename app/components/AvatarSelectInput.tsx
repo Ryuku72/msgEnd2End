@@ -82,7 +82,6 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
 
   async function onSave() {
     if (!completedCrop) return;
-    const canvas = document?.createElement('canvas');
     const image = imgRef.current;
     const previewCanvas = previewCanvasRef.current;
     if (!image || !previewCanvas || !completedCrop) {
@@ -92,34 +91,37 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
     // This will size relative to the uploaded image
     // size. If you want to size according to what they
     // are looking at on screen, remove scaleX + scaleY
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
-    canvas.width = completedCrop.width * scaleX;
-    canvas.height = completedCrop.height * scaleY;
+    // const scaleX = image.naturalWidth / image.width;
+    // const scaleY = image.naturalHeight / image.height;
+    // const offscreen = new OffscreenCanvas(completedCrop.width * scaleX, completedCrop.height * scaleY);
 
-    const ctx = canvas.getContext('2d');
+    const offscreen = new OffscreenCanvas(completedCrop.width, completedCrop.height);
+    const ctx = offscreen.getContext('2d');
     if (!ctx) {
       throw new Error('No 2d context');
     }
 
-    ctx.drawImage(previewCanvas, 0, 0, previewCanvas.width, previewCanvas.height, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(
+      previewCanvas,
+      0,
+      0,
+      previewCanvas.width,
+      previewCanvas.height,
+      0,
+      0,
+      offscreen.width,
+      offscreen.height
+    );
     // You might want { type: "image/jpeg", quality: <0 to 1> } to
     // reduce image size
-      canvas.toBlob(blob => {
-        if (!blob) {
-          throw (new Error('Error processing img'));
-        }
-
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        reader.onloadend = () => {
-          const file = new File([blob], 'avatar.png');
-          blobUrlRef.current = URL.createObjectURL(blob);
-          if (imageElRef.current) imageElRef.current.src = blobUrlRef.current;
-          setImage(file);
-          handleClose();
-        };
-      });
+    const blob = await offscreen.convertToBlob({
+      type: 'image/png'
+    });
+    blobUrlRef.current = URL.createObjectURL(blob);
+    const file = new File([blob], 'avatar.png');
+    if (imageElRef.current) imageElRef.current.src = blobUrlRef.current;
+    setImage(file);
+    handleClose();
   }
 
   useEffect(() => {
