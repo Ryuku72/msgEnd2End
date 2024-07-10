@@ -55,10 +55,12 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
     };
   }, []);
 
-  function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
+  async function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     const [target] = e.target.files || [];
     if (!target) return handleClose();
     setShowDialog(true);
+    const heic2any = await import('heic2any').then(res => res.default);
+
     const reader = new FileReader();
     reader.addEventListener('load', event => {
       const img = new Image();
@@ -72,7 +74,20 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
       };
       if (event.target) img.src = event.target.result as string;
     });
-    reader.readAsDataURL(target);
+
+    console.log(target);
+
+    await fetch(blobUrlRef.current)
+    .then((res) => res.blob())
+    .then((blob) => heic2any({ blob }))
+    .then((conversionResult) => {
+      const selection = conversionResult as Blob;
+      reader.readAsDataURL(selection);
+      return selection;
+      }).catch(error => {
+        reader.readAsDataURL(target);
+        console.error(error);
+      });
   }
 
   function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
@@ -116,30 +131,11 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
     const blob = await offscreen.convertToBlob({
       type: 'image/png'
     });
-    if (typeof window === 'undefined') return;
-    const heic2any = await import ('heic2any').then(res => res.default);
-
     blobUrlRef.current = URL.createObjectURL(blob);
-    await fetch(blobUrlRef.current)
-      .then((res) => res.blob())
-      .then((blob) => heic2any({ blob }))
-      .then((conversionResult) => {
-        const selection = conversionResult as Blob;
-        const file = new File([selection], 'avatar.png', { type: 'image/png'});
-        if (imageElRef.current) imageElRef.current.src = URL.createObjectURL(selection);
-        setImage(file);
-        handleClose();
-        return conversionResult;
-      })
-      .catch(() => {
-        const file = new File([blob], 'avatar.png', { type: 'image/png'});
-        if (imageElRef.current) imageElRef.current.src = blobUrlRef.current;
-        setImage(file);
-        handleClose();
-        return file;
-      });
-
-   
+    const file = new File([blob], 'avatar.png', { type: 'image/png'});
+    if (imageElRef.current) imageElRef.current.src = blobUrlRef.current;
+    setImage(file);
+    handleClose();
   }
 
   useEffect(() => {
