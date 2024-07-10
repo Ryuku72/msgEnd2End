@@ -49,6 +49,19 @@ export default function AvatarInput({ title, id, imageSrc = '', setImage }: Avat
   const timeOutRef = useRef<NodeJS.Timeout | null>(null);
   const hasImage = Boolean(currentImageSrc);
 
+  useEffect(() => {
+    timeOutRef.current = setTimeout(() => {
+      if (completedCrop?.width && completedCrop?.height && imgRef.current && previewCanvasRef.current) {
+        // We use canvasPreview as it's much faster than imgPreview.
+        canvasPreview(imgRef.current, previewCanvasRef.current, completedCrop, 1, 0);
+      }
+    }, 100);
+
+    return () => {
+      if (timeOutRef.current) clearTimeout(timeOutRef.current);
+    };
+  }, [completedCrop]);
+
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     const [target] = e.target.files || [];
     if (!target) return handleClose();
@@ -87,49 +100,73 @@ export default function AvatarInput({ title, id, imageSrc = '', setImage }: Avat
     // are looking at on screen, remove scaleX + scaleY
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    const offscreen = new OffscreenCanvas(completedCrop.width * scaleX, completedCrop.height * scaleY);
 
-    const ctx = offscreen.getContext('2d');
-    if (!ctx) {
-      throw new Error('No 2d context');
+    // Check for OffscreenCanvas support
+    const offscreenSupported = typeof OffscreenCanvas !== 'undefined';
+
+    if (offscreenSupported) {
+      const offscreen = new OffscreenCanvas(completedCrop.width * scaleX, completedCrop.height * scaleY);
+
+      const ctx = offscreen.getContext('2d');
+      if (!ctx) throw new Error('No 2d context');
+
+      ctx.drawImage(
+        previewCanvas,
+        0,
+        0,
+        previewCanvas.width,
+        previewCanvas.height,
+        0,
+        0,
+        offscreen.width,
+        offscreen.height
+      );
+      
+      // You might want { type: "image/jpeg", quality: <0 to 1> } to
+      // reduce image size
+      const blob = await offscreen.convertToBlob({
+        type: 'image/jpeg'
+      });
+      if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
+      blobUrlRef.current = URL.createObjectURL(blob);
+      const file = new File([blob], 'avatar.jpeg', { type: 'image/jpeg' });
+      setImageURL(blobUrlRef.current);
+      setImage(file);
+      handleClose();
+    } else {
+      const offscreen = document.createElement('canvas');
+      const ctx = offscreen.getContext('2d');
+      if (!ctx) throw new Error('No 2d context');
+
+      ctx.drawImage(
+        previewCanvas,
+        0,
+        0,
+        previewCanvas.width,
+        previewCanvas.height,
+        0,
+        0,
+        offscreen.width,
+        offscreen.height
+      );
+
+      offscreen.toBlob(
+        blob => {
+          if (!blob) {
+            throw new Error('Failed to create blob');
+          }
+          if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
+          blobUrlRef.current = URL.createObjectURL(blob);
+          const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+          setImageURL(blobUrlRef.current);
+          setImage(file);
+          handleClose();
+        },
+        'image/jpeg',
+        0.95
+      );
     }
-
-    ctx.drawImage(
-      previewCanvas,
-      0,
-      0,
-      previewCanvas.width,
-      previewCanvas.height,
-      0,
-      0,
-      offscreen.width,
-      offscreen.height
-    );
-    // You might want { type: "image/jpeg", quality: <0 to 1> } to
-    // reduce image size
-    const blob = await offscreen.convertToBlob({
-      type: 'image/jpeg'
-    });
-    if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
-    blobUrlRef.current = URL.createObjectURL(blob);
-    const file = new File([blob], 'avatar.png', { type: 'image/jpeg' });
-    setImageURL(blobUrlRef.current);
-    setImage(file);
-    handleClose();
   }
-
-  useEffect(() => {
-    timeOutRef.current = setTimeout(() => {
-      if (completedCrop?.width && completedCrop?.height && imgRef.current && previewCanvasRef.current) {
-        // We use canvasPreview as it's much faster than imgPreview.
-        canvasPreview(imgRef.current, previewCanvasRef.current, completedCrop, 1, 0);
-      }
-    }, 100);
-
-    return () => {
-      if (timeOutRef.current) clearTimeout(timeOutRef.current);
-    };
-  }, [completedCrop]);
 
   const handleClose = () => {
     setCurrentImageSrc('');
@@ -137,6 +174,7 @@ export default function AvatarInput({ title, id, imageSrc = '', setImage }: Avat
     setCrop(undefined);
     setShowDialog(false);
   };
+
   const clearInput = () => {
     if (inputRef.current) inputRef.current.value = '';
     if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
@@ -182,7 +220,13 @@ export default function AvatarInput({ title, id, imageSrc = '', setImage }: Avat
             className={hasImage ? 'flex w-full max-w-full !max-h-[80vh]' : '!hidden'}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             onComplete={c => setCompletedCrop(c)}>
-            <img alt="Crop me" className="w-full object-contain" ref={imgRef} src={currentImageSrc} onLoad={onImageLoad} />
+            <img
+              alt="Crop me"
+              className="w-full object-contain"
+              ref={imgRef}
+              src={currentImageSrc}
+              onLoad={onImageLoad}
+            />
           </Component>
           <div className="hidden">
             <canvas
