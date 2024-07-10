@@ -116,11 +116,30 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
     const blob = await offscreen.convertToBlob({
       type: 'image/png'
     });
+    if (typeof window === 'undefined') return;
+    const heic2any = await import ('heic2any').then(res => res.default);
+
     blobUrlRef.current = URL.createObjectURL(blob);
-    const file = new File([blob], 'avatar.png', { type: 'image/png'});
-    if (imageElRef.current) imageElRef.current.src = blobUrlRef.current;
-    setImage(file);
-    handleClose();
+    await fetch(blobUrlRef.current)
+      .then((res) => res.blob())
+      .then((blob) => heic2any({ blob }))
+      .then((conversionResult) => {
+        const selection = conversionResult as Blob;
+        const file = new File([selection], 'avatar.png', { type: 'image/png'});
+        if (imageElRef.current) imageElRef.current.src = URL.createObjectURL(selection);
+        setImage(file);
+        handleClose();
+        return conversionResult;
+      })
+      .catch(() => {
+        const file = new File([blob], 'avatar.png', { type: 'image/png'});
+        if (imageElRef.current) imageElRef.current.src = blobUrlRef.current;
+        setImage(file);
+        handleClose();
+        return file;
+      });
+
+   
   }
 
   useEffect(() => {
