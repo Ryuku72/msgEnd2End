@@ -35,25 +35,19 @@ function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: numbe
   );
 }
 
-export default function AvatarInput({ title, id, imageSrc = null, setImage }: AvatarInputProps) {
+export default function AvatarInput({ title, id, imageSrc = '', setImage }: AvatarInputProps) {
   const [showDialog, setShowDialog] = useState(false);
-  const [imgSrc, setImgSrc] = useState('');
+  const [currentImageSrc, setCurrentImageSrc] = useState('');
+  const [imageURL, setImageURL] = useState(imageSrc);
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
 
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-  const imageElRef = useRef<HTMLImageElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const blobUrlRef = useRef('');
   const timeOutRef = useRef<NodeJS.Timeout | null>(null);
-  const hasImage = Boolean(imgSrc);
-
-  useEffect(() => {
-    return () => {
-      if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
-    };
-  }, []);
+  const hasImage = Boolean(currentImageSrc);
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     const [target] = e.target.files || [];
@@ -62,7 +56,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
     const reader = new FileReader();
     reader.addEventListener('load', event => {
       const img = new Image();
-      img.onload = () => setImgSrc(img.src);
+      img.onload = () => setCurrentImageSrc(img.src);
       img.onerror = () => {
         const sceneEvent = new CustomEvent('alertFromError', {
           detail: 'Failed to upload file. Please Check File Format'
@@ -91,11 +85,10 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
     // This will size relative to the uploaded image
     // size. If you want to size according to what they
     // are looking at on screen, remove scaleX + scaleY
-    // const scaleX = image.naturalWidth / image.width;
-    // const scaleY = image.naturalHeight / image.height;
-    // const offscreen = new OffscreenCanvas(completedCrop.width * scaleX, completedCrop.height * scaleY);
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    const offscreen = new OffscreenCanvas(completedCrop.width * scaleX, completedCrop.height * scaleY);
 
-    const offscreen = new OffscreenCanvas(completedCrop.width, completedCrop.height);
     const ctx = offscreen.getContext('2d');
     if (!ctx) {
       throw new Error('No 2d context');
@@ -117,9 +110,10 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
     const blob = await offscreen.convertToBlob({
       type: 'image/png'
     });
+    if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
     blobUrlRef.current = URL.createObjectURL(blob);
     const file = new File([blob], 'avatar.png');
-    if (imageElRef.current) imageElRef.current.src = blobUrlRef.current;
+    setImageURL(blobUrlRef.current);
     setImage(file);
     handleClose();
   }
@@ -138,7 +132,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
   }, [completedCrop]);
 
   const handleClose = () => {
-    setImgSrc('');
+    setCurrentImageSrc('');
     setCompletedCrop(undefined);
     setCrop(undefined);
     setShowDialog(false);
@@ -146,6 +140,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
   const clearInput = () => {
     if (inputRef.current) inputRef.current.value = '';
     if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
+    setImageURL('');
   };
 
   return (
@@ -156,8 +151,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
         <img
           alt="create-img"
           className="w-32 h-32 rounded-full object-cover bg-gradient-to-b from-slate-500 to-fuchsia-600"
-          ref={imageElRef}
-          src={imageSrc || Default_Avatar}
+          src={imageURL || Default_Avatar}
           onError={event => (event.currentTarget.src = Default_Avatar)}
         />
         {title}
@@ -188,7 +182,7 @@ export default function AvatarInput({ title, id, imageSrc = null, setImage }: Av
             className={hasImage ? 'flex w-full max-w-full !max-h-[80vh]' : '!hidden'}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             onComplete={c => setCompletedCrop(c)}>
-            <img alt="Crop me" className="w-full object-contain" ref={imgRef} src={imgSrc} onLoad={onImageLoad} />
+            <img alt="Crop me" className="w-full object-contain" ref={imgRef} src={currentImageSrc} onLoad={onImageLoad} />
           </Component>
           <div className="hidden">
             <canvas
